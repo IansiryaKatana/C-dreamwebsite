@@ -1,0 +1,308 @@
+/**
+ * Capital Dream — brand typography engine
+ *
+ * Adjust the :root custom properties below to retune the whole site.
+ * Components should use .type-* utilities instead of ad-hoc text-[…] / text-sm.
+ *
+ * Breakpoints match Tailwind: sm 40rem, md 48rem, lg 64rem, xl 80rem.
+ */
+
+:root {
+  /* ─── Body copy (root em scale) ─── */
+  --brand-font-body: 1rem;
+  --brand-font-body-lg: 1.125rem;
+
+  /* ─── UI chrome ─── */
+  --brand-font-nav: 0.6875rem;
+  --brand-font-badge: 0.625rem;
+  --brand-font-button: 0.875rem;
+
+  /* ─── Navbar wordmark ─── */
+  --brand-font-nav-wordmark: 0.8125rem;
+  --brand-font-nav-wordmark-sm: 1.125rem;
+  --brand-font-nav-wordmark-md: 1.25rem;
+  --brand-font-nav-wordmark-lg: 1.5rem;
+
+  /* ─── Footer wordmark ─── */
+  --brand-font-footer-wordmark: 1.5rem;
+  --brand-font-footer-wordmark-sm: 1.875rem;
+  --brand-font-footer-wordmark-lg: 2.25rem;
+
+  /* ─── Hero (H1) ─── */
+  --brand-font-hero: 2.35rem;
+  --brand-font-hero-sm: 3rem;
+  --brand-font-hero-md: 3.75rem;
+  --brand-font-hero-lg: 3.25rem;
+  --brand-font-hero-xl: 4.5rem;
+
+  /* ─── Large statement (intro / about) ─── */
+  --brand-font-statement-base: 1.85rem;
+  --brand-font-statement-sm: 2.25rem;
+  --brand-font-statement-md: 3rem;
+  --brand-font-statement-lg: 3.1rem;
+
+  /* ─── Mission / experiences title (no md jump to 5xl) ─── */
+  --brand-font-mission-base: 1.85rem;
+  --brand-font-mission-sm: 2.25rem;
+  --brand-font-mission-lg: 3rem;
+
+  /* ─── Display section titles (base + sm; lg via modifiers) ─── */
+  --brand-font-display-base: 1.85rem;
+  --brand-font-display-sm: 2.25rem;
+  --brand-font-display-lg-follow: 2.75rem;
+  --brand-font-display-lg-services: 2.65rem;
+
+  /* ─── Founders block title ─── */
+  --brand-font-founders-base: 1.75rem;
+  --brand-font-founders-sm: 1.875rem;
+  --brand-font-founders-lg: 2.25rem;
+
+  /* ─── Reusable section header (SectionHeader) ─── */
+  --brand-font-section-header: 1.875rem;
+  --brand-font-section-header-sm: 2.25rem;
+  --brand-font-section-header-md: 2.75rem;
+
+  /* ─── Pull quote ─── */
+  --brand-font-quote: 1.5rem;
+  --brand-font-quote-sm: 1.875rem;
+  --brand-font-quote-md: 2.25rem;
+  --brand-font-quote-lg: 2.7rem;
+
+  /* ─── Property card title ─── */
+  --brand-font-card-title: 1.35rem;
+  --brand-font-card-title-sm: 1.5rem;
+
+  /* ─── Property card detail line (features / beds) ─── */
+  --brand-font-card-detail: 0.6875rem;
+}
+
+@layer base {
+  body {
+    font-size: var(--brand-font-body);
+  }
+
+  @media (width >= 64rem) {
+    body {
+      font-size: var(--brand-font-body-lg);
+    }
+  }
+}
+
+@layer components {
+  .type-nav-link {
+    font-size: var(--brand-font-nav);
+  }
+
+  .type-nav-cta {
+    font-size: var(--brand-font-nav);
+  }
+
+  .type-wordmark-nav {
+    font-size: var(--brand-font-nav-wordmark);
+    line-height: 1.25;
+  }
+
+  @media (width >= 40rem) {
+    .type-wordmark-nav {
+      font-size: var(--brand-font-nav-wordmark-sm);
+      line-height: 1;
+    }
+  }
+
+  @media (width >= 48rem) {
+    .type-wordmark-nav {
+      font-size: var(--brand-font-nav-wordmark-md);
+    }
+  }
+
+  @media (width >= 64rem) {
+    .type-wordmark-nav {
+      font-size: var(--brand-font-nav-wordmark-lg);
+    }
+  }
+
+  .type-wordmark-footer {
+    font-size: var(--brand-font-footer-wordmark);
+    line-height: 1.25;
+  }
+
+  @media (width >= 40rem) {
+    .type-wordmark-footer {
+      font-size: var(--brand-font-footer-wordmark-sm);
+    }
+  }
+
+  @media (width >= 64rem) {
+    .type-wordmark-footer {
+      font-size: var(--brand-font-footer-wordmark-lg);
+    }
+  }
+
+  .type-hero {
+    font-size: var(--brand-font-hero);
+    line-height: 1.02;
+  }
+
+  @media (width >= 40rem) {
+    .type-hero {
+      font-size: var(--brand-font-hero-sm);
+    }
+  }
+
+  @media (width >= 48rem) {
+    .type-hero {
+      font-size: var(--brand-font-hero-md);
+    }
+  }
+
+  @media (width >= 64rem) {
+    .type-hero {
+      font-size: var(--brand-font-hero-lg);
+    }
+  }
+
+  @media (width >= 80rem) {
+    .type-hero {
+      font-size: var(--brand-font-hero-xl);
+    }
+  }
+
+  .type-heading-statement {
+    font-size: var(--brand-font-statement-base);
+  }
+
+  @media (width >= 40rem) {
+    .type-heading-statement {
+      font-size: var(--brand-font-statement-sm);
+    }
+  }
+
+  @media (width >= 48rem) {
+    .type-heading-statement {
+      font-size: var(--brand-font-statement-md);
+    }
+  }
+
+  @media (width >= 64rem) {
+    .type-heading-statement {
+      font-size: var(--brand-font-statement-lg);
+    }
+  }
+
+  .type-heading-mission {
+    font-size: var(--brand-font-mission-base);
+  }
+
+  @media (width >= 40rem) {
+    .type-heading-mission {
+      font-size: var(--brand-font-mission-sm);
+    }
+  }
+
+  @media (width >= 64rem) {
+    .type-heading-mission {
+      font-size: var(--brand-font-mission-lg);
+    }
+  }
+
+  .type-heading-display {
+    font-size: var(--brand-font-display-base);
+  }
+
+  @media (width >= 40rem) {
+    .type-heading-display {
+      font-size: var(--brand-font-display-sm);
+    }
+  }
+
+  @media (width >= 64rem) {
+    .type-heading-display--follow {
+      font-size: var(--brand-font-display-lg-follow);
+    }
+
+    .type-heading-display--services {
+      font-size: var(--brand-font-display-lg-services);
+      line-height: 1.1;
+    }
+  }
+
+  .type-heading-founders {
+    font-size: var(--brand-font-founders-base);
+  }
+
+  @media (width >= 40rem) {
+    .type-heading-founders {
+      font-size: var(--brand-font-founders-sm);
+    }
+  }
+
+  @media (width >= 64rem) {
+    .type-heading-founders {
+      font-size: var(--brand-font-founders-lg);
+    }
+  }
+
+  .type-section-header {
+    font-size: var(--brand-font-section-header);
+  }
+
+  @media (width >= 40rem) {
+    .type-section-header {
+      font-size: var(--brand-font-section-header-sm);
+    }
+  }
+
+  @media (width >= 48rem) {
+    .type-section-header {
+      font-size: var(--brand-font-section-header-md);
+      line-height: 1.1;
+    }
+  }
+
+  .type-quote {
+    font-size: var(--brand-font-quote);
+    line-height: 1.375;
+  }
+
+  @media (width >= 40rem) {
+    .type-quote {
+      font-size: var(--brand-font-quote-sm);
+    }
+  }
+
+  @media (width >= 48rem) {
+    .type-quote {
+      font-size: var(--brand-font-quote-md);
+    }
+  }
+
+  @media (width >= 64rem) {
+    .type-quote {
+      font-size: var(--brand-font-quote-lg);
+      line-height: 1.2;
+    }
+  }
+
+  .type-card-title {
+    font-size: var(--brand-font-card-title);
+  }
+
+  @media (width >= 40rem) {
+    .type-card-title {
+      font-size: var(--brand-font-card-title-sm);
+    }
+  }
+
+  .type-card-detail {
+    font-size: var(--brand-font-card-detail);
+    line-height: 1.35;
+  }
+
+  .type-badge {
+    font-size: var(--brand-font-badge);
+  }
+
+  .type-button {
+    font-size: var(--brand-font-button);
+  }
+}
