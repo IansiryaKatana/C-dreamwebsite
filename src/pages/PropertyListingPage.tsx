@@ -157,7 +157,7 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
         <div className="relative w-full">
           <div className="flex flex-col items-stretch gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
             <div className="min-w-0 max-w-6xl flex-1 text-left">
-              <h1 className="type-hero font-hero max-w-3xl text-balance text-left text-terracotta">
+              <h1 className="type-hero font-hero max-w-full text-left text-terracotta text-[clamp(2rem,9vw,2.75rem)] leading-tight sm:max-w-3xl sm:text-balance sm:text-[length:var(--brand-font-hero-sm)] md:text-[length:var(--brand-font-hero-md)] lg:text-[length:var(--brand-font-hero-lg)] xl:text-[length:var(--brand-font-hero-xl)]">
                 {heroTitle}
               </h1>
               <p className="mt-4 max-w-2xl text-left text-ink/70">

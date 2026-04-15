@@ -37,16 +37,10 @@ export function ExperiencesPage() {
         <div className="flex w-full min-w-0 flex-col gap-8 sm:gap-10">
           <header className="flex w-full min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">
-              <h1
-                className="type-section-header font-display tracking-[0.02em]"
-                style={{ color: panelInk }}
-              >
+              <h1 className="type-section-header font-display tracking-[0.02em] text-terracotta">
                 {t('nav.experiences')}
               </h1>
-              <p
-                className="mt-3 max-w-3xl text-[length:var(--brand-font-body-lg)] leading-relaxed"
-                style={{ color: panelInk, opacity: 0.88 }}
-              >
+              <p className="mt-3 max-w-3xl text-[length:var(--brand-font-body-lg)] leading-relaxed text-terracotta/90">
                 {t('experiences.intro')}
               </p>
             </div>
@@ -59,11 +53,11 @@ export function ExperiencesPage() {
           </header>
 
           {list === null ? (
-            <p className="text-[length:var(--brand-font-body-lg)] opacity-70" style={{ color: panelInk }}>
+            <p className="text-[length:var(--brand-font-body-lg)] text-terracotta/70">
               Loading…
             </p>
           ) : list.length === 0 ? (
-            <p className="max-w-xl text-[length:var(--brand-font-body-lg)] leading-relaxed opacity-85" style={{ color: panelInk }}>
+            <p className="max-w-xl text-[length:var(--brand-font-body-lg)] leading-relaxed text-terracotta/85">
               Concierge experiences will appear here once they are published in the CMS.
             </p>
           ) : (
@@ -122,26 +116,17 @@ function ServiceCard({ service }: { service: ConciergeService }) {
             )}
           </div>
         </div>
-        <p
-          className="mt-3 font-compact text-[0.6875rem] font-medium uppercase tracking-[0.2em] sm:text-[0.75rem]"
-          style={{ color: panelInk, opacity: 0.85 }}
-        >
+        <p className="mt-3 font-compact text-[0.6875rem] font-medium uppercase tracking-[0.2em] text-terracotta/85 sm:text-[0.75rem]">
           {service.phase}
           <span className="mx-2 opacity-50" aria-hidden>
             ·
           </span>
           <span>{t('experiences.buyerConcierge')}</span>
         </p>
-        <h2
-          className="type-card-title font-compact mt-2 font-medium leading-snug transition-opacity group-hover:opacity-90"
-          style={{ color: panelInk }}
-        >
+        <h2 className="type-card-title font-compact mt-2 font-medium leading-snug text-terracotta transition-opacity group-hover:opacity-90">
           {service.title}
         </h2>
-        <p
-          className="mt-2 max-w-prose text-[0.9375rem] leading-relaxed"
-          style={{ color: panelInk, opacity: 0.82 }}
-        >
+        <p className="mt-2 max-w-prose text-[0.9375rem] leading-relaxed text-terracotta/80">
           {service.excerpt}
         </p>
       </div>

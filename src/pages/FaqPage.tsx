@@ -23,7 +23,7 @@ function FaqToc({ sections }: { sections: FaqSection[] }) {
           <li key={s.id} className="border-t first:border-t-0" style={{ borderColor: rule }}>
             <a
               href={`#faq-topic-${s.slug}`}
-              className="block py-3.5 font-sans text-[0.9375rem] font-medium leading-snug text-[#6B3B34] transition hover:opacity-80"
+              className="block py-3.5 font-sans text-[0.9375rem] font-medium leading-snug text-terracotta transition hover:opacity-80"
             >
               {s.title}
             </a>
@@ -41,7 +41,7 @@ function AnswerBody({ text }: { text: string }) {
       {parts.map((p, i) => (
         <p
           key={i}
-          className="font-sans text-[length:var(--brand-font-body-lg)] font-normal leading-[1.65] text-[#6B3B34]/92"
+          className="font-sans text-[length:var(--brand-font-body-lg)] font-normal leading-[1.65] text-terracotta/90"
         >
           {p}
         </p>
@@ -98,7 +98,7 @@ export function FaqPage() {
           <div className="flex justify-end lg:col-span-2">
             <Link
               to="/"
-              className="type-button font-display rounded-xl border border-[#6B3B34]/35 px-5 py-2.5 font-medium text-[#6B3B34] transition hover:bg-[#6B3B34]/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6B3B34]/40"
+              className="type-button font-display rounded-xl border border-[#6B3B34]/35 px-5 py-2.5 font-medium text-terracotta transition hover:bg-[#6B3B34]/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6B3B34]/40"
             >
               Back to home
             </Link>
@@ -106,21 +106,21 @@ export function FaqPage() {
 
           <div className="order-2 min-w-0 space-y-10 lg:order-none lg:col-start-2 lg:row-start-2">
             <header className="space-y-3 text-left">
-              <h1 className="type-heading-founders font-display font-medium leading-tight tracking-tight">
+              <h1 className="type-heading-founders font-display font-medium leading-tight tracking-tight text-terracotta">
                 UAE property FAQ
               </h1>
-              <p className="max-w-2xl font-sans text-[length:var(--brand-font-body-lg)] font-normal leading-relaxed text-[#6B3B34]/88">
+              <p className="max-w-2xl font-sans text-[length:var(--brand-font-body-lg)] font-normal leading-relaxed text-terracotta/90">
                 Practical answers on Dubai and UAE real estate—buying, renting, visas, finance, and how{' '}
-                <span className="font-medium text-[#6B3B34]">Capital Dream</span> supports your move.
+                <span className="font-medium text-terracotta">Capital Dream</span> supports your move.
               </p>
             </header>
 
             {loading ? (
-              <p className="text-center font-sans text-sm text-[#6B3B34]/70">Loading questions…</p>
+              <p className="text-center font-sans text-sm text-terracotta/70">Loading questions…</p>
             ) : null}
 
             {!loading && faqSections.length === 0 ? (
-              <p className="text-center font-sans text-sm text-[#6B3B34]/75">
+              <p className="text-center font-sans text-sm text-terracotta/75">
                 FAQs are not available yet. If you are the site owner, run the latest Supabase migrations and publish
                 topics in the admin.
               </p>
@@ -140,7 +140,7 @@ export function FaqPage() {
                 >
                   <h2
                     id={`faq-topic-${section.slug}-heading`}
-                    className="type-card-title font-display text-left font-medium leading-snug tracking-[0.02em]"
+                    className="type-card-title font-display text-left font-medium leading-snug tracking-[0.02em] text-terracotta"
                   >
                     {section.title}
                   </h2>
@@ -154,7 +154,7 @@ export function FaqPage() {
                           className="faq-card-reveal group rounded-2xl border border-[#6B3B34]/14 bg-white/60 px-4 py-1 shadow-sm backdrop-blur-sm sm:px-5"
                           style={delayStyle}
                         >
-                          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-4 font-sans text-[0.9375rem] font-semibold leading-snug text-[#6B3B34] [&::-webkit-details-marker]:hidden">
+                          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-4 font-sans text-[0.9375rem] font-semibold leading-snug text-terracotta [&::-webkit-details-marker]:hidden">
                             <span className="min-w-0">{e.question}</span>
                             <ChevronDown
                               className="size-4 shrink-0 opacity-70 transition-transform duration-200 group-open:rotate-180"
@@ -174,9 +174,9 @@ export function FaqPage() {
           </div>
 
           <aside className="order-1 min-w-0 space-y-8 border-b border-[#6B3B34]/15 pb-8 lg:order-none lg:col-start-1 lg:row-start-2 lg:border-b-0 lg:pb-0 lg:sticky lg:top-24 lg:self-start">
-            <div className="space-y-2 font-sans text-[0.875rem] font-normal leading-relaxed text-[#6B3B34]/88">
-              <p className="font-medium text-[#6B3B34]">Capital Dream</p>
-              <p className="text-[#6B3B34]/72">
+            <div className="space-y-2 font-sans text-[0.875rem] font-normal leading-relaxed text-terracotta/90">
+              <p className="font-medium text-terracotta">Capital Dream</p>
+              <p className="text-terracotta/70">
                 Browse by topic or open questions below. Content is maintained for UAE buyers, renters, and investors.
               </p>
             </div>

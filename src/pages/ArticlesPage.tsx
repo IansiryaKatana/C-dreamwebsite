@@ -29,16 +29,10 @@ export function ArticlesPage() {
       >
         <div className="flex w-full min-w-0 flex-col gap-8 sm:gap-10">
           <header className="w-full min-w-0">
-            <h1
-              className="type-section-header font-display tracking-[0.02em]"
-              style={{ color: panelInk }}
-            >
+            <h1 className="type-section-header font-display tracking-[0.02em] text-terracotta">
               Articles
             </h1>
-            <p
-              className="mt-3 max-w-3xl text-[length:var(--brand-font-body-lg)] leading-relaxed"
-              style={{ color: panelInk, opacity: 0.88 }}
-            >
+            <p className="mt-3 max-w-3xl text-[length:var(--brand-font-body-lg)] leading-relaxed text-terracotta/90">
               Market context, regulation updates, and places we love as residents — short reads you
               can scan in a few minutes.
             </p>
@@ -84,20 +78,14 @@ function ArticleCard({ article }: { article: Article }) {
             />
           </div>
         </div>
-        <p
-          className="mt-3 font-compact text-[0.6875rem] font-medium uppercase tracking-[0.2em] sm:text-[0.75rem]"
-          style={{ color: panelInk, opacity: 0.85 }}
-        >
+        <p className="mt-3 font-compact text-[0.6875rem] font-medium uppercase tracking-[0.2em] text-terracotta/85 sm:text-[0.75rem]">
           {article.dateLabel}
           <span className="mx-2 opacity-50" aria-hidden>
             ·
           </span>
           <span>By: {article.author}</span>
         </p>
-        <h2
-          className="type-card-title font-compact mt-2 font-medium leading-snug transition-opacity group-hover:opacity-90"
-          style={{ color: panelInk }}
-        >
+        <h2 className="type-card-title font-compact mt-2 font-medium leading-snug text-terracotta transition-opacity group-hover:opacity-90">
           {article.title}
         </h2>
       </Link>
