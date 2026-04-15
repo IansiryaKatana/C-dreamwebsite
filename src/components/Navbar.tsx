@@ -126,15 +126,21 @@ export function Navbar() {
       )}
     >
       <nav
-        className="flex w-full min-w-0 items-center justify-between gap-2 px-4 py-3.5 text-cream [text-shadow:0_1px_2px_rgba(28,20,18,0.45)] sm:gap-3 sm:px-6 sm:py-4 xl:gap-4 xl:px-6 2xl:px-10"
+        className="flex w-full min-w-0 items-center justify-between gap-2 px-6 py-5 text-cream [text-shadow:0_1px_2px_rgba(28,20,18,0.45)] sm:gap-3 sm:px-6 sm:py-4 xl:gap-4 xl:px-6 2xl:px-10"
         aria-label="Main"
       >
         <Link
           to="/"
-          className="type-wordmark-nav font-brand z-10 max-w-[46%] shrink-0 font-bold uppercase tracking-[0.06em] sm:max-w-none"
+          className="type-wordmark-nav font-brand z-10 ml-2.5 max-w-[46%] shrink-0 font-bold uppercase tracking-[0.06em] sm:ml-0 sm:max-w-none"
           onClick={() => setOpen(false)}
         >
-          Capital Dream
+          <img
+            src="/LOGO%20NO%20ICON.png"
+            alt="Capital Dream"
+            className="h-4 w-auto object-contain sm:h-5"
+            loading="eager"
+            decoding="async"
+          />
         </Link>
 
         {/* Width sample for overflow detection (xl+) */}

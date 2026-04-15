@@ -82,9 +82,13 @@ export function Footer() {
       <div className="w-full px-4 py-14 sm:px-6 sm:py-16 lg:px-10 lg:py-20">
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-7 lg:gap-x-4 xl:gap-x-6 2xl:gap-x-8">
           <div className="min-w-0 sm:col-span-2 lg:col-span-1">
-            <p className="type-wordmark-footer font-brand uppercase tracking-[0.06em]">
-              Capital Dream
-            </p>
+            <img
+              src="/LOGO%20NO%20ICON.png"
+              alt="Capital Dream"
+              className="h-7 w-auto object-contain sm:h-8"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <Col title="Property">
             {propertyLinks.map((l) => (

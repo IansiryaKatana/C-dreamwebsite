@@ -62,7 +62,7 @@ export function TallLifestyleSection({
                       UAE&apos;s leading private-client practice
                     </h2>
                   </div>
-                  <div className="grid gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-6">
+                  <div className="hidden gap-4 sm:grid sm:gap-5 lg:grid-cols-3 lg:gap-6">
                     {cols.map((c) => (
                       <div
                         key={c.title}

@@ -5,6 +5,8 @@ import { usePropertyFilterDock } from '../contexts/PropertyFilterDockContext'
 
 const HERO_VIDEO_PLACEHOLDER =
   'https://images.pexels.com/photos/14749801/pexels-photo-14749801.jpeg'
+const HERO_MOBILE_IMAGE =
+  'https://images.pexels.com/photos/25286657/pexels-photo-25286657.jpeg'
 
 type HeroProps = {
   heroImageUrl?: string | null
@@ -19,7 +21,7 @@ export function HeroSection({ heroImageUrl }: HeroProps) {
       aria-label="Hero"
     >
       <img
-        src={bannerSrc}
+        src={HERO_MOBILE_IMAGE}
         alt=""
         className="absolute inset-0 z-0 h-full w-full object-cover object-center md:hidden"
         width={2400}

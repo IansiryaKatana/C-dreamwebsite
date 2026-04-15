@@ -93,7 +93,7 @@ export function TeamPage() {
           )}
 
           {!loading && canShowMore ? (
-            <div className="mt-10 flex justify-center">
+            <div className="mt-10 hidden justify-center sm:flex">
               <button
                 type="button"
                 className={buttonClassNames('primary')}
@@ -109,7 +109,7 @@ export function TeamPage() {
           ) : null}
 
           {!loading && salespeopleList.length > PAGE_SIZE ? (
-            <p className="mt-4 text-center text-sm text-ink/55">
+            <p className="mt-4 hidden text-center text-sm text-ink/55 sm:block">
               Showing {Math.min(visibleCount, salespeopleList.length)} of {salespeopleList.length}
             </p>
           ) : null}
