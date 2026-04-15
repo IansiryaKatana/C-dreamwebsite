@@ -1,6 +1,6 @@
 import { Pause, Play, Volume2, VolumeX } from 'lucide-react'
 import { useCallback, useMemo, useRef, useState } from 'react'
-import { ImagePrimaryOverlay } from '../components/ImagePrimaryOverlay'
+import { ImagePrimaryOverlay } from '@/components/ImagePrimaryOverlay'
 import { SectionShell } from '../components/SectionShell'
 
 function ytCommand(iframe: HTMLIFrameElement, func: string) {
