@@ -163,26 +163,38 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
                 {heroDescription}
               </p>
             </div>
-            <Button
-              type="button"
-              variant="inkSolid"
-              className="w-full shrink-0 sm:mt-1 sm:w-auto sm:self-start"
-              onClick={clearFilters}
-            >
-              Clear filters
-            </Button>
+            {!isMobile ? (
+              <Button
+                type="button"
+                variant="inkSolid"
+                className="w-full shrink-0 sm:mt-1 sm:w-auto sm:self-start"
+                onClick={clearFilters}
+              >
+                Clear filters
+              </Button>
+            ) : null}
           </div>
           <div className="mt-6 w-full min-w-0">
             {isMobile ? (
               <div className="rounded-2xl border-y border-ink/10 py-5">
-                <Button
-                  type="button"
-                  variant="primary"
-                  className="w-full"
-                  onClick={openDock}
-                >
-                  Search properties
-                </Button>
+                <div className="mb-3 grid grid-cols-2 gap-2">
+                  <Button
+                    type="button"
+                    variant="inkSolid"
+                    className="w-full"
+                    onClick={clearFilters}
+                  >
+                    Clear filters
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="primary"
+                    className="w-full"
+                    onClick={openDock}
+                  >
+                    Search properties
+                  </Button>
+                </div>
               </div>
             ) : (
               <PropertyFiltersBar hideClearButton />
@@ -202,9 +214,20 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
 
       <SectionShell variant="cream">
         <div className="w-full">
-          <h2 className="type-section-title font-display mb-8 text-lg font-semibold text-ink sm:mb-10 sm:text-xl">
-            {gridTitle}
-          </h2>
+          {isMobile ? (
+            <div className="mb-6 flex items-center justify-between gap-3">
+              <h2 className="type-section-title font-display text-lg font-semibold text-ink">
+                {gridTitle}
+              </h2>
+              {!loading && !cmsEmpty && !channelEmpty && filteredPool.length > 0 && !allMatchesShownInCarousel ? (
+                <CarouselNav emblaApi={gridEmblaApi} />
+              ) : null}
+            </div>
+          ) : (
+            <h2 className="type-section-title font-display mb-8 text-lg font-semibold text-ink sm:mb-10 sm:text-xl">
+              {gridTitle}
+            </h2>
+          )}
           {loading ? (
             <p className="rounded-2xl border border-ink/10 bg-cream px-6 py-12 text-center text-ink/60">
               Loading properties...
@@ -227,9 +250,6 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
             </p>
           ) : isMobile ? (
             <div className="w-full">
-              <div className="mb-6 flex items-center justify-end">
-                <CarouselNav emblaApi={gridEmblaApi} />
-              </div>
               <div
                 className="overflow-hidden"
                 ref={gridEmblaRef}

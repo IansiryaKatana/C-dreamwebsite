@@ -5,7 +5,7 @@ import type { ReactNode } from 'react'
  */
 export function PageFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-svh w-full flex-col gap-[0.625rem] p-[0.625rem]">
+    <div className="flex w-full flex-col gap-[0.625rem] p-[0.625rem]">
       {children}
     </div>
   )

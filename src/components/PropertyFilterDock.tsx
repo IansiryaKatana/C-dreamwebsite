@@ -101,7 +101,7 @@ export function PropertyFilterDock() {
         onClick={closeDock}
       />
       <div
-        className="fixed inset-x-0 bottom-0 z-[120] max-h-[min(92vh,720px)] overflow-y-auto border-t border-ink/10 bg-cream shadow-[0_-12px_40px_rgba(28,20,18,0.12)]"
+        className="fixed inset-x-0 bottom-0 z-[120] max-h-[min(92vh,720px)] overflow-y-auto rounded-t-[1.5rem] border-t border-ink/10 bg-cream shadow-[0_-12px_40px_rgba(28,20,18,0.12)] motion-safe:animate-[adminSheetUp_0.32s_ease-out]"
         role="dialog"
         aria-modal="true"
         aria-labelledby="property-filter-dock-title"
@@ -123,7 +123,7 @@ export function PropertyFilterDock() {
             </div>
             <button
               type="button"
-              className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-black bg-black text-white transition hover:bg-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
+              className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-terracotta/30 bg-terracotta text-cream shadow-sm transition hover:bg-terracotta/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
               aria-label={t('dock.closeIconAria')}
               onClick={closeDock}
             >
@@ -142,8 +142,8 @@ export function PropertyFilterDock() {
             showFilterActionLinks={false}
           />
 
-          <div className="flex flex-col gap-4 border-t border-ink/10 pt-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-            <div className="flex flex-row flex-wrap items-center justify-start gap-x-4 gap-y-2">
+          <div className="flex items-center justify-between gap-3 border-t border-ink/10 pt-4 sm:gap-4">
+            <div className="min-w-0 flex flex-row items-center justify-start gap-x-4 gap-y-2">
               <button
                 type="button"
                 className="type-button text-left text-sm font-medium text-ink/55 underline-offset-4 hover:text-terracotta hover:underline"
@@ -161,17 +161,11 @@ export function PropertyFilterDock() {
                 </button>
               ) : null}
             </div>
-            <div className="flex flex-col gap-3 self-end sm:flex-row sm:items-center sm:justify-end sm:gap-3">
-              <button
-                type="button"
-                className="type-button order-2 rounded-xl border border-ink/12 px-5 py-2.5 text-sm font-medium text-ink transition hover:bg-ink/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta sm:order-1"
-                onClick={closeDock}
-              >
-                {t('dock.close')}
-              </button>
+            <div className="shrink-0">
               <FilterSearchSubmit
                 label={t('dock.viewResults')}
                 onClick={() => applyFiltersToListing(draft)}
+                className="w-auto min-w-[8.5rem]"
               />
             </div>
           </div>

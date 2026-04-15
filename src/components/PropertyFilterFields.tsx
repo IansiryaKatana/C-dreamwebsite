@@ -206,12 +206,19 @@ export function PropertyFilterFields({
 export function FilterSearchSubmit({
   label,
   onClick,
+  className,
 }: {
   label: string
   onClick: () => void
+  className?: string
 }) {
   return (
-    <Button type="button" variant="primary" className="w-full sm:w-auto" onClick={onClick}>
+    <Button
+      type="button"
+      variant="primary"
+      className={`w-full sm:w-auto ${className ?? ''}`.trim()}
+      onClick={onClick}
+    >
       {label}
     </Button>
   )

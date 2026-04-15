@@ -60,7 +60,7 @@ export function PropertyListingCard({ property, compact }: Props) {
             </p>
           ) : null}
         </div>
-        <p className="type-card-title font-compact font-normal uppercase tracking-[0.02em] text-ink">
+        <p className="type-card-title font-compact text-[0.9rem] leading-snug font-normal uppercase tracking-[0.02em] text-ink sm:text-[1rem]">
           {property.title}
         </p>
         <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-ink/10 pt-3 text-ink/65">
