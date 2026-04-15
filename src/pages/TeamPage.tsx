@@ -42,7 +42,7 @@ export function TeamPage() {
               <p className="type-card-title font-compact uppercase tracking-[0.02em] text-ink">
                 Our team
               </p>
-              <h1 className="mt-2 text-balance font-display text-3xl font-semibold leading-tight text-ink sm:text-4xl">
+              <h1 className="mt-2 hidden text-balance font-display text-3xl font-semibold leading-tight text-ink sm:block sm:text-4xl">
                 Meet Capital Dream specialists
               </h1>
             </div>

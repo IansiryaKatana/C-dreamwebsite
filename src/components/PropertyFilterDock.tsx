@@ -115,7 +115,7 @@ export function PropertyFilterDock() {
               >
                 {t('dock.title')}
               </h2>
-              <p className="mt-1 text-sm text-ink/55">
+              <p className="mt-1 hidden text-sm text-ink/55 sm:block">
                 {onListingPage
                   ? t('dock.subtitleListing')
                   : t('dock.subtitleBrowse')}

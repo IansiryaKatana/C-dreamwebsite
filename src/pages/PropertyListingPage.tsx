@@ -1,3 +1,4 @@
+import { SlidersHorizontal } from 'lucide-react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { useCallback, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -177,24 +178,17 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
           <div className="mt-6 w-full min-w-0">
             {isMobile ? (
               <div className="rounded-2xl border-y border-ink/10 py-5">
-                <div className="mb-3 grid grid-cols-2 gap-2">
-                  <Button
-                    type="button"
-                    variant="inkSolid"
-                    className="w-full"
-                    onClick={clearFilters}
-                  >
-                    Clear filters
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="primary"
-                    className="w-full"
-                    onClick={openDock}
-                  >
-                    Search properties
-                  </Button>
-                </div>
+                <Button
+                  type="button"
+                  variant="primary"
+                  className="w-full"
+                  onClick={openDock}
+                >
+                  <span className="flex w-full items-center justify-between">
+                    <span>Filters</span>
+                    <SlidersHorizontal className="size-4 shrink-0" strokeWidth={1.5} aria-hidden />
+                  </span>
+                </Button>
               </div>
             ) : (
               <PropertyFiltersBar hideClearButton />
@@ -216,7 +210,7 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
         <div className="w-full">
           {isMobile ? (
             <div className="mb-6 flex items-center justify-between gap-3">
-              <h2 className="type-section-title font-display text-lg font-semibold text-ink">
+              <h2 className="type-card-title min-w-0 flex-1 truncate font-compact font-normal uppercase tracking-[0.02em] text-ink">
                 {gridTitle}
               </h2>
               {!loading && !cmsEmpty && !channelEmpty && filteredPool.length > 0 && !allMatchesShownInCarousel ? (
@@ -224,7 +218,7 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
               ) : null}
             </div>
           ) : (
-            <h2 className="type-section-title font-display mb-8 text-lg font-semibold text-ink sm:mb-10 sm:text-xl">
+            <h2 className="type-card-title mb-8 font-compact font-normal uppercase tracking-[0.02em] text-ink sm:mb-10">
               {gridTitle}
             </h2>
           )}
