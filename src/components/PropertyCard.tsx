@@ -1,3 +1,12 @@
+import { ImagePrimaryOverlay } from './ImagePrimaryOverlay'
+
+/** Gallery item for property detail hero (images and optional video URLs from admin uploads). */
+export type PropertyGalleryItem = {
+  type: 'image' | 'video'
+  src: string
+  poster?: string
+}
+
 export type Property = {
   id: string
   image: string
@@ -6,6 +15,35 @@ export type Property = {
   meta: string
   detail?: string
   alt: string
+  /** Listing page filters & rich card (AED). */
+  priceAed?: number
+  beds?: number
+  baths?: number
+  location?: string
+  /** Area / community name for filters (e.g. Palm Jumeirah). */
+  neighbourhood?: string
+  emirate?: string
+  /** Listing is exclusive with the agency. */
+  exclusiveWithUs?: boolean
+  interiorM2?: number
+  plotM2?: number
+  /** Public URL slug when different from `id` (optional). */
+  slug?: string
+  /** Ordered media for detail hero; falls back to `image` when empty. */
+  gallery?: PropertyGalleryItem[]
+  latitude?: number
+  longitude?: number
+  /** Full address line for map popups / SEO. */
+  fullAddress?: string
+  /** Rich description HTML from CMS / admin editor. */
+  descriptionHtml?: string
+  /** Display reference e.g. DV1035. */
+  propertyRefId?: string
+  yearBuilt?: number
+  /** Assigned sales consultant (CMS). */
+  salespersonId?: string
+  /** e.g. Villa, Apartment, Penthouse. */
+  propertyType?: string
 }
 
 type Props = {
@@ -16,18 +54,21 @@ export function PropertyCard({ property }: Props) {
   return (
     <article className="group flex flex-col overflow-hidden bg-cream">
       <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[1.125rem]">
-        <img
-          src={property.image}
-          alt={property.alt}
-          className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-[1.02]"
-          loading="lazy"
-        />
-        <span className="type-badge absolute right-3 top-3 rounded-md bg-badge-blue px-2.5 py-1 font-semibold uppercase tracking-widest text-white">
+        <div className="absolute inset-0 transition duration-500 group-hover:scale-[1.02]">
+          <img
+            src={property.image}
+            alt={property.alt}
+            className="absolute inset-0 z-0 h-full w-full object-cover object-center"
+            loading="lazy"
+          />
+          <ImagePrimaryOverlay />
+        </div>
+        <span className="type-badge absolute right-3 top-3 z-[2] rounded-md bg-badge-blue px-2.5 py-1 font-semibold uppercase tracking-widest text-white">
           {property.tag}
         </span>
       </div>
       <div className="flex flex-1 flex-col gap-1.5 px-1 pt-6 sm:pt-7">
-        <p className="type-card-title font-compact font-semibold uppercase tracking-[0.06em] text-ink">
+        <p className="type-card-title font-compact font-normal uppercase tracking-[0.02em] text-ink">
           {property.title}
         </p>
         <p className="font-normal leading-snug text-ink/72">

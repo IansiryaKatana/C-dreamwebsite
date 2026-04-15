@@ -1,9 +1,16 @@
+import useEmblaCarousel from 'embla-carousel-react'
+import clsx from 'clsx'
+import { CarouselNav } from '../components/CarouselNav'
 import { PropertyCard, type Property } from '../components/PropertyCard'
 import { SectionHeader } from '../components/SectionHeader'
 import { SectionShell } from '../components/SectionShell'
 
 type Props = {
   id?: string
+  /** `aria-label` on the outer section (landmark). */
+  sectionAriaLabel?: string
+  /** `aria-label` on the carousel region (defaults to eyebrow / title). */
+  carouselLabel?: string
   title?: string
   subtitle?: string
   eyebrow?: string
@@ -14,6 +21,8 @@ type Props = {
 
 export function PropertyGridSection({
   id,
+  sectionAriaLabel,
+  carouselLabel,
   title,
   subtitle,
   eyebrow,
@@ -22,25 +31,77 @@ export function PropertyGridSection({
   eyebrowLeft,
 }: Props) {
   const showEyebrow = Boolean(eyebrow && (featuredLayout || eyebrowLeft))
+  const showSectionHeader = Boolean(!featuredLayout && !eyebrowLeft && title)
+  const hasHeaderRow = showEyebrow || showSectionHeader
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      align: 'start',
+      loop: properties.length > 3,
+      skipSnaps: false,
+      dragFree: false,
+    },
+    [],
+  )
+
+  const slideClass =
+    'min-w-0 shrink-0 grow-0 basis-full last:mr-0 mr-10 sm:basis-[calc((100%-2.5rem)/2)] lg:basis-[calc((100%-6rem)/3)] lg:mr-12'
+
   return (
-    <SectionShell variant="cream" id={id}>
-      <div className="w-full py-4 sm:py-8">
-        {showEyebrow ? (
-          <p
-            className={`nav-caps text-ink/50 ${eyebrowLeft ? 'text-left' : 'text-center'}`}
+    <SectionShell variant="cream" id={id} aria-label={sectionAriaLabel}>
+      <div className="w-full">
+        {hasHeaderRow ? (
+          <div
+            className={clsx(
+              'flex flex-row items-center justify-between gap-3',
+              showEyebrow ? 'mb-10' : 'mb-12',
+            )}
           >
-            {eyebrow}
-          </p>
+            <div className="min-w-0 flex-1 pr-1">
+              {showEyebrow ? (
+                <p
+                  className={clsx(
+                    'type-card-title font-compact truncate font-normal uppercase tracking-[0.02em] text-ink',
+                    eyebrowLeft ? 'text-left' : 'text-left sm:text-left',
+                  )}
+                >
+                  {eyebrow}
+                </p>
+              ) : null}
+              {showSectionHeader ? (
+                <SectionHeader
+                  title={title!}
+                  subtitle={subtitle}
+                  bg="cream"
+                  truncateTitle
+                  className={showEyebrow ? 'mt-6 max-w-none' : 'max-w-none'}
+                />
+              ) : null}
+            </div>
+            <CarouselNav emblaApi={emblaApi} />
+          </div>
         ) : null}
-        {!featuredLayout && !eyebrowLeft && title ? (
-          <SectionHeader title={title} subtitle={subtitle} bg="cream" />
+
+        {!hasHeaderRow ? (
+          <div className="mb-10 flex justify-end sm:mb-12">
+            <CarouselNav emblaApi={emblaApi} />
+          </div>
         ) : null}
+
         <div
-          className={`grid grid-cols-1 gap-12 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-14 lg:grid-cols-3 lg:gap-x-12 ${showEyebrow ? 'mt-10' : 'mt-12'}`}
+          className="overflow-hidden"
+          ref={emblaRef}
+          role="region"
+          aria-roledescription="carousel"
+          aria-label={carouselLabel ?? eyebrow ?? title ?? 'Properties'}
         >
-          {properties.map((p) => (
-            <PropertyCard key={p.id} property={p} />
-          ))}
+          <div className="flex touch-pan-y [-webkit-tap-highlight-color:transparent]">
+            {properties.map((p) => (
+              <div key={p.id} className={slideClass}>
+                <PropertyCard property={p} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </SectionShell>

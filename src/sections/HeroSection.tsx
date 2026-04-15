@@ -1,65 +1,81 @@
 import { Button } from '../components/Button'
-import { SectionShell } from '../components/SectionShell'
+import { HeroNeighbourhoodCards } from '../components/HeroNeighbourhoodCards'
+import { ImagePrimaryOverlay } from '../components/ImagePrimaryOverlay'
+import { usePropertyFilterDock } from '../contexts/PropertyFilterDockContext'
 
-const u = (id: string, w: number, h: number) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&h=${h}&q=85`
+const HERO_VIDEO_PLACEHOLDER =
+  'https://images.pexels.com/photos/14749801/pexels-photo-14749801.jpeg'
 
-const stackImgs = [
-  u('photo-1600585154526-990dced4db0d', 720, 480),
-  u('photo-1600607687939-ce8a6c25118c', 720, 480),
-  u('photo-1600566752355-35792bedcfea', 720, 480),
-]
+type HeroProps = {
+  heroImageUrl?: string | null
+}
 
-const dogImg = u('photo-1587300003388-59208cc962b7', 640, 640)
-
-export function HeroSection() {
+export function HeroSection({ heroImageUrl }: HeroProps) {
+  const { openDock } = usePropertyFilterDock()
+  const bannerSrc = heroImageUrl?.trim() ? heroImageUrl : HERO_VIDEO_PLACEHOLDER
   return (
-    <SectionShell variant="cream">
-      <div className="grid w-full items-center gap-10 py-4 sm:gap-12 sm:py-8 lg:grid-cols-2 lg:gap-16 lg:py-10">
-        <div className="order-2 lg:order-1">
-          <h1 className="type-hero font-hero text-ink">
-            Don&apos;t Play Real Estate Roulette.
-          </h1>
-          <p className="mt-7 max-w-lg font-light leading-relaxed text-ink/78">
-            We pair private clients with vetted island homes — editorial
-            presentation, disciplined process, and zero theatre from first
-            conversation to closing.
-          </p>
-          <div className="mt-10">
-            <Button type="button">Explore homes</Button>
+    <section
+      className="relative min-h-[95vh] min-h-[95dvh] w-full overflow-hidden rounded-[1.5rem]"
+      aria-label="Hero"
+    >
+      <img
+        src={bannerSrc}
+        alt=""
+        className="absolute inset-0 z-0 h-full w-full object-cover object-center md:hidden"
+        width={2400}
+        height={1029}
+        fetchPriority="high"
+        decoding="async"
+      />
+      <video
+        className="absolute inset-0 z-0 hidden h-full w-full object-cover object-center md:block"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster={bannerSrc}
+        aria-hidden
+      >
+        <source src="https://www.pexels.com/download/video/27740273/" type="video/mp4" />
+      </video>
+      <ImagePrimaryOverlay />
+      <div
+        className="absolute inset-0 z-[2] bg-gradient-to-t from-ink/75 via-ink/45 to-ink/25"
+        aria-hidden
+      />
+      <div className="relative z-10 flex min-h-[95vh] min-h-[95dvh] flex-col p-[1.5rem] pb-16 pt-24 sm:pb-20 sm:pt-28 md:flex-row md:items-stretch md:pb-24 md:pt-32">
+        <div className="flex min-h-0 w-full flex-1 flex-col justify-end md:w-[60%] md:flex-none md:shrink-0">
+          <div className="w-full min-w-0 max-w-full">
+            <h1 className="type-hero font-hero text-cream [text-shadow:0_2px_24px_rgba(28,20,18,0.55)]">
+              Don&apos;t Play
+              <br />
+              Real Estate
+              <br />
+              Roulette.
+            </h1>
+            <p className="mt-7 max-w-full font-light leading-relaxed text-cream/90 [text-shadow:0_1px_12px_rgba(28,20,18,0.45)]">
+              We pair private clients with vetted homes
+              <br />
+              editorial presentation, disciplined process,
+              <br />
+              and zero theatre from first conversation to closing.
+            </p>
+            <div className="mt-10">
+              <Button
+                type="button"
+                variant="whiteSolid"
+                onClick={() => openDock()}
+              >
+                Search properties
+              </Button>
+            </div>
           </div>
         </div>
-
-        <div className="order-1 flex min-h-[260px] items-end justify-center gap-4 sm:min-h-[320px] lg:order-2 lg:min-h-[400px] lg:justify-end lg:pr-1">
-          <img
-            src={dogImg}
-            alt=""
-            className="relative z-10 max-h-[min(48vw,300px)] w-auto object-contain drop-shadow-2xl sm:max-h-[320px] lg:max-h-[360px]"
-            width={320}
-            height={320}
-            loading="eager"
-          />
-          <div className="flex flex-col gap-3 sm:gap-3.5">
-            {stackImgs.map((src) => (
-              <div
-                key={src}
-                className="w-[8.25rem] overflow-hidden rounded-sm shadow-lg ring-2 ring-cream sm:w-[9.5rem]"
-              >
-                <div className="relative w-full [aspect-ratio:3/2]">
-                  <img
-                    src={src}
-                    alt=""
-                    className="absolute inset-0 h-full w-full object-cover object-center"
-                    width={720}
-                    height={480}
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="hidden min-h-0 w-full flex-col justify-end md:flex md:w-[40%] md:shrink-0 md:pl-4 lg:pl-6">
+          <HeroNeighbourhoodCards />
         </div>
       </div>
-    </SectionShell>
+    </section>
   )
 }

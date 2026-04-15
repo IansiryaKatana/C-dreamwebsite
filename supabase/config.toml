@@ -1,0 +1,5 @@
+# Local/dev config. Link your project with `supabase link`.
+# Deploy: `supabase functions deploy sync-property-finder`
+
+[functions.sync-property-finder]
+verify_jwt = false

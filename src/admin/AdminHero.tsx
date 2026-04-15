@@ -1,0 +1,446 @@
+import { Pencil, Plus, Trash2 } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
+import { useCms } from '@/contexts/CmsContext'
+import { adminBtnGhost, adminBtnPrimary, adminBtnPrimarySm } from './adminClassNames'
+import { AdminTablePagination } from './components/AdminTablePagination'
+import { AdminModal } from './components/AdminModal'
+import { AdminPageHeading } from './components/AdminPageHeading'
+import { useAdminTablePagination } from './useAdminTablePagination'
+import { getSupabase } from '@/integrations/supabase/client'
+import type { Database } from '@/integrations/supabase/database.types'
+
+type Row = Database['public']['Tables']['hero_neighbourhoods']['Row']
+
+function fieldClass() {
+  return 'mt-1 w-full rounded-2xl border border-ink/15 bg-white px-3 py-2 text-xs text-ink md:text-sm'
+}
+
+export function AdminHero() {
+  const { refetch: refetchCms } = useCms()
+  const sb = getSupabase()
+  const [rows, setRows] = useState<Row[]>([])
+  const [err, setErr] = useState<string | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [draft, setDraft] = useState<Row | null>(null)
+  const [saveErr, setSaveErr] = useState<string | null>(null)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [isNew, setIsNew] = useState(true)
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set())
+  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false)
+  const [bulkBusy, setBulkBusy] = useState(false)
+
+  const refresh = useCallback(async () => {
+    if (!sb) return
+    const { data, error } = await sb
+      .from('hero_neighbourhoods')
+      .select('*')
+      .order('sort_order')
+    if (error) {
+      setErr(error.message)
+      return
+    }
+    setErr(null)
+    setRows(data ?? [])
+    setSelectedIds(new Set())
+  }, [sb])
+
+  useEffect(() => {
+    void refresh()
+  }, [refresh])
+
+  const {
+    page: tablePage,
+    setPage: setTablePage,
+    total: tableTotal,
+    totalPages: tableTotalPages,
+    pagedItems: pagedRows,
+    rangeStart: tableRangeStart,
+    rangeEnd: tableRangeEnd,
+    showPagination: showTablePagination,
+  } = useAdminTablePagination(rows)
+
+  const selectedList = [...selectedIds]
+  const allSelectedOnPage =
+    pagedRows.length > 0 && pagedRows.every((r) => selectedIds.has(r.id))
+
+  function toggleSelect(id: string) {
+    setSelectedIds((prev) => {
+      const n = new Set(prev)
+      if (n.has(id)) n.delete(id)
+      else n.add(id)
+      return n
+    })
+  }
+
+  function toggleSelectAllOnPage() {
+    const ids = pagedRows.map((r) => r.id)
+    setSelectedIds((prev) => {
+      const n = new Set(prev)
+      if (allSelectedOnPage) ids.forEach((id) => n.delete(id))
+      else ids.forEach((id) => n.add(id))
+      return n
+    })
+  }
+
+  function clearSelection() {
+    setSelectedIds(new Set())
+  }
+
+  async function runBulkPublish(published: boolean) {
+    if (!sb || selectedList.length === 0) return
+    setBulkBusy(true)
+    const { error } = await sb
+      .from('hero_neighbourhoods')
+      .update({ published })
+      .in('id', selectedList)
+    setBulkBusy(false)
+    if (error) setErr(error.message)
+    else {
+      clearSelection()
+      void refresh()
+      void refetchCms()
+    }
+  }
+
+  async function runBulkDelete() {
+    if (!sb || selectedList.length === 0) return
+    setBulkBusy(true)
+    const { error } = await sb.from('hero_neighbourhoods').delete().in('id', selectedList)
+    setBulkBusy(false)
+    setBulkDeleteOpen(false)
+    if (error) setErr(error.message)
+    else {
+      clearSelection()
+      void refresh()
+      void refetchCms()
+    }
+  }
+
+  function openCreate() {
+    setIsNew(true)
+    setDraft({
+      id: `h-${crypto.randomUUID().replace(/-/g, '').slice(0, 10)}`,
+      label: '',
+      route_path: '/all-properties',
+      sort_order: rows.length,
+      published: true,
+      updated_at: new Date().toISOString(),
+    })
+    setSaveErr(null)
+    setModalOpen(true)
+  }
+
+  function openEdit(r: Row) {
+    setIsNew(false)
+    setDraft({ ...r })
+    setSaveErr(null)
+    setModalOpen(true)
+  }
+
+  function closeModal() {
+    setModalOpen(false)
+    setDraft(null)
+  }
+
+  async function save() {
+    if (!sb || !draft) return
+    setSaveErr(null)
+    if (!draft.id.trim() || !draft.label.trim()) {
+      setSaveErr('ID and label are required.')
+      return
+    }
+    const { error } = await sb.from('hero_neighbourhoods').upsert(
+      {
+        id: draft.id,
+        label: draft.label,
+        route_path: draft.route_path || '/all-properties',
+        sort_order: draft.sort_order,
+        published: draft.published,
+      },
+      { onConflict: 'id' },
+    )
+    if (error) {
+      setSaveErr(error.message)
+      return
+    }
+    closeModal()
+    void refresh()
+    void refetchCms()
+  }
+
+  async function confirmDelete() {
+    if (!sb || !deleteId) return
+    const { error } = await sb.from('hero_neighbourhoods').delete().eq('id', deleteId)
+    if (error) {
+      setErr(error.message)
+      return
+    }
+    setDeleteId(null)
+    void refresh()
+    void refetchCms()
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <AdminPageHeading title="Featured neighbourhoods" helpAriaLabel="About featured neighbourhoods">
+          <p>Shortcuts beside the home hero — each links to a route (usually filtered listings).</p>
+        </AdminPageHeading>
+        <button
+          type="button"
+          onClick={openCreate}
+          className={`inline-flex items-center gap-2 self-end sm:self-start ${adminBtnPrimary}`}
+        >
+          <Plus className="size-4" aria-hidden />
+          Add card
+        </button>
+      </div>
+
+      {err ? <p className="text-sm text-red-600">{err}</p> : null}
+
+      {selectedList.length > 0 ? (
+        <div className="flex flex-col gap-3 rounded-[var(--admin-radius-lg,24px)] border border-[var(--admin-primary)]/25 bg-[var(--admin-accent-soft)] p-4 sm:flex-row sm:flex-wrap sm:items-center">
+          <p className="text-xs font-medium text-ink md:text-sm">
+            {selectedList.length} selected
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              disabled={bulkBusy}
+              onClick={() => void runBulkPublish(true)}
+              className={adminBtnPrimarySm}
+            >
+              Publish
+            </button>
+            <button
+              type="button"
+              disabled={bulkBusy}
+              onClick={() => void runBulkPublish(false)}
+              className={adminBtnGhost}
+            >
+              Unpublish
+            </button>
+            <button
+              type="button"
+              disabled={bulkBusy}
+              onClick={() => setBulkDeleteOpen(true)}
+              className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800 md:text-sm"
+            >
+              Delete selected
+            </button>
+            <button type="button" onClick={clearSelection} className={adminBtnGhost}>
+              Clear
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      <div className="overflow-x-auto rounded-[var(--admin-radius-lg,24px)] border border-ink/10 bg-white shadow-sm">
+        <table className="w-full min-w-[520px] text-left text-xs md:text-sm">
+          <thead>
+            <tr className="border-b border-ink/10 bg-ink/[0.02] text-[0.6875rem] font-semibold uppercase tracking-wider text-ink/50">
+              <th className="w-10 px-2 py-3 md:px-3">
+                <input
+                  type="checkbox"
+                  checked={allSelectedOnPage}
+                  onChange={toggleSelectAllOnPage}
+                  className="size-4 rounded border-ink/20"
+                  aria-label="Select all on this page"
+                />
+              </th>
+              <th className="px-3 py-3 md:px-4">Label</th>
+              <th className="px-3 py-3 md:px-4">Route</th>
+              <th className="px-3 py-3 md:px-4">Sort</th>
+              <th className="px-3 py-3 md:px-4">Live</th>
+              <th className="px-3 py-3 text-right md:px-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pagedRows.map((r) => (
+              <tr key={r.id} className="border-b border-ink/5 last:border-0">
+                <td className="px-2 py-2.5 md:px-3">
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.has(r.id)}
+                    onChange={() => toggleSelect(r.id)}
+                    className="size-4 rounded border-ink/20"
+                    aria-label={`Select ${r.label}`}
+                  />
+                </td>
+                <td className="px-3 py-2.5 font-medium md:px-4">{r.label}</td>
+                <td className="px-3 py-2.5 text-ink/65 md:px-4">{r.route_path}</td>
+                <td className="px-3 py-2.5 md:px-4">{r.sort_order}</td>
+                <td className="px-3 py-2.5 md:px-4">{r.published ? 'Yes' : 'No'}</td>
+                <td className="px-3 py-2.5 text-right md:px-4">
+                  <div className="flex justify-end gap-1">
+                    <button
+                      type="button"
+                      onClick={() => openEdit(r)}
+                      className="rounded-full p-2 text-ink/60 hover:bg-ink/5"
+                      aria-label="Edit"
+                    >
+                      <Pencil className="size-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setDeleteId(r.id)}
+                      className="rounded-full p-2 text-red-600/80 hover:bg-red-50"
+                      aria-label="Delete"
+                    >
+                      <Trash2 className="size-4" />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <AdminTablePagination
+          visible={showTablePagination}
+          page={tablePage}
+          totalPages={tableTotalPages}
+          total={tableTotal}
+          rangeStart={tableRangeStart}
+          rangeEnd={tableRangeEnd}
+          onPageChange={setTablePage}
+        />
+        {rows.length === 0 ? (
+          <p className="px-4 py-6 text-center text-sm text-ink/50">No hero cards yet.</p>
+        ) : null}
+      </div>
+
+      <AdminModal
+        open={modalOpen && !!draft}
+        title={draft?.label ? `Hero card · ${draft.label}` : 'New hero card'}
+        onClose={closeModal}
+        footer={
+          <>
+            <button
+              type="button"
+              onClick={closeModal}
+              className="w-full rounded-2xl border border-ink/15 px-4 py-2.5 text-sm font-medium md:w-auto"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={() => void save()}
+              className={`w-full md:w-auto ${adminBtnPrimary}`}
+            >
+              Save
+            </button>
+          </>
+        }
+      >
+        {draft ? (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div>
+              <label className="text-xs font-medium text-ink/70">ID</label>
+              <input
+                value={draft.id}
+                onChange={(e) => setDraft({ ...draft, id: e.target.value })}
+                disabled={!isNew}
+                className={fieldClass()}
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-ink/70">Sort</label>
+              <input
+                type="number"
+                value={draft.sort_order}
+                onChange={(e) =>
+                  setDraft({ ...draft, sort_order: Number(e.target.value) || 0 })
+                }
+                className={fieldClass()}
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label className="text-xs font-medium text-ink/70">Label</label>
+              <input
+                value={draft.label}
+                onChange={(e) => setDraft({ ...draft, label: e.target.value })}
+                className={fieldClass()}
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label className="text-xs font-medium text-ink/70">Route path</label>
+              <input
+                value={draft.route_path}
+                onChange={(e) => setDraft({ ...draft, route_path: e.target.value })}
+                className={fieldClass()}
+              />
+            </div>
+            <div className="flex items-center gap-2 sm:col-span-2">
+              <input
+                id="hero-pub"
+                type="checkbox"
+                checked={draft.published}
+                onChange={(e) => setDraft({ ...draft, published: e.target.checked })}
+                className="size-4 rounded border-ink/20"
+              />
+              <label htmlFor="hero-pub" className="text-xs font-medium text-ink/70">
+                Published
+              </label>
+            </div>
+            {saveErr ? <p className="sm:col-span-2 text-xs text-red-600">{saveErr}</p> : null}
+          </div>
+        ) : null}
+      </AdminModal>
+
+      <AdminModal
+        open={bulkDeleteOpen}
+        title={`Delete ${selectedList.length} hero cards?`}
+        onClose={() => setBulkDeleteOpen(false)}
+        footer={
+          <>
+            <button
+              type="button"
+              onClick={() => setBulkDeleteOpen(false)}
+              className="w-full rounded-2xl border border-ink/15 px-4 py-2.5 text-sm font-medium md:w-auto"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              disabled={bulkBusy}
+              onClick={() => void runBulkDelete()}
+              className="w-full rounded-2xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white md:w-auto disabled:opacity-50"
+            >
+              {bulkBusy ? 'Deleting…' : 'Delete all selected'}
+            </button>
+          </>
+        }
+      >
+        <p className="text-sm text-ink/75">
+          Remove these shortcuts from the home hero. This cannot be undone.
+        </p>
+      </AdminModal>
+
+      <AdminModal
+        open={!!deleteId}
+        title="Delete hero card?"
+        onClose={() => setDeleteId(null)}
+        footer={
+          <>
+            <button
+              type="button"
+              onClick={() => setDeleteId(null)}
+              className="w-full rounded-2xl border border-ink/15 px-4 py-2.5 text-sm font-medium md:w-auto"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={() => void confirmDelete()}
+              className="w-full rounded-2xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white md:w-auto"
+            >
+              Delete
+            </button>
+          </>
+        }
+      >
+        <p className="text-sm text-ink/75">Remove this shortcut from the home hero.</p>
+      </AdminModal>
+    </div>
+  )
+}

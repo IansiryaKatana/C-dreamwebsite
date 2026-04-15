@@ -1,0 +1,46 @@
+/* Vista Mare admin — matches public terracotta / cream / ink (see index.css @theme) */
+.admin-portal {
+  --admin-primary: #a67d32;
+  --admin-primary-hover: #8f6b2a;
+  --admin-surface: #f8f3ef;
+  --admin-card: #ffffff;
+  --admin-ink: #1c1412;
+  --admin-muted: rgba(28, 20, 18, 0.55);
+  --admin-radius-lg: 24px;
+  --admin-radius-md: 16px;
+  --admin-accent-soft: rgba(166, 125, 50, 0.12);
+}
+
+.admin-portal .admin-card-surface {
+  background-color: var(--admin-card);
+  border-radius: var(--admin-radius-lg);
+}
+
+/* Main admin content: hide native scrollbar; scroll position shown via header progress bar */
+.admin-portal .admin-main-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.admin-portal .admin-main-scroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Admin modal body: hide scrollbar; progress bar on modal header */
+.admin-portal .admin-modal-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.admin-portal .admin-modal-scroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Keep native select arrow / menu behavior; light scheme matches admin surfaces */
+.admin-portal select.admin-native-select {
+  color-scheme: light;
+}

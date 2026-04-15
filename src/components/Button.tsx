@@ -7,6 +7,7 @@ type Variant =
   | 'outlineTerracotta'
   | 'creamOnTerracotta'
   | 'whiteSolid'
+  | 'inkSolid'
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode
@@ -14,8 +15,10 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string
 }
 
-const base =
-  'type-button inline-flex items-center justify-center rounded-xl px-6 py-2.5 font-compact font-medium tracking-wide transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50'
+export const buttonBaseClass =
+  'type-button font-display inline-flex items-center justify-center rounded-xl px-6 py-2.5 font-medium tracking-wide transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50'
+
+const base = buttonBaseClass
 
 const variants: Record<Variant, string> = {
   primary:
@@ -30,6 +33,15 @@ const variants: Record<Variant, string> = {
     'bg-cream text-terracotta hover:bg-cream/90 focus-visible:outline-cream',
   whiteSolid:
     'bg-white text-terracotta hover:bg-cream hover:text-terracotta focus-visible:outline-white',
+  inkSolid:
+    'bg-ink text-cream hover:bg-ink/90 focus-visible:outline-ink',
+}
+
+export function buttonClassNames(
+  variant: Variant = 'primary',
+  className = '',
+) {
+  return `${base} ${variants[variant]} ${className}`.trim()
 }
 
 export function Button({
@@ -42,7 +54,7 @@ export function Button({
   return (
     <button
       type={type}
-      className={`${base} ${variants[variant]} ${className}`.trim()}
+      className={buttonClassNames(variant, className)}
       {...rest}
     >
       {children}

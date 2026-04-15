@@ -1,15 +1,18 @@
-/** Partner / developer names as typographic tiles (replace with real assets when available). */
-const PARTNERS = [
-  'Bankinter',
-  'Avante',
-  'Landed In Ibiza',
-  'Purigarcia',
-  'la Caixa',
-  'Sabadell',
-  'Ibiza Country Villas',
-  'Villacontact',
-  'Salut Labs',
+/** UAE-based developers — typographic stand-ins for logo marks (replace with real assets when available). */
+const PARTNERS_UAE = [
+  'Emaar',
+  'DAMAC',
+  'Nakheel',
+  'Meraas',
+  'Sobha Realty',
+  'Dubai Properties',
+  'Omniyat',
+  'Binghatti',
+  'Ellington',
+  'Select Group',
 ] as const
+
+const PARTNERS = PARTNERS_UAE
 
 function LogoTile({ name }: { name: string }) {
   return (
@@ -21,11 +24,19 @@ function LogoTile({ name }: { name: string }) {
   )
 }
 
-export function LogoMarqueeSection() {
+type MarqueeProps = {
+  id?: string
+  'aria-label'?: string
+}
+
+export function LogoMarqueeSection({
+  id = 'partner-marquee',
+  'aria-label': ariaLabel = 'Partner developers',
+}: MarqueeProps = {}) {
   const track = [...PARTNERS, ...PARTNERS]
 
   return (
-    <section aria-label="Partner developers" className="w-full">
+    <section id={id} aria-label={ariaLabel} className="w-full">
       <p className="sr-only">
         Partner network includes: {PARTNERS.join(', ')}.
       </p>

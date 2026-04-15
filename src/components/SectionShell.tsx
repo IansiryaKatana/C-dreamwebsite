@@ -2,7 +2,8 @@ import type { ElementType, ReactNode } from 'react'
 
 const variants = {
   cream: 'bg-cream text-ink',
-  terracotta: 'bg-terracotta text-cream',
+  /** No fill — inherits page (primary) surface; keeps cream type for contrast */
+  terracotta: 'bg-transparent text-cream',
 } as const
 
 export type SectionVariant = keyof typeof variants

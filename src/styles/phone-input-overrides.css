@@ -1,0 +1,83 @@
+/* react-phone-number-input — public property lead form */
+.phone-input--public.PhoneInput {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+  margin-top: 0.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(28, 20, 18, 0.15);
+  background: #fff;
+  padding: 0.125rem 0.25rem 0.125rem 0.5rem;
+  --PhoneInput-color--focus: #a67d32;
+  --PhoneInputCountrySelect-marginRight: 0.25rem;
+  --PhoneInputCountryFlag-height: 1.1rem;
+}
+
+.phone-input--public.PhoneInput--focus {
+  outline: 2px solid rgba(166, 125, 50, 0.35);
+  outline-offset: 1px;
+}
+
+.phone-input--public .PhoneInputInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  padding: 0.5rem 0.5rem 0.5rem 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: #1c1412;
+}
+
+.phone-input--public .PhoneInputInput::placeholder {
+  color: rgba(28, 20, 18, 0.4);
+}
+
+.phone-input--public .PhoneInputInput:focus {
+  outline: none;
+}
+
+.phone-input--public.PhoneInput[aria-invalid='true'] {
+  border-color: rgba(185, 28, 28, 0.55);
+}
+
+/* Admin CRM forms */
+.admin-portal .phone-input--admin.PhoneInput {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+  margin-top: 0.25rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(28, 20, 18, 0.15);
+  background: #fff;
+  padding: 0.125rem 0.35rem;
+  --PhoneInput-color--focus: var(--admin-primary, #a67d32);
+  --PhoneInputCountryFlag-height: 1rem;
+}
+
+.admin-portal .phone-input--admin.PhoneInput--focus {
+  outline: 2px solid color-mix(in srgb, var(--admin-primary) 35%, transparent);
+  outline-offset: 1px;
+}
+
+.admin-portal .phone-input--admin .PhoneInputInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.8125rem;
+  color: #1c1412;
+}
+
+@media (min-width: 768px) {
+  .admin-portal .phone-input--admin .PhoneInputInput {
+    font-size: 0.875rem;
+  }
+}
+
+.admin-portal .phone-input--admin .PhoneInputInput:focus {
+  outline: none;
+}

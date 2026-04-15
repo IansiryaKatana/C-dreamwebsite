@@ -6,7 +6,18 @@ function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
 }
 
-export function FollowLightSection() {
+type FollowProps = {
+  id?: string
+  'aria-label'?: string
+  /** Distinct `id` for the email field when two forms exist in the app. */
+  emailFieldId?: string
+}
+
+export function FollowLightSection({
+  id = 'book',
+  'aria-label': ariaLabel,
+  emailFieldId = 'subscribe-email',
+}: FollowProps = {}) {
   const [email, setEmail] = useState('')
   const [attempted, setAttempted] = useState(false)
 
@@ -26,44 +37,44 @@ export function FollowLightSection() {
     const body = encodeURIComponent(
       `Please add this email to private notes and listings updates:\n\n${trimmed}`,
     )
-    window.location.href = `mailto:hello@vip.estate?subject=${subj}&body=${body}`
+    window.location.href = `mailto:Hello@apitaldreamdubai.com?subject=${subj}&body=${body}`
   }
 
   return (
-    <SectionShell variant="cream" id="book">
-      <div className="flex w-full flex-col items-center gap-8 py-4 sm:gap-10 sm:py-8 md:flex-row md:items-center md:justify-between md:gap-10">
-        <div className="flex-1 text-center md:text-left">
+    <SectionShell variant="cream" id={id} aria-label={ariaLabel}>
+      <div className="flex w-full flex-col items-stretch gap-8 py-4 sm:gap-10 sm:py-8 md:flex-row md:items-center md:justify-between md:gap-10">
+        <div className="flex-1 min-w-0 text-left">
           <h2 className="type-heading-display type-heading-display--follow font-display font-semibold leading-tight text-ink">
             Follow the light.
           </h2>
-          <p className="mx-auto mt-3 max-w-xl font-light text-ink/70 md:mx-0">
+          <p className="mt-3 max-w-xl font-light text-ink/70">
             Tell us what you are looking for — we reply within one business day
             with a clear next step.
           </p>
         </div>
         <form
           onSubmit={handleSubmit}
-          className="flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row sm:items-start md:w-auto md:min-w-[min(100%,20rem)] md:max-w-xl md:shrink-0"
+          className="flex w-full max-w-xl flex-col gap-3 md:max-w-lg md:shrink-0 lg:max-w-xl"
           noValidate
         >
-          <div className="flex min-w-0 flex-1 flex-col gap-1">
-            <label htmlFor="subscribe-email" className="sr-only">
+          <div className="flex min-w-0 w-full flex-col gap-1.5">
+            <label htmlFor={emailFieldId} className="sr-only">
               Email address
             </label>
             <input
-              id="subscribe-email"
+              id={emailFieldId}
               name="email"
               type="email"
               autoComplete="email"
               inputMode="email"
-              placeholder="Email"
+              placeholder="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               aria-invalid={showError || undefined}
               aria-describedby={
-                showError ? 'subscribe-email-error' : undefined
+                showError ? `${emailFieldId}-error` : undefined
               }
-              className={`type-button w-full rounded-xl border bg-white/90 px-5 py-2.5 font-sans font-normal normal-case tracking-normal text-ink placeholder:text-ink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta/35 ${
+              className={`min-h-14 w-full rounded-xl border bg-white/90 px-6 py-3.5 text-lg leading-snug font-sans font-normal normal-case tracking-normal text-ink placeholder:text-ink/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta/35 sm:min-h-[3.75rem] ${
                 showError
                   ? 'border-terracotta'
                   : 'border-terracotta/35 focus-visible:border-terracotta/60'
@@ -71,7 +82,7 @@ export function FollowLightSection() {
             />
             {showError ? (
               <p
-                id="subscribe-email-error"
+                id={`${emailFieldId}-error`}
                 className="px-2 text-sm text-terracotta"
                 role="alert"
               >
@@ -83,10 +94,10 @@ export function FollowLightSection() {
           </div>
           <Button
             type="submit"
-            variant="outlineTerracotta"
-            className="w-full shrink-0 uppercase tracking-[0.18em] sm:mt-0 sm:w-auto"
+            variant="primary"
+            className="h-auto min-h-14 w-full whitespace-normal border border-ink px-5 py-3.5 text-center text-base font-medium normal-case leading-snug tracking-normal !bg-ink !text-cream shadow-sm hover:!border-ink hover:!bg-ink/88 hover:!text-cream focus-visible:!outline-cream/40"
           >
-            Join
+            Subscribe to newsletter
           </Button>
         </form>
       </div>

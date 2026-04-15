@@ -1,8 +1,16 @@
 import { SectionShell } from '../components/SectionShell'
 
-export function MissionSection() {
+type MissionProps = {
+  id?: string
+  'aria-label'?: string
+}
+
+export function MissionSection({
+  id = 'experiences',
+  'aria-label': ariaLabel,
+}: MissionProps = {}) {
   return (
-    <SectionShell variant="terracotta" id="experiences">
+    <SectionShell variant="terracotta" id={id} aria-label={ariaLabel}>
       <div className="mx-auto max-w-[min(100%,1440px)] py-4 sm:py-8">
         <h2 className="type-heading-mission font-statement max-w-4xl font-semibold leading-tight">
           We protect attention as carefully as capital.

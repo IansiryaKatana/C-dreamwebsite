@@ -1,24 +1,96 @@
-import { Menu, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { Button } from './Button'
+import clsx from 'clsx'
+import { ChevronDown, Menu, PanelRight, X } from 'lucide-react'
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
+import { useMediaQuery } from '../hooks/useMediaQuery'
+import { NavbarLocaleControls } from './NavbarLocaleControls'
 
-const navLinks = [
-  { label: 'Homes', href: '#homes' },
-  { label: 'Services', href: '#services' },
-  { label: 'About', href: '#about' },
-  { label: 'Experiences', href: '#experiences' },
-] as const
+type NavFlatItem = { type: 'link'; key: string; to: string; end?: boolean }
+type NavAboutItem = {
+  type: 'about'
+  aboutKey: string
+  aboutTo: string
+  teamKey: string
+  teamTo: string
+}
+type NavItem = NavFlatItem | NavAboutItem
+
+const navStructure: NavItem[] = [
+  { type: 'link', key: 'nav.home', to: '/', end: true },
+  { type: 'link', key: 'nav.allProperties', to: '/all-properties' },
+  { type: 'link', key: 'nav.newDevelopments', to: '/new-developments' },
+  { type: 'link', key: 'nav.forRent', to: '/for-rent' },
+  { type: 'link', key: 'nav.forSale', to: '/for-sale' },
+  {
+    type: 'about',
+    aboutKey: 'nav.about',
+    aboutTo: '/about',
+    teamKey: 'nav.team',
+    teamTo: '/team',
+  },
+  { type: 'link', key: 'nav.experiences', to: '/experiences' },
+  { type: 'link', key: 'nav.articles', to: '/articles' },
+  { type: 'link', key: 'nav.faq', to: '/faq' },
+]
+
+function teamPathActive(pathname: string, teamTo: string) {
+  return pathname === teamTo || pathname.startsWith(`${teamTo}/`)
+}
 
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
+  const { t } = useLocalePreferences()
+  const { pathname } = useLocation()
+  const isXl = useMediaQuery('(min-width: 1280px)')
+  const heroOverlayLayout = pathname === '/'
+  const [solidBar, setSolidBar] = useState(false)
   const [open, setOpen] = useState(false)
+  const centerSlotRef = useRef<HTMLDivElement>(null)
+  const measureUlRef = useRef<HTMLUListElement>(null)
+  const [desktopOverflow, setDesktopOverflow] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    const update = () => {
+      const y = window.scrollY
+      const vh = window.innerHeight
+      const pastHero = heroOverlayLayout ? y > vh * 0.95 - 56 : y > 12
+      setSolidBar(pastHero)
+    }
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [heroOverlayLayout])
+
+  useLayoutEffect(() => {
+    if (!isXl) {
+      setDesktopOverflow(false)
+      return
+    }
+    const slot = centerSlotRef.current
+    const measure = measureUlRef.current
+    if (!slot || !measure) return
+
+    const check = () => {
+      const needSheet = measure.offsetWidth > slot.clientWidth + 12
+      setDesktopOverflow(needSheet)
+    }
+    check()
+    const ro = new ResizeObserver(check)
+    ro.observe(slot)
+    window.addEventListener('resize', check)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('resize', check)
+    }
+  }, [isXl, pathname, t])
+
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
@@ -28,76 +100,167 @@ export function Navbar() {
   }, [open])
 
   const headerBar =
-    scrolled && !open
+    solidBar && !open
       ? 'border-b border-white/15 bg-terracotta/35 shadow-sm backdrop-blur-xl backdrop-saturate-150'
       : 'border-b border-transparent bg-transparent'
 
   const linkClass =
-    'type-nav-link font-display font-medium uppercase tracking-[0.26em] text-cream/95 hover:text-white'
+    'type-nav-link font-display font-medium uppercase tracking-[0.16em] text-cream/95 sm:tracking-[0.2em] lg:tracking-[0.14em] xl:tracking-[0.18em]'
+
+  const showInlineDesktop = isXl && !desktopOverflow
+  const showMenuControl = !isXl || desktopOverflow
+  const desktopSheet = isXl && desktopOverflow && open
+  const mobileOverlay = !isXl && open
+
+  const measureSpanClass = clsx(
+    linkClass,
+    'inline-block whitespace-nowrap px-3 py-2 sm:px-3.5 sm:py-2',
+  )
 
   return (
     <header
-      className={`sticky top-0 z-[100] w-full transition-[background-color,backdrop-filter,box-shadow,border-color] duration-300 ${headerBar}`}
+      className={clsx(
+        'top-0 z-[100] w-full transition-[background-color,backdrop-filter,box-shadow,border-color] duration-300',
+        heroOverlayLayout ? 'fixed left-0 right-0' : 'sticky top-0',
+        headerBar,
+      )}
     >
       <nav
-        className="relative mx-auto flex w-full max-w-[min(100%,1600px)] items-center justify-between gap-3 px-4 py-3.5 text-cream [text-shadow:0_1px_2px_rgba(28,20,18,0.45)] sm:gap-4 sm:px-6 sm:py-4 lg:px-10"
+        className="flex w-full min-w-0 items-center justify-between gap-2 px-4 py-3.5 text-cream [text-shadow:0_1px_2px_rgba(28,20,18,0.45)] sm:gap-3 sm:px-6 sm:py-4 xl:gap-4 xl:px-6 2xl:px-10"
         aria-label="Main"
       >
-        <a
-          href="#"
-          className="type-wordmark-nav font-brand max-w-[46%] font-bold uppercase tracking-[0.06em] sm:max-w-none"
+        <Link
+          to="/"
+          className="type-wordmark-nav font-brand z-10 max-w-[46%] shrink-0 font-bold uppercase tracking-[0.06em] sm:max-w-none"
+          onClick={() => setOpen(false)}
         >
           Capital Dream
-        </a>
+        </Link>
 
-        <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 lg:flex xl:gap-10">
-          {navLinks.map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
-                className={`${linkClass} transition`}
-              >
-                {l.label}
-              </a>
-            </li>
-          ))}
+        {/* Width sample for overflow detection (xl+) */}
+        <ul
+          ref={measureUlRef}
+          className="pointer-events-none fixed left-0 top-0 z-[-1] flex w-max flex-nowrap items-center gap-x-0.5 opacity-0 xl:gap-x-1.5"
+          aria-hidden
+        >
+          {navStructure.map((item) =>
+            item.type === 'link' ? (
+              <li key={item.to} className="shrink-0">
+                <span className={measureSpanClass}>{t(item.key)}</span>
+              </li>
+            ) : (
+              <li key={item.aboutTo} className="shrink-0">
+                <span className={measureSpanClass}>{t(item.aboutKey)}</span>
+              </li>
+            ),
+          )}
         </ul>
 
-        <div className="flex shrink-0 items-center gap-2">
-          <Button
-            type="button"
-            variant="whiteSolid"
-            className="type-nav-cta hidden px-5 py-2 font-semibold uppercase tracking-[0.2em] lg:inline-flex"
-            onClick={() => {
-              document.getElementById('book')?.scrollIntoView({
-                behavior: 'smooth',
-              })
-            }}
-          >
-            Book
-          </Button>
-          <button
-            type="button"
-            className="rounded-full p-2 text-cream lg:hidden"
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            onClick={() => setOpen((v) => !v)}
-          >
-            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+        <div
+          ref={centerSlotRef}
+          className={clsx(
+            'min-h-0 min-w-0 flex-1',
+            showInlineDesktop ? 'flex justify-center' : 'hidden xl:flex xl:justify-center',
+          )}
+        >
+          {showInlineDesktop ? (
+            <ul className="flex min-w-0 max-w-full flex-nowrap items-center justify-center gap-x-0.5 xl:gap-x-1.5">
+              {navStructure.map((item) =>
+                item.type === 'link' ? (
+                  <li key={item.to} className="shrink-0">
+                    <NavLink
+                      to={item.to}
+                      end={Boolean(item.end)}
+                      className={({ isActive }) =>
+                        clsx(
+                          linkClass,
+                          'inline-block whitespace-nowrap rounded-md px-3 py-2 transition-colors sm:px-3.5 sm:py-2',
+                          isActive && 'bg-white/20 text-white',
+                          !isActive && 'hover:text-white',
+                        )
+                      }
+                    >
+                      {t(item.key)}
+                    </NavLink>
+                  </li>
+                ) : (
+                  <li key={item.aboutTo} className="group relative shrink-0">
+                    <NavLink
+                      to={item.aboutTo}
+                      end
+                      className={({ isActive }) => {
+                        const teamOn = teamPathActive(pathname, item.teamTo)
+                        return clsx(
+                          linkClass,
+                          'inline-flex items-center gap-1 whitespace-nowrap rounded-md px-3 py-2 transition-colors sm:px-3.5 sm:py-2',
+                          (isActive || teamOn) && 'bg-white/20 text-white',
+                          !isActive && !teamOn && 'hover:text-white',
+                        )
+                      }}
+                    >
+                      {t(item.aboutKey)}
+                      <ChevronDown className="size-3.5 shrink-0 opacity-90" aria-hidden />
+                    </NavLink>
+                    <div className="pointer-events-none invisible absolute left-0 top-full z-[120] mt-1 min-w-[11rem] rounded-lg border border-white/20 bg-terracotta/95 py-1.5 opacity-0 shadow-lg transition-[opacity,visibility] duration-150 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:opacity-100">
+                      <NavLink
+                        to={item.teamTo}
+                        className={({ isActive }) =>
+                          clsx(
+                            linkClass,
+                            'block whitespace-nowrap px-4 py-2.5 text-[0.7rem] transition-colors sm:text-[0.72rem]',
+                            isActive && 'bg-white/15 text-white',
+                            !isActive && 'hover:bg-white/10 hover:text-white',
+                          )
+                        }
+                      >
+                        {t(item.teamKey)}
+                      </NavLink>
+                    </div>
+                  </li>
+                ),
+              )}
+            </ul>
+          ) : null}
+        </div>
+
+        <div className="z-10 flex shrink-0 items-center gap-2">
+          <NavbarLocaleControls
+            className={clsx(!showInlineDesktop && isXl ? 'inline-flex' : 'hidden xl:inline-flex')}
+          />
+          {showMenuControl ? (
+            <button
+              type="button"
+              className="rounded-full p-2 text-cream xl:p-2.5"
+              aria-expanded={open}
+              aria-controls="site-nav-sheet"
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              onClick={() => setOpen((v) => !v)}
+            >
+              {open ? (
+                <X className="h-6 w-6" />
+              ) : isXl && desktopOverflow ? (
+                <PanelRight className="h-6 w-6" strokeWidth={1.75} />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          ) : null}
         </div>
       </nav>
 
+      {/* Mobile / tablet: full-screen menu */}
       <div
-        id="mobile-nav"
-        className={`fixed inset-0 z-[200] flex flex-col bg-terracotta/97 text-cream backdrop-blur-md transition lg:hidden ${
-          open
+        id="site-nav-sheet"
+        className={clsx(
+          'fixed inset-0 z-[200] flex flex-col bg-terracotta/97 text-cream backdrop-blur-md transition xl:hidden',
+          mobileOverlay
             ? 'pointer-events-auto opacity-100'
-            : 'pointer-events-none opacity-0'
-        }`}
-        aria-hidden={!open}
+            : 'pointer-events-none opacity-0',
+        )}
+        aria-hidden={!mobileOverlay}
       >
-        <div className="flex items-center justify-end px-4 pt-3 sm:px-6">
+        <div className="flex items-center justify-between gap-3 px-4 pt-3 sm:px-6">
+          <NavbarLocaleControls />
           <button
             type="button"
             className="rounded-full p-3 text-cream"
@@ -108,33 +271,159 @@ export function Navbar() {
           </button>
         </div>
         <div className="flex flex-1 flex-col gap-1 overflow-y-auto px-6 pb-10 pt-4">
-          {navLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className={`${linkClass} rounded-xl px-3 py-4 hover:bg-white/10`}
-              onClick={() => setOpen(false)}
-            >
-              {l.label}
-            </a>
-          ))}
-          <div className="mt-8">
-            <Button
-              type="button"
-              variant="creamOnTerracotta"
-              className="w-full uppercase tracking-[0.2em]"
-              onClick={() => {
-                setOpen(false)
-                document.getElementById('book')?.scrollIntoView({
-                  behavior: 'smooth',
-                })
-              }}
-            >
-              Book
-            </Button>
-          </div>
+          {navStructure.map((item) =>
+            item.type === 'link' ? (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={Boolean(item.end)}
+                className={({ isActive }) =>
+                  clsx(
+                    linkClass,
+                    'rounded-xl px-3 py-4 transition-colors',
+                    isActive && 'bg-white/20 text-white',
+                    !isActive && 'hover:bg-white/10',
+                  )
+                }
+                onClick={() => setOpen(false)}
+              >
+                {t(item.key)}
+              </NavLink>
+            ) : (
+              <Fragment key={item.aboutTo}>
+                <NavLink
+                  to={item.aboutTo}
+                  end
+                  className={({ isActive }) =>
+                    clsx(
+                      linkClass,
+                      'rounded-xl px-3 py-4 transition-colors',
+                      isActive && 'bg-white/20 text-white',
+                      !isActive && 'hover:bg-white/10',
+                    )
+                  }
+                  onClick={() => setOpen(false)}
+                >
+                  {t(item.aboutKey)}
+                </NavLink>
+                <NavLink
+                  to={item.teamTo}
+                  className={({ isActive }) =>
+                    clsx(
+                      linkClass,
+                      '-mt-1 ml-3 rounded-xl border-l border-white/20 py-3 pl-5 pr-3 transition-colors',
+                      isActive && 'bg-white/20 text-white',
+                      !isActive && 'hover:bg-white/10',
+                    )
+                  }
+                  onClick={() => setOpen(false)}
+                >
+                  {t(item.teamKey)}
+                </NavLink>
+              </Fragment>
+            ),
+          )}
         </div>
       </div>
+
+      {/* Desktop (xl+): slide-in sheet when nav does not fit */}
+      {desktopSheet ? (
+        <>
+          <button
+            type="button"
+            className="fixed inset-0 z-[199] bg-ink/40 backdrop-blur-[2px]"
+            aria-label="Close menu"
+            onClick={() => setOpen(false)}
+          />
+          <div
+            className="fixed inset-y-0 right-0 z-[200] flex w-[min(100vw-1rem,22rem)] flex-col border-l border-white/15 bg-terracotta/98 py-4 text-cream shadow-2xl backdrop-blur-xl motion-safe:animate-[navSheetIn_0.28s_ease-out]"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site menu"
+          >
+            <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 pb-3">
+              <p className="type-nav-link font-display text-xs font-semibold uppercase tracking-[0.2em] text-cream/90">
+                Menu
+              </p>
+              <button
+                type="button"
+                className="rounded-full p-2 text-cream"
+                onClick={() => setOpen(false)}
+                aria-label="Close menu"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            <div className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-3 pb-8 pt-4">
+              {navStructure.map((item) =>
+                item.type === 'link' ? (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    end={Boolean(item.end)}
+                    className={({ isActive }) =>
+                      clsx(
+                        linkClass,
+                        'rounded-xl px-3 py-3.5 transition-colors',
+                        isActive && 'bg-white/20 text-white',
+                        !isActive && 'hover:bg-white/10',
+                      )
+                    }
+                    onClick={() => setOpen(false)}
+                  >
+                    {t(item.key)}
+                  </NavLink>
+                ) : (
+                  <Fragment key={item.aboutTo}>
+                    <NavLink
+                      to={item.aboutTo}
+                      end
+                      className={({ isActive }) =>
+                        clsx(
+                          linkClass,
+                          'rounded-xl px-3 py-3.5 transition-colors',
+                          isActive && 'bg-white/20 text-white',
+                          !isActive && 'hover:bg-white/10',
+                        )
+                      }
+                      onClick={() => setOpen(false)}
+                    >
+                      {t(item.aboutKey)}
+                    </NavLink>
+                    <NavLink
+                      to={item.teamTo}
+                      className={({ isActive }) =>
+                        clsx(
+                          linkClass,
+                          '-mt-0.5 ml-2 rounded-xl border-l border-white/20 py-2.5 pl-4 pr-3 transition-colors',
+                          isActive && 'bg-white/20 text-white',
+                          !isActive && 'hover:bg-white/10',
+                        )
+                      }
+                      onClick={() => setOpen(false)}
+                    >
+                      {t(item.teamKey)}
+                    </NavLink>
+                  </Fragment>
+                ),
+              )}
+            </div>
+          </div>
+        </>
+      ) : null}
+
+      <style>{`
+        @keyframes navSheetIn {
+          from {
+            transform: translateX(100%);
+            opacity: 0.85;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+      `}</style>
     </header>
   )
 }

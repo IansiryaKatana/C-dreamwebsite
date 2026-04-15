@@ -6,6 +6,8 @@ type Props = {
   align?: 'left' | 'center'
   bg?: Bg
   className?: string
+  /** Single-line ellipsis when the title shares a row with controls (e.g. carousel). */
+  truncateTitle?: boolean
 }
 
 const bgTitle: Record<Bg, string> = {
@@ -24,12 +26,15 @@ export function SectionHeader({
   align = 'left',
   bg = 'cream',
   className = '',
+  truncateTitle = false,
 }: Props) {
   const alignCls = align === 'center' ? 'text-center mx-auto' : 'text-left'
   return (
-    <header className={`max-w-4xl ${alignCls} ${className}`.trim()}>
+    <header
+      className={`max-w-4xl ${alignCls} ${truncateTitle ? 'min-w-0 max-w-full' : ''} ${className}`.trim()}
+    >
       <h2
-        className={`type-section-header font-display font-semibold tracking-tight ${bgTitle[bg]}`}
+        className={`type-section-header font-display font-semibold tracking-tight ${bgTitle[bg]} ${truncateTitle ? 'truncate' : ''}`.trim()}
       >
         {title}
       </h2>

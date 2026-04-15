@@ -1,0 +1,9 @@
+/* @react-bits/Noise-JS-CSS — full-viewport grain behind page content */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}

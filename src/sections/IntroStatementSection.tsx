@@ -1,15 +1,24 @@
 import { Button } from '../components/Button'
+import { ImagePrimaryOverlay } from '../components/ImagePrimaryOverlay'
 import { SectionShell } from '../components/SectionShell'
 
 const lifestyle =
-  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=640&h=960&q=85'
+  'https://images.pexels.com/photos/8319486/pexels-photo-8319486.jpeg'
 
-export function IntroStatementSection() {
+type IntroProps = {
+  id?: string
+  'aria-label'?: string
+}
+
+export function IntroStatementSection({
+  id = 'intro-statement',
+  'aria-label': ariaLabel,
+}: IntroProps = {}) {
   return (
-    <SectionShell variant="terracotta" id="about">
+    <SectionShell variant="terracotta" id={id} aria-label={ariaLabel}>
       <div className="mx-auto max-w-[min(100%,1440px)] py-4 sm:py-8">
-        <h2 className="type-heading-statement font-statement text-center font-semibold leading-tight">
-          A quieter way to move in Ibiza &amp; the Balearics.
+        <h2 className="type-heading-statement font-statement text-left font-semibold leading-tight">
+          A quieter way to move into the UAE Real Estate Market
         </h2>
 
         <div className="mt-12 flex flex-col gap-10 md:mt-14 md:flex-row md:items-start md:gap-12 lg:gap-16">
@@ -18,11 +27,12 @@ export function IntroStatementSection() {
               <img
                 src={lifestyle}
                 alt="Friends at a table"
-                className="absolute inset-0 h-full w-full object-cover object-center"
+                className="absolute inset-0 z-0 h-full w-full object-cover object-center"
                 width={640}
                 height={960}
                 loading="lazy"
               />
+              <ImagePrimaryOverlay />
             </div>
           </div>
           <div className="flex-1 text-center md:text-left">
