@@ -83,9 +83,9 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-7 lg:gap-x-4 xl:gap-x-6 2xl:gap-x-8">
           <div className="min-w-0 sm:col-span-2 lg:col-span-1">
             <img
-              src="/LOGO%20NO%20ICON.png"
+              src="/LOGO%20VERTICAL.png"
               alt="Capital Dream"
-              className="h-7 w-auto object-contain sm:h-8"
+              className="h-32 w-auto object-contain sm:h-32"
               loading="lazy"
               decoding="async"
             />
