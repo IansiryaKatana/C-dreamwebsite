@@ -116,16 +116,37 @@
   }
 }
 
+@keyframes about-lifestyle-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .faq-card-reveal {
     opacity: 0;
     animation: faq-card-reveal 0.48s ease forwards;
+  }
+
+  .about-lifestyle-reveal {
+    opacity: 0;
+    animation: about-lifestyle-reveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .faq-card-reveal {
     opacity: 1;
+  }
+
+  .about-lifestyle-reveal {
+    opacity: 1;
+    transform: none;
   }
 }
 

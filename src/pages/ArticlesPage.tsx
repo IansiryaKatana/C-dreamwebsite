@@ -32,7 +32,7 @@ export function ArticlesPage() {
             <h1 className="type-section-header font-display tracking-[0.02em] text-terracotta">
               Articles
             </h1>
-            <p className="mt-3 max-w-3xl text-[length:var(--brand-font-body-lg)] leading-relaxed text-terracotta/90">
+            <p className="mt-3 max-w-3xl text-[0.9375rem] leading-relaxed text-terracotta/90 sm:text-[length:var(--brand-font-body-lg)]">
               Market context, regulation updates, and places we love as residents — short reads you
               can scan in a few minutes.
             </p>

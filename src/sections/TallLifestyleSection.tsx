@@ -42,7 +42,9 @@ export function TallLifestyleSection({
       compactMobilePad
     >
       <div className="w-full py-1 sm:py-2">
-        <div className="relative w-full overflow-hidden rounded-[1.125rem] [aspect-ratio:4/5] max-h-[min(92vh,980px)] min-h-[280px] sm:min-h-[380px] lg:[aspect-ratio:16/9] lg:min-h-[620px]">
+        <div
+          className={`relative w-full overflow-hidden rounded-[1.125rem] [aspect-ratio:4/5] max-h-[min(92vh,980px)] min-h-[280px] sm:min-h-[380px] lg:[aspect-ratio:16/9] lg:min-h-[620px] ${showServicesOverlay ? 'about-lifestyle-reveal' : ''}`}
+        >
           <img
             src={photo}
             alt="Group seated on a large outdoor sofa"

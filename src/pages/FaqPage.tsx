@@ -95,7 +95,7 @@ export function FaqPage() {
         style={{ backgroundColor: panelBg, color: panelInk }}
       >
         <div className="grid w-full min-w-0 grid-cols-1 gap-8 lg:grid-cols-[minmax(0,30%)_minmax(0,1fr)] lg:gap-x-10 xl:gap-x-14 2xl:gap-x-20">
-          <div className="flex justify-end lg:col-span-2">
+          <div className="hidden justify-end lg:col-span-2 lg:flex">
             <Link
               to="/"
               className="type-button font-display rounded-xl border border-[#6B3B34]/35 px-5 py-2.5 font-medium text-terracotta transition hover:bg-[#6B3B34]/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6B3B34]/40"
