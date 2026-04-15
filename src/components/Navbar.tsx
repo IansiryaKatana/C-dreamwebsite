@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { ChevronDown, Menu, PanelRight, X } from 'lucide-react'
+import { ArrowUpRight, ChevronDown, Menu, PanelRight, X } from 'lucide-react'
 import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
@@ -258,77 +258,99 @@ export function Navbar() {
       <div
         id="site-nav-sheet"
         className={clsx(
-          'fixed inset-0 z-[200] flex flex-col bg-terracotta/97 text-cream backdrop-blur-md transition xl:hidden',
+          'fixed inset-0 z-[200] xl:hidden',
           mobileOverlay
-            ? 'pointer-events-auto opacity-100'
-            : 'pointer-events-none opacity-0',
+            ? 'pointer-events-auto'
+            : 'pointer-events-none',
         )}
         aria-hidden={!mobileOverlay}
       >
-        <div className="flex items-center justify-between gap-3 px-4 pt-3 sm:px-6">
-          <NavbarLocaleControls />
-          <button
-            type="button"
-            className="rounded-full p-3 text-cream"
-            onClick={() => setOpen(false)}
-            aria-label="Close menu"
-          >
-            <X className="h-6 w-6" />
-          </button>
-        </div>
-        <div className="flex flex-1 flex-col gap-1 overflow-y-auto px-6 pb-10 pt-4">
-          {navStructure.map((item) =>
-            item.type === 'link' ? (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={Boolean(item.end)}
-                className={({ isActive }) =>
-                  clsx(
-                    linkClass,
-                    'rounded-xl px-3 py-4 transition-colors',
-                    isActive && 'bg-white/20 text-white',
-                    !isActive && 'hover:bg-white/10',
-                  )
-                }
-                onClick={() => setOpen(false)}
-              >
-                {t(item.key)}
-              </NavLink>
-            ) : (
-              <Fragment key={item.aboutTo}>
-                <NavLink
-                  to={item.aboutTo}
-                  end
-                  className={({ isActive }) =>
-                    clsx(
-                      linkClass,
-                      'rounded-xl px-3 py-4 transition-colors',
-                      isActive && 'bg-white/20 text-white',
-                      !isActive && 'hover:bg-white/10',
-                    )
-                  }
-                  onClick={() => setOpen(false)}
-                >
-                  {t(item.aboutKey)}
-                </NavLink>
-                <NavLink
-                  to={item.teamTo}
-                  className={({ isActive }) =>
-                    clsx(
-                      linkClass,
-                      '-mt-1 ml-3 rounded-xl border-l border-white/20 py-3 pl-5 pr-3 transition-colors',
-                      isActive && 'bg-white/20 text-white',
-                      !isActive && 'hover:bg-white/10',
-                    )
-                  }
-                  onClick={() => setOpen(false)}
-                >
-                  {t(item.teamKey)}
-                </NavLink>
-              </Fragment>
-            ),
+        <button
+          type="button"
+          className={clsx(
+            'absolute inset-0 bg-black/55 backdrop-blur-[2px] transition-opacity duration-300',
+            mobileOverlay ? 'opacity-100' : 'opacity-0',
           )}
+          aria-label="Close menu"
+          onClick={() => setOpen(false)}
+        />
+        <div
+          className={clsx(
+            'absolute inset-y-0 right-0 flex w-[min(100vw,24rem)] flex-col bg-black text-cream shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]',
+            mobileOverlay ? 'translate-x-0' : 'translate-x-full',
+          )}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site menu"
+        >
+          <div className="flex items-center justify-between gap-3 border-b border-dashed border-white/25 px-4 py-3 sm:px-5">
+            <NavbarLocaleControls />
+            <button
+              type="button"
+              className="rounded-xl border border-white/20 bg-terracotta/20 p-3 text-cream transition-colors hover:bg-terracotta/35"
+              onClick={() => setOpen(false)}
+              aria-label="Close menu"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
+          <div className="flex flex-1 flex-col overflow-y-auto px-4 pb-8 pt-2 sm:px-5">
+            {navStructure.map((item) =>
+              item.type === 'link' ? (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  end={Boolean(item.end)}
+                  className={({ isActive }) =>
+                    clsx(
+                      linkClass,
+                      'flex origin-left transform-gpu items-center justify-between border-b border-dashed border-white/25 py-5 text-left text-cream/95 transition-[transform,color,font-weight] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform',
+                      isActive && 'scale-[1.4] text-white font-semibold',
+                      !isActive && 'hover:scale-[1.4] hover:text-white hover:font-semibold',
+                    )
+                  }
+                  onClick={() => setOpen(false)}
+                >
+                  <span>{t(item.key)}</span>
+                  <ArrowUpRight aria-hidden className="size-5 shrink-0" />
+                </NavLink>
+              ) : (
+                <Fragment key={item.aboutTo}>
+                  <NavLink
+                    to={item.aboutTo}
+                    end
+                    className={({ isActive }) =>
+                      clsx(
+                        linkClass,
+                        'flex origin-left transform-gpu items-center justify-between border-b border-dashed border-white/25 py-5 text-left text-cream/95 transition-[transform,color,font-weight] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform',
+                        isActive && 'scale-[1.4] text-white font-semibold',
+                        !isActive && 'hover:scale-[1.4] hover:text-white hover:font-semibold',
+                      )
+                    }
+                    onClick={() => setOpen(false)}
+                  >
+                    <span>{t(item.aboutKey)}</span>
+                    <ArrowUpRight aria-hidden className="size-5 shrink-0" />
+                  </NavLink>
+                  <NavLink
+                    to={item.teamTo}
+                    className={({ isActive }) =>
+                      clsx(
+                        linkClass,
+                        'flex origin-left transform-gpu items-center justify-between border-b border-dashed border-white/25 py-5 text-left text-cream/95 transition-[transform,color,font-weight] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform',
+                        isActive && 'scale-[1.4] text-white font-semibold',
+                        !isActive && 'hover:scale-[1.4] hover:text-white hover:font-semibold',
+                      )
+                    }
+                    onClick={() => setOpen(false)}
+                  >
+                    <span>{t(item.teamKey)}</span>
+                    <ArrowUpRight aria-hidden className="size-5 shrink-0" />
+                  </NavLink>
+                </Fragment>
+              ),
+            )}
+          </div>
         </div>
       </div>
 

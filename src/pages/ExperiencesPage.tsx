@@ -40,13 +40,13 @@ export function ExperiencesPage() {
               <h1 className="type-section-header font-display tracking-[0.02em] text-terracotta">
                 {t('nav.experiences')}
               </h1>
-              <p className="mt-3 max-w-3xl text-[length:var(--brand-font-body-lg)] leading-relaxed text-terracotta/90">
+              <p className="mt-3 max-w-3xl text-[0.9375rem] leading-relaxed text-terracotta/90 sm:text-[length:var(--brand-font-body-lg)]">
                 {t('experiences.intro')}
               </p>
             </div>
             <Link
               to="/about#about-services"
-              className="type-button font-display ml-auto shrink-0 self-start rounded-xl bg-black px-5 py-2.5 font-medium text-white transition hover:bg-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
+              className="type-button font-display shrink-0 self-start rounded-xl bg-black px-5 py-2.5 font-medium text-white transition hover:bg-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 sm:ml-auto"
             >
               {t('experiences.ctaServices')}
             </Link>
