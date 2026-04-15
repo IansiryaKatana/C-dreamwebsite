@@ -30,7 +30,7 @@ const detailsBySlug: Record<
     sections: ArticleBodySection[]
   }
 > = {
-  'ibiza-price-index-q1': {
+  'dubai-price-index-q1': {
     dateLong: '12 March 2026',
     lastUpdated: '11 March 2026',
     toc: [
@@ -40,13 +40,13 @@ const detailsBySlug: Record<
         label: 'What is driving asking prices?',
         subItems: [
           { id: 'drivers-stock', label: 'Stock levels and new instructions' },
-          { id: 'drivers-foreign', label: 'Foreign demand and seasonality' },
+          { id: 'drivers-foreign', label: 'Cross-border demand and timing' },
         ],
       },
       {
         id: 'regulation',
         label: 'Why regulation did not cool headline numbers',
-        subItems: [{ id: 'regulation-rental', label: 'Rental rules and the sales market' }],
+        subItems: [{ id: 'regulation-rental', label: 'Rental rules and resale positioning' }],
       },
       { id: 'policies', label: 'Policies most likely to shape 2026' },
       { id: 'outlook', label: 'The bigger picture for buyers' },
@@ -56,57 +56,57 @@ const detailsBySlug: Record<
         id: 'what-measured',
         heading: 'What we measured this quarter',
         paragraphs: [
-          'Registered transactions across the Pitiusas remained uneven: coastal municipalities saw firmer volumes than inland parishes, while the upper segment continued to trade on longer timelines with fewer, larger deals.',
-          'We compared asking trajectories on comparable stock against last year’s agreed levels where disclosure allows. The spread between list and achieved pricing narrowed slightly in several postcodes, which usually signals more serious sellers entering the market.',
+          'Registered transactions across Dubai remained uneven by micro-market: waterfront and established villa communities held firmer volumes, while some outer-growth pockets required longer marketing periods.',
+          'We compared asking trajectories on like-for-like stock against recently recorded transaction bands. The spread between list and achieved pricing narrowed in key submarkets, which often signals more realistic seller expectations.',
         ],
       },
       {
         id: 'drivers',
         heading: 'What is driving asking prices?',
         paragraphs: [
-          'Two forces dominated the winter data: constrained quality stock in walk-to-sea locations, and buyers who are willing to wait for the right asset rather than chase marginal listings.',
+          'Two forces dominated this cycle: constrained quality inventory in proven communities, and buyers who are increasingly selective on build quality, service charges, and exit liquidity.',
         ],
       },
       {
         id: 'drivers-stock',
         heading: 'Stock levels and new instructions',
         paragraphs: [
-          'New instructions of renovated villas picked up after the new year, but turnkey homes in prime calas remain scarce. That scarcity supports list prices even when headline indices look flat.',
+          'New instructions improved after year-end, but genuinely turnkey homes in prime Dubai districts remain limited. That scarcity supports pricing power even when citywide indices look flat.',
         ],
       },
       {
         id: 'drivers-foreign',
-        heading: 'Foreign demand and seasonality',
+        heading: 'Cross-border demand and timing',
         paragraphs: [
-          'Early enquiries from northern European buyers ran ahead of the same week in 2025. Many are pre-booking viewings around Easter, which suggests a compressed but active spring window.',
+          'Cross-border enquiries from Europe, Asia, and Africa remained resilient, with many buyers planning short, high-intent viewing windows. Prepared inventory and clear documentation continue to win those mandates.',
         ],
       },
       {
         id: 'regulation',
         heading: 'Why regulation did not cool headline numbers',
         paragraphs: [
-          'Compliance costs and licensing timelines affect development margins more than they reset existing owner expectations. In practice, sellers of finished homes still anchor to recent comparable asks unless personal circumstances force a discount.',
+          'Compliance costs and registration requirements shape execution timelines more than they reset owner expectations. In practice, sellers still anchor to recent comparables unless speed becomes a priority.',
         ],
       },
       {
         id: 'regulation-rental',
-        heading: 'Rental rules and the sales market',
+        heading: 'Rental rules and resale positioning',
         paragraphs: [
-          'Tighter short-stay oversight can influence buy-to-let underwriting, but owner-occupier and second-home buyers remain the marginal price setters in the segments we track most closely.',
+          'Tighter short-stay enforcement can influence buy-to-let underwriting, but owner-occupier and long-hold investors remain key price setters in prime UAE segments.',
         ],
       },
       {
         id: 'policies',
         heading: 'Policies most likely to shape 2026',
         paragraphs: [
-          'Municipal infrastructure plans and water-use scrutiny are now part of standard due diligence. Buyers who model operating costs early tend to transact with fewer surprises at notary.',
+          'Infrastructure delivery, service-charge governance, and regulatory transparency now sit at the core of due diligence. Buyers who model running costs early close with fewer surprises.',
         ],
       },
       {
         id: 'outlook',
         heading: 'The bigger picture for buyers',
         paragraphs: [
-          'If you are underwriting a purchase today, we favour discipline on renovation budgets and conservative rental assumptions. The market rewards prepared buyers who can move when the right plan appears — not those stretching for “just acceptable” stock.',
+          'If you are underwriting a purchase today, we favor discipline on capex assumptions and conservative rental projections. The market rewards prepared buyers who can move quickly on high-quality stock.',
         ],
       },
     ],
@@ -132,57 +132,57 @@ const detailsBySlug: Record<
         id: 'scope',
         heading: 'What changed and who it affects',
         paragraphs: [
-          'Recent guidance emphasises alignment between advertised use, municipal classification, and energy performance documentation. Owners should treat marketing copy as part of the compliance file, not an afterthought.',
+          'Recent UAE guidance emphasizes alignment between advertised use, registration status, and authority requirements. Owners should treat listing copy and lease terms as part of the compliance file, not an afterthought.',
         ],
       },
       {
         id: 'short-stays',
         heading: 'Short stays and holiday use',
         paragraphs: [
-          'Expect more consistent questions from registrars and insurers about intended occupancy. If your asset alternates between owner weeks and guest stays, keep calendars and contracts coherent.',
+          'Expect more structured checks from regulators and insurers on occupancy intent and licensing status. If a property alternates between owner use and short stays, documentation consistency is essential.',
         ],
       },
       {
         id: 'licences',
-        heading: 'Licences and municipal registers',
+        heading: 'Licences and authority registers',
         paragraphs: [
-          'Where a licence or habitability certificate is pending renewal, disclose timelines in writing. Buyers increasingly discount offers when administrative loose ends are opaque.',
+          'Where approvals are pending renewal, disclose timelines in writing. Buyers and tenants increasingly discount value when compliance timelines are unclear.',
         ],
       },
       {
         id: 'platforms',
         heading: 'Platforms and reporting',
         paragraphs: [
-          'Listing platforms are not a substitute for local rules. A compliant description in one jurisdiction can still miss a Pitiusas-specific requirement — verify with your gestor before going live.',
+          'Listing platforms are not a substitute for UAE rules. A compliant setup in one emirate may still miss local authority requirements, so validate before publishing.',
         ],
       },
       {
         id: 'long-lets',
         heading: 'Long-term rentals',
         paragraphs: [
-          'Annual contracts and indexation clauses deserve a fresh read with counsel. Small drafting errors create outsized disputes when tenants hold cost-of-living concerns.',
+          'Annual contracts and rent-adjustment clauses should be reviewed carefully with counsel. Small drafting mistakes can create major disputes at renewal.',
         ],
       },
       {
         id: 'checklist',
         heading: 'Owner checklist before listing',
         paragraphs: [
-          'Gather: escritura excerpts, IBI receipts, community statutes, touristic licence status (if any), and a simple timeline of works. This bundle accelerates serious enquiries and reduces renegotiation risk.',
+          'Gather title documents, service-charge records, authority approvals, utility history, and a clear works timeline. This bundle accelerates serious enquiries and reduces renegotiation risk.',
         ],
       },
     ],
   },
-  'santa-eulalia-neighbourhood-notes': {
+  'jumeirah-neighbourhood-notes': {
     dateLong: '22 February 2026',
     lastUpdated: '20 February 2026',
     toc: [
-      { id: 'daily', label: 'Daily rhythm and conveniences' },
+      { id: 'daily', label: 'Daily rhythm and conveniences in Jumeirah' },
       {
-        id: 'calas',
-        label: 'Calas and beaches within reach',
+        id: 'beaches',
+        label: 'Beach access and mobility',
         subItems: [
-          { id: 'north', label: 'North-east coves' },
-          { id: 'family', label: 'Family-friendly stretches' },
+          { id: 'coastline', label: 'Coastline access points' },
+          { id: 'family', label: 'Family-friendly zones' },
         ],
       },
       { id: 'schools', label: 'Schools and services' },
@@ -191,97 +191,97 @@ const detailsBySlug: Record<
     sections: [
       {
         id: 'daily',
-        heading: 'Daily rhythm and conveniences',
+        heading: 'Daily rhythm and conveniences in Jumeirah',
         paragraphs: [
-          'Santa Eulària balances marina life with hillside quiet. Mornings tend to move at a civilised pace: cafès along the promenade fill first, then the inland roads pick up as teams head to country fincas.',
+          'Jumeirah balances low-rise residential calm with high-access city living. Morning traffic patterns and school runs matter more than map distance when clients are choosing between micro-zones.',
         ],
       },
       {
-        id: 'calas',
-        heading: 'Calas and beaches within reach',
+        id: 'beaches',
+        heading: 'Beach access and mobility',
         paragraphs: [
-          'You are never far from water, but access styles differ. Some calas reward an early arrival; others stay comfortable through midday if you favour shade and a short swim.',
+          'Beach proximity is strong across much of Jumeirah, but practical access differs by street network, parking, and public entry points. Lifestyle fit often depends on these daily frictions.',
         ],
       },
       {
-        id: 'north',
-        heading: 'North-east coves',
+        id: 'coastline',
+        heading: 'Coastline access points',
         paragraphs: [
-          'The coastline towards Es Canar and beyond mixes rocky entries with sandy pockets. Clients with small children often prioritise gentle shelving sand over dramatic cliffs — both exist within fifteen minutes’ drive.',
+          'Some pockets offer immediate walkability to beach frontage, while others require short drives for better facilities. We map this before recommending family-led moves.',
         ],
       },
       {
         id: 'family',
-        heading: 'Family-friendly stretches',
+        heading: 'Family-friendly zones',
         paragraphs: [
-          'Look for lifeguard seasonality, parking capacity, and the walk from the car. A perfect cove on Instagram can be the wrong call on a July afternoon with pushchairs and cool boxes.',
+          'For family buyers, we prioritize school commute reliability, healthcare access, and quieter internal roads over purely visual curb appeal.',
         ],
       },
       {
         id: 'schools',
         heading: 'Schools and services',
         paragraphs: [
-          'International and concertado options draw year-round residents. If schools anchor your search, model commute times at school-run hours, not mid-morning GPS estimates.',
+          'School availability, curriculum fit, and transport timing drive long-term retention in this district. We benchmark travel times at actual peak windows, not off-peak estimates.',
         ],
       },
       {
         id: 'dining',
         heading: 'Where we eat between viewings',
         paragraphs: [
-          'We gravitate to simple fish, seasonal salads, and a reliable post-viewing coffee. Santa Eulària rewards consistency — the best tables are often the ones that respect ingredients over spectacle.',
+          'Our team tends to choose reliable neighbourhood spots that reflect everyday livability. Consistent service and practical convenience usually matter more than headline venues.',
         ],
       },
     ],
   },
-  'formentera-day-routes': {
+  'abu-dhabi-day-routes': {
     dateLong: '8 February 2026',
     lastUpdated: '7 February 2026',
     toc: [
-      { id: 'ferry', label: 'Ferry timing and tickets' },
+      { id: 'drive', label: 'Drive timing and route planning' },
       {
         id: 'routes',
         label: 'Three routes we still recommend',
         subItems: [
-          { id: 'route-lighthouse', label: 'La Mola and back' },
-          { id: 'route-beaches', label: 'Beach loop with one long lunch' },
+          { id: 'route-corniche', label: 'Corniche and downtown core' },
+          { id: 'route-saadiyat', label: 'Saadiyat and cultural district' },
         ],
       },
       { id: 'quiet', label: 'Avoiding peak-week crush' },
     ],
     sections: [
       {
-        id: 'ferry',
-        heading: 'Ferry timing and tickets',
+        id: 'drive',
+        heading: 'Drive timing and route planning',
         paragraphs: [
-          'Book return legs on busy Saturdays. Mid-morning departures from Ibiza Town usually offer calmer queues than the first wave, without sacrificing a full afternoon on Formentera.',
+          'For Dubai-origin trips, early weekday departures usually provide smoother arrival windows and better scheduling flexibility for multiple site visits.',
         ],
       },
       {
         id: 'routes',
         heading: 'Three routes we still recommend',
         paragraphs: [
-          'Each route assumes you want one swim, one sit-down meal, and time to breathe. If you try to “do the island”, you will remember the rental scooter and not the water.',
+          'Each route assumes you want one core objective: market reconnaissance, lifestyle due diligence, or institutional meetings. Trying to do all three in one day usually reduces decision quality.',
         ],
       },
       {
-        id: 'route-lighthouse',
-        heading: 'La Mola and back',
+        id: 'route-corniche',
+        heading: 'Corniche and downtown core',
         paragraphs: [
-          'Drive or ride to the lighthouse for wind, views, and a reminder of scale. Pair it with a late lunch inland where terraces catch the afternoon shade.',
+          'Start with the Corniche and downtown zones to benchmark established stock and infrastructure quality, then layer in secondary districts for value comparison.',
         ],
       },
       {
-        id: 'route-beaches',
-        heading: 'Beach loop with one long lunch',
+        id: 'route-saadiyat',
+        heading: 'Saadiyat and cultural district',
         paragraphs: [
-          'Pick two beaches maximum. Anchor the day around a reservation — spontaneity works in May; August rewards planning.',
+          'Use Saadiyat as a quality-and-pricing benchmark for premium positioning. This route is strongest for buyers evaluating long-hold lifestyle assets.',
         ],
       },
       {
         id: 'quiet',
         heading: 'Avoiding peak-week crush',
         paragraphs: [
-          'Walk ten minutes past the first parasol row. Carry cash for smaller chiringuitos. Leave Ibiza with water and patience; return with salt on your skin and a slower pulse.',
+          'Avoid Friday evening and Sunday return peaks when possible. Structured scheduling with pre-confirmed appointments materially improves the productivity of one-day UAE intercity trips.',
         ],
       },
     ],
@@ -332,7 +332,7 @@ const detailsBySlug: Record<
         id: 'licences-rest',
         heading: 'Licences and inspectors',
         paragraphs: [
-          'Municipal interpretation varies by parcel. Build slack into the programme for queries, neighbour consultations, and revised elevations — especially near protected zones.',
+          'Authority interpretation can vary by asset class and location. Build slack into the programme for technical comments, revised drawings, and approval sequencing.',
         ],
       },
       {

@@ -1,18 +1,25 @@
+import useEmblaCarousel from 'embla-carousel-react'
 import { useCallback, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Button } from '../components/Button'
+import { CarouselNav } from '../components/CarouselNav'
 import type { Property } from '../components/PropertyCard'
 import { FeaturedPropertiesCarousel } from '../components/FeaturedPropertiesCarousel'
 import { PropertyFiltersBar } from '../components/PropertyFiltersBar'
 import { PropertyListingCard } from '../components/PropertyListingCard'
 import { SectionShell } from '../components/SectionShell'
 import { useCms } from '../contexts/CmsContext'
+import { usePropertyFilterDock } from '../contexts/PropertyFilterDockContext'
+import { usePageSeo } from '../hooks/usePageSeo'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 import {
   filterParamsFromSearchParams,
   filterProperties,
 } from '../lib/propertyFilters'
 
 type BaseProps = {
+  seoTitle: string
+  seoDescription: string
   heroTitle: string
   heroDescription: string
   featuredEyebrow: string
@@ -39,6 +46,8 @@ export type PropertyListingPageProps = AllVariant | ChannelVariant
  * Matches `/all-properties`; channel variants narrow the catalog first, then apply URL filters.
  */
 export function PropertyListingPage(props: PropertyListingPageProps) {
+  const isMobile = useMediaQuery('(max-width: 639px)')
+  const { openDock } = usePropertyFilterDock()
   const {
     catalogProperties,
     featuredProperties,
@@ -116,8 +125,19 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
   const clearFilters = useCallback(() => {
     setSearchParams({}, { replace: true })
   }, [setSearchParams])
+  const [gridEmblaRef, gridEmblaApi] = useEmblaCarousel(
+    {
+      align: 'start',
+      loop: gridList.length > 1,
+      skipSnaps: false,
+      dragFree: false,
+    },
+    [],
+  )
 
   const {
+    seoTitle,
+    seoDescription,
     heroTitle,
     heroDescription,
     featuredEyebrow,
@@ -125,6 +145,7 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
     emptyFilteredMessage,
     mainId,
   } = props
+  usePageSeo({ title: seoTitle, description: seoDescription })
 
   return (
     <main
@@ -152,7 +173,20 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
             </Button>
           </div>
           <div className="mt-6 w-full min-w-0">
-            <PropertyFiltersBar hideClearButton />
+            {isMobile ? (
+              <div className="rounded-2xl border-y border-ink/10 py-5">
+                <Button
+                  type="button"
+                  variant="primary"
+                  className="w-full"
+                  onClick={openDock}
+                >
+                  Search properties
+                </Button>
+              </div>
+            ) : (
+              <PropertyFiltersBar hideClearButton />
+            )}
           </div>
         </div>
       </SectionShell>
@@ -191,6 +225,27 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
             <p className="rounded-2xl border border-ink/10 bg-cream px-6 py-12 text-center text-ink/60">
               Every listing that matches your filters is shown in the featured carousel above.
             </p>
+          ) : isMobile ? (
+            <div className="w-full">
+              <div className="mb-6 flex items-center justify-end">
+                <CarouselNav emblaApi={gridEmblaApi} />
+              </div>
+              <div
+                className="overflow-hidden"
+                ref={gridEmblaRef}
+                role="region"
+                aria-roledescription="carousel"
+                aria-label={`${gridTitle} listings`}
+              >
+                <div className="flex touch-pan-y [-webkit-tap-highlight-color:transparent]">
+                  {gridList.map((p) => (
+                    <div key={p.id} className="mr-4 min-w-0 shrink-0 grow-0 basis-full last:mr-0">
+                      <PropertyListingCard property={p} compact />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           ) : (
             <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4 lg:gap-6">
               {gridList.map((p) => (

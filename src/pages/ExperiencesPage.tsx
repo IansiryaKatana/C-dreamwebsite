@@ -3,6 +3,7 @@ import type { ConciergeService } from '../data/conciergeServices'
 import { conciergeServices as staticConcierge } from '../data/conciergeServices'
 import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 import { useCms } from '../contexts/CmsContext'
+import { usePageSeo } from '../hooks/usePageSeo'
 
 const panelBg = '#FAF7F2'
 const panelInk = '#6B3B34'
@@ -10,6 +11,11 @@ const panelInk = '#6B3B34'
 export function ExperiencesPage() {
   const { t } = useLocalePreferences()
   const { mode, loading, experiences } = useCms()
+  usePageSeo({
+    title: 'Dubai Real Estate Concierge Services | Capital Dreams UAE',
+    description:
+      'Explore Capital Dreams concierge and relocation services in Dubai and the UAE, designed for buyers, investors, and high-net-worth clients.',
+  })
 
   const list: ConciergeService[] | null =
     mode === 'static' ? staticConcierge : loading ? null : experiences

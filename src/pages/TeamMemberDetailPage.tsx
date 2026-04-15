@@ -5,6 +5,7 @@ import { buttonClassNames } from '@/components/Button'
 import { ImagePrimaryOverlay } from '@/components/ImagePrimaryOverlay'
 import { SectionShell } from '@/components/SectionShell'
 import { useCms } from '@/contexts/CmsContext'
+import { usePageSeo } from '@/hooks/usePageSeo'
 import { agentWhatsappUrl } from '@/lib/whatsapp'
 
 function socialHref(
@@ -68,6 +69,15 @@ export function TeamMemberDetailPage() {
   const { slug } = useParams()
   const { salespeopleList, loading } = useCms()
   const person = salespeopleList.find((item) => item.slug === slug)
+
+  usePageSeo({
+    title: person
+      ? `${person.name} | Capital Dreams Dubai Real Estate Agent`
+      : 'Team Member Profile | Capital Dreams Dubai',
+    description: person
+      ? `Connect with ${person.name}${person.title ? `, ${person.title},` : ''} at Capital Dreams for Dubai and UAE property guidance.`
+      : 'View specialist agent profiles from Capital Dreams Dubai real estate team.',
+  })
 
   if (!loading && !person) {
     return <Navigate to="/team" replace />

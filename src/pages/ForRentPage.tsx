@@ -6,6 +6,8 @@ export function ForRentPage() {
     <PropertyListingPage
       variant="channel"
       channelFilter={isForRentListing}
+      seoTitle="Properties for Rent in Dubai | Capital Dreams"
+      seoDescription="Find apartments, villas, and luxury homes for rent in Dubai and across the UAE with expert support from Capital Dreams."
       mainId="page-for-rent"
       heroTitle="For rent"
       heroDescription="Browse rental homes and apartments. Filter by price, emirate, neighbourhood, and layout — same tools as our full collection."

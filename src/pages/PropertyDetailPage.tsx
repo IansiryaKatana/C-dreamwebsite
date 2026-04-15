@@ -10,6 +10,7 @@ import { PropertyListingCard } from '../components/PropertyListingCard'
 import { SectionShell } from '../components/SectionShell'
 import { buttonClassNames } from '../components/Button'
 import { usePropertyDetail } from '../hooks/usePropertyDetail'
+import { usePageSeo } from '../hooks/usePageSeo'
 import { useRelatedProperties } from '../hooks/useRelatedProperties'
 import { resolveGallery } from '../lib/resolvePropertyDetail'
 import { agentWhatsappUrl } from '../lib/whatsapp'
@@ -19,6 +20,17 @@ export function PropertyDetailPage() {
   const { property, salesperson } = usePropertyDetail(propertyId)
   const related = useRelatedProperties(property, 3)
   const { areaUnit, intlLocale } = useLocalePreferences()
+  const listingMeta = property?.meta ?? ''
+  usePageSeo({
+    title: property
+      ? `${property.title} | Dubai Property Listing | Capital Dreams`
+      : 'Property Listing | Capital Dreams Dubai',
+    description: property
+      ? `${property.title} in ${property.location || 'Dubai, UAE'}. ${
+          listingMeta
+        }. Explore photos, details, and enquire with Capital Dreams.`
+      : 'Explore verified Dubai and UAE property listings with Capital Dreams.',
+  })
 
   if (!property) {
     return (

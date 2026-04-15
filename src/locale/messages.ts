@@ -5,7 +5,7 @@ type Dict = Record<string, string>
 const en: Dict = {
   'nav.home': 'Home',
   'nav.allProperties': 'All Properties',
-  'nav.newDevelopments': 'New Developments',
+  'nav.newDevelopments': 'New',
   'nav.forRent': 'For rent',
   'nav.forSale': 'For sale',
   'nav.about': 'About us',
@@ -83,7 +83,7 @@ const en: Dict = {
 const ar: Dict = {
   'nav.home': 'الرئيسية',
   'nav.allProperties': 'جميع العقارات',
-  'nav.newDevelopments': 'مشاريع جديدة',
+  'nav.newDevelopments': 'جديد',
   'nav.forRent': 'للإيجار',
   'nav.forSale': 'للبيع',
   'nav.about': 'من نحن',

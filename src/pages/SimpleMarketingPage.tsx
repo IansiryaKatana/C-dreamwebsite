@@ -1,4 +1,5 @@
 import { useCms } from '../contexts/CmsContext'
+import { usePageSeo } from '../hooks/usePageSeo'
 
 type Props = {
   title: string
@@ -12,6 +13,11 @@ export function SimpleMarketingPage({ title, slug = 'experiences' }: Props) {
   const displayTitle = page?.title?.trim() ? page.title : title
   const bodyHtml = page?.body_html?.trim()
   const heroUrl = page?.hero_image_url?.trim()
+  usePageSeo({
+    title: `${displayTitle} | Capital Dreams Dubai`,
+    description:
+      'Explore Capital Dreams services, UAE real estate insights, and curated Dubai property guidance for buyers, tenants, and investors.',
+  })
 
   return (
     <main className="flex min-h-[50vh] w-full flex-col justify-center gap-4 py-16 text-cream [text-shadow:0_1px_2px_rgba(28,20,18,0.35)]">
@@ -35,8 +41,8 @@ export function SimpleMarketingPage({ title, slug = 'experiences' }: Props) {
         />
       ) : (
         <p className="max-w-xl text-cream/85">
-          This section is coming soon. Browse the home page for featured properties
-          and services, or contact us from the footer.
+          Explore Capital Dreams UAE services, featured Dubai listings, and advisory
+          support for buying, renting, and investing across the Emirates.
         </p>
       )}
     </main>

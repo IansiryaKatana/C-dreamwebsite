@@ -6,6 +6,8 @@ export function ForSalePage() {
     <PropertyListingPage
       variant="channel"
       channelFilter={isForSaleListing}
+      seoTitle="Properties for Sale in Dubai | Capital Dreams"
+      seoDescription="Explore Dubai and UAE properties for sale, from ready homes to investment opportunities, with Capital Dreams real estate advisors."
       mainId="page-for-sale"
       heroTitle="For sale"
       heroDescription="Browse properties for sale across Dubai and beyond. Narrow by price, location, beds, and more."

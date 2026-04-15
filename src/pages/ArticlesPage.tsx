@@ -1,12 +1,18 @@
 import { Link } from 'react-router-dom'
 import type { Article } from '../data/articles'
 import { useCms } from '../contexts/CmsContext'
+import { usePageSeo } from '../hooks/usePageSeo'
 
 const panelBg = '#FAF7F2'
 const panelInk = '#6B3B34'
 
 export function ArticlesPage() {
   const { articles } = useCms()
+  usePageSeo({
+    title: 'Dubai Real Estate Insights & UAE Market Updates | Capital Dreams',
+    description:
+      'Read Capital Dreams articles on Dubai property trends, UAE regulations, investor strategy, and practical guidance for buyers and landlords.',
+  })
   const featured = articles.slice(0, 2)
   const standard = articles.slice(2)
 

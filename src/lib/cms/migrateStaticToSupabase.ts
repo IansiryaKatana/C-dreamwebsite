@@ -70,7 +70,7 @@ export async function migrateStaticToSupabase(
       slug: 'experiences',
       title: 'Experiences',
       body_html:
-        '<p>This section is coming soon. Browse the home page for featured properties and services, or contact us from the footer.</p>',
+        '<p>Explore Capital Dreams UAE services, featured Dubai listings, and advisory support for buying, renting, and investing across the Emirates.</p>',
       hero_image_url: null,
     },
     { onConflict: 'slug' },

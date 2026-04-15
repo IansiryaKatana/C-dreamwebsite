@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { FULL_BLEED_YOUTUBE_VIDEO_ID } from '../config/fullBleedYoutube'
 import { useCms } from '../contexts/CmsContext'
+import { usePageSeo } from '../hooks/usePageSeo'
 import { isForRentListing, isForSaleListing } from '../lib/propertyChannels'
 import { FoundersSection } from '../sections/FoundersSection'
 import { FullBleedYouTube } from '../sections/FullBleedYouTube'
@@ -13,6 +14,11 @@ import { LogoMarqueeSection } from '../sections/LogoMarqueeSection'
 
 export function HomePage() {
   const { catalogProperties, siteSettings } = useCms()
+  usePageSeo({
+    title: 'Capital Dreams Dubai Real Estate | Buy, Sell, Rent in UAE',
+    description:
+      'Capital Dreams is a Dubai real estate agency helping buyers, sellers, landlords, and investors across the UAE with curated homes and advisory services.',
+  })
   const forSaleHomes = useMemo(
     () => catalogProperties.filter(isForSaleListing),
     [catalogProperties],

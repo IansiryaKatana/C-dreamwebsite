@@ -1,7 +1,8 @@
 import { ChevronDown } from 'lucide-react'
-import { useEffect, useMemo, type CSSProperties } from 'react'
+import { useMemo, type CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import { useCms } from '@/contexts/CmsContext'
+import { usePageSeo } from '@/hooks/usePageSeo'
 import type { FaqSection } from '@/lib/cms/mapFaq'
 
 const panelBg = '#FAF7F2'
@@ -51,20 +52,11 @@ function AnswerBody({ text }: { text: string }) {
 
 export function FaqPage() {
   const { faqSections, loading } = useCms()
-
-  useEffect(() => {
-    document.title = 'UAE property FAQ | Capital Dream'
-    const meta = document.querySelector('meta[name="description"]')
-    const desc =
-      'Answers on buying, renting, visas, mortgages, DLD, fees, and Dubai neighbourhoods—curated by Capital Dream for UAE real estate clients.'
-    if (meta) meta.setAttribute('content', desc)
-    else {
-      const m = document.createElement('meta')
-      m.name = 'description'
-      m.content = desc
-      document.head.appendChild(m)
-    }
-  }, [])
+  usePageSeo({
+    title: 'UAE Property FAQ | Dubai Buying, Renting & Investment Guide',
+    description:
+      'Get answers on Dubai and UAE real estate: buying, renting, mortgages, visas, DLD fees, and relocation support from Capital Dreams.',
+  })
 
   const jsonLd = useMemo(() => {
     if (faqSections.length === 0) return null

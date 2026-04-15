@@ -1,4 +1,5 @@
 import { useCms } from '../contexts/CmsContext'
+import { usePageSeo } from '../hooks/usePageSeo'
 import { AboutFaqTopicsSection } from '../sections/AboutFaqTopicsSection'
 import { MissionSection } from '../sections/MissionSection'
 import { SalesTeamSection } from '../sections/SalesTeamSection'
@@ -7,6 +8,11 @@ import { LogoMarqueeSection } from '../sections/LogoMarqueeSection'
 
 export function AboutPage() {
   const { salespeopleList, loading } = useCms()
+  usePageSeo({
+    title: 'About Capital Dreams | Dubai Real Estate Experts',
+    description:
+      'Learn about Capital Dreams, a Dubai real estate brokerage serving clients across the UAE with tailored advisory, acquisitions, and leasing support.',
+  })
 
   return (
     <main id="page-about" aria-label="About us" className="flex w-full flex-col gap-[0.625rem]">

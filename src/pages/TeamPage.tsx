@@ -5,11 +5,17 @@ import { CarouselNav } from '@/components/CarouselNav'
 import { SalesTeamMemberCard } from '@/components/SalesTeamMemberCard'
 import { SectionShell } from '@/components/SectionShell'
 import { useCms } from '@/contexts/CmsContext'
+import { usePageSeo } from '@/hooks/usePageSeo'
 
 const PAGE_SIZE = 8
 
 export function TeamPage() {
   const { salespeopleList, loading } = useCms()
+  usePageSeo({
+    title: 'Our Real Estate Team in Dubai | Capital Dreams',
+    description:
+      'Meet Capital Dreams real estate specialists in Dubai and the UAE, focused on luxury homes, investments, rentals, and client advisory.',
+  })
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const visiblePeople = useMemo(
     () => salespeopleList.slice(0, visibleCount),

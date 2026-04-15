@@ -6,6 +6,8 @@ export function NewDevelopmentsPage() {
     <PropertyListingPage
       variant="channel"
       channelFilter={isNewDevelopmentListing}
+      seoTitle="New Developments in Dubai | Off-Plan UAE Projects"
+      seoDescription="Discover new Dubai developments and off-plan opportunities in the UAE with launch updates, pricing guidance, and expert advice."
       mainId="page-new-developments"
       heroTitle="New developments"
       heroDescription="Explore launches and newly released homes. Use the same filters as our full collection to narrow by price, location, and layout."

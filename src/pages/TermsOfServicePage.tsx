@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom'
 import { LegalH2, LegalP, LegalPageShell, LegalUl } from '@/components/LegalPageShell'
+import { usePageSeo } from '@/hooks/usePageSeo'
 
 const CONTACT_EMAIL = 'Hello@apitaldreamdubai.com'
 
 export function TermsOfServicePage() {
+  usePageSeo({
+    title: 'Terms of Use | Capital Dreams Dubai Real Estate',
+    description:
+      'Review Capital Dreams website terms of use, legal disclaimers, acceptable use, and governing law for UAE real estate services.',
+  })
   return (
     <LegalPageShell
       id="page-terms-of-service"

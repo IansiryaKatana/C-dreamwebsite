@@ -32,11 +32,15 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
     @apply font-sans;
   }
   /* Body font-size: brand/typography.css (--brand-font-body / --brand-font-body-lg) */
   body {
-    @apply m-0 min-h-svh font-sans antialiased bg-terracotta text-ink;
+    @apply m-0 min-h-svh overflow-x-clip font-sans antialiased bg-terracotta text-ink;
+  }
+  #root {
+    @apply min-h-svh overflow-x-clip;
   }
   * {
     @apply border-border outline-ring/50;

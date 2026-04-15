@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom'
 import { LegalH2, LegalP, LegalPageShell, LegalUl } from '@/components/LegalPageShell'
+import { usePageSeo } from '@/hooks/usePageSeo'
 
 const CONTACT_EMAIL = 'Hello@apitaldreamdubai.com'
 
 export function PrivacyPolicyPage() {
+  usePageSeo({
+    title: 'Privacy Policy | Capital Dreams Dubai Real Estate',
+    description:
+      'Read the Capital Dreams Privacy Policy covering personal data handling, cookies, legal basis, and your rights under UAE data protection laws.',
+  })
   return (
     <LegalPageShell
       id="page-privacy-policy"
