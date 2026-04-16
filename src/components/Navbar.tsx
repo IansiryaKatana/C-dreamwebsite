@@ -11,8 +11,7 @@ type NavAboutItem = {
   type: 'about'
   aboutKey: string
   aboutTo: string
-  teamKey: string
-  teamTo: string
+  subItems: Array<{ key: string; to: string }>
 }
 type NavItem = NavFlatItem | NavAboutItem
 
@@ -26,16 +25,17 @@ const navStructure: NavItem[] = [
     type: 'about',
     aboutKey: 'nav.about',
     aboutTo: '/about',
-    teamKey: 'nav.team',
-    teamTo: '/team',
+    subItems: [
+      { key: 'nav.team', to: '/team' },
+      { key: 'nav.experiences', to: '/experiences' },
+      { key: 'nav.articles', to: '/articles' },
+    ],
   },
-  { type: 'link', key: 'nav.experiences', to: '/experiences' },
-  { type: 'link', key: 'nav.articles', to: '/articles' },
   { type: 'link', key: 'nav.faq', to: '/faq' },
 ]
 
-function teamPathActive(pathname: string, teamTo: string) {
-  return pathname === teamTo || pathname.startsWith(`${teamTo}/`)
+function subItemPathActive(pathname: string, to: string) {
+  return pathname === to || pathname.startsWith(`${to}/`)
 }
 
 export function Navbar() {
@@ -216,12 +216,14 @@ export function Navbar() {
                       to={item.aboutTo}
                       end
                       className={({ isActive }) => {
-                        const teamOn = teamPathActive(pathname, item.teamTo)
+                        const subItemOn = item.subItems.some((subItem) =>
+                          subItemPathActive(pathname, subItem.to),
+                        )
                         return clsx(
                           linkClass,
                           'inline-flex items-center gap-1 whitespace-nowrap rounded-md px-3 py-2 transition-colors sm:px-3.5 sm:py-2',
-                          (isActive || teamOn) && linkActive,
-                          !isActive && !teamOn && linkHover,
+                          (isActive || subItemOn) && linkActive,
+                          !isActive && !subItemOn && linkHover,
                         )
                       }}
                     >
@@ -229,19 +231,22 @@ export function Navbar() {
                       <ChevronDown className="size-3.5 shrink-0 opacity-90" aria-hidden />
                     </NavLink>
                     <div className="pointer-events-none invisible absolute left-0 top-full z-[120] mt-1 min-w-[11rem] rounded-lg border border-white/20 bg-terracotta/95 py-1.5 opacity-0 shadow-lg transition-[opacity,visibility] duration-150 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:opacity-100">
-                      <NavLink
-                        to={item.teamTo}
-                        className={({ isActive }) =>
-                          clsx(
-                            linkClassFlyout,
-                            'block whitespace-nowrap px-4 py-2.5 text-[0.7rem] transition-colors sm:text-[0.72rem]',
-                            isActive && 'bg-white/15 text-white',
-                            !isActive && 'hover:bg-white/10 hover:text-white',
-                          )
-                        }
-                      >
-                        {t(item.teamKey)}
-                      </NavLink>
+                      {item.subItems.map((subItem) => (
+                        <NavLink
+                          key={subItem.to}
+                          to={subItem.to}
+                          className={({ isActive }) =>
+                            clsx(
+                              linkClassFlyout,
+                              'block whitespace-nowrap px-4 py-2.5 text-[0.7rem] transition-colors sm:text-[0.72rem]',
+                              isActive && 'bg-white/15 text-white',
+                              !isActive && 'hover:bg-white/10 hover:text-white',
+                            )
+                          }
+                        >
+                          {t(subItem.key)}
+                        </NavLink>
+                      ))}
                     </div>
                   </li>
                 ),
@@ -357,21 +362,24 @@ export function Navbar() {
                     <span>{t(item.aboutKey)}</span>
                     <ArrowUpRight aria-hidden className="size-5 shrink-0" />
                   </NavLink>
-                  <NavLink
-                    to={item.teamTo}
-                    className={({ isActive }) =>
-                      clsx(
-                        linkClassFlyout,
-                        'flex origin-left transform-gpu items-center justify-between border-b border-dashed border-white/25 py-5 text-left transition-[transform,color,font-weight] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform',
-                        isActive && 'scale-[1.4] text-white font-semibold',
-                        !isActive && 'hover:scale-[1.4] hover:text-white hover:font-semibold',
-                      )
-                    }
-                    onClick={() => setOpen(false)}
-                  >
-                    <span>{t(item.teamKey)}</span>
-                    <ArrowUpRight aria-hidden className="size-5 shrink-0" />
-                  </NavLink>
+                  {item.subItems.map((subItem) => (
+                    <NavLink
+                      key={subItem.to}
+                      to={subItem.to}
+                      className={({ isActive }) =>
+                        clsx(
+                          linkClassFlyout,
+                          'flex origin-left transform-gpu items-center justify-between border-b border-dashed border-white/25 py-5 text-left transition-[transform,color,font-weight] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform',
+                          isActive && 'scale-[1.4] text-white font-semibold',
+                          !isActive && 'hover:scale-[1.4] hover:text-white hover:font-semibold',
+                        )
+                      }
+                      onClick={() => setOpen(false)}
+                    >
+                      <span>{t(subItem.key)}</span>
+                      <ArrowUpRight aria-hidden className="size-5 shrink-0" />
+                    </NavLink>
+                  ))}
                 </Fragment>
               ),
             )}
@@ -443,20 +451,23 @@ export function Navbar() {
                     >
                       {t(item.aboutKey)}
                     </NavLink>
-                    <NavLink
-                      to={item.teamTo}
-                      className={({ isActive }) =>
-                        clsx(
-                          linkClassFlyout,
-                          '-mt-0.5 ml-2 rounded-xl border-l border-white/20 py-2.5 pl-4 pr-3 transition-colors',
-                          isActive && 'bg-white/20 text-white',
-                          !isActive && 'hover:bg-white/10',
-                        )
-                      }
-                      onClick={() => setOpen(false)}
-                    >
-                      {t(item.teamKey)}
-                    </NavLink>
+                    {item.subItems.map((subItem) => (
+                      <NavLink
+                        key={subItem.to}
+                        to={subItem.to}
+                        className={({ isActive }) =>
+                          clsx(
+                            linkClassFlyout,
+                            '-mt-0.5 ml-2 rounded-xl border-l border-white/20 py-2.5 pl-4 pr-3 transition-colors',
+                            isActive && 'bg-white/20 text-white',
+                            !isActive && 'hover:bg-white/10',
+                          )
+                        }
+                        onClick={() => setOpen(false)}
+                      >
+                        {t(subItem.key)}
+                      </NavLink>
+                    ))}
                   </Fragment>
                 ),
               )}

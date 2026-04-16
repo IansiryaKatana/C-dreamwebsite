@@ -231,6 +231,21 @@ function propertyTypeLabel(type: unknown): string | null {
   return type.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
+function listingTagFromPf(offering: string, projectStatus: string | null): string {
+  const status = (projectStatus ?? '').trim().toLowerCase().replace(/[_-]+/g, ' ')
+  if (
+    status.includes('off plan') ||
+    status.includes('new') ||
+    status.includes('under construction') ||
+    status.includes('launch')
+  ) {
+    return 'New'
+  }
+  return offering === 'rent' || offering === 'monthly' || offering === 'yearly'
+    ? 'For rent'
+    : 'For sale'
+}
+
 type Preserve = {
   home_section: string
   sort_order_home: number
@@ -266,7 +281,6 @@ function mapListingToRow(
   const priceAed = extractAed(priceObj)
   const pfPriceOnRequest = priceObj?.onRequest === true
   const offering = (priceObj?.type as string) || ''
-  const tag = offering === 'rent' || offering === 'monthly' || offering === 'yearly' ? 'For rent' : 'For sale'
 
   const urls = imageUrls(listing)
   const image_url = urls[0] ?? PLACEHOLDER_IMAGE
@@ -281,6 +295,7 @@ function mapListingToRow(
   const emirate = emirateLabel(listing.uaeEmirate as string | undefined)
   const category = asText(listing.category)
   const projectStatus = asText(listing.projectStatus)
+  const tag = listingTagFromPf(offering, projectStatus)
   const verificationStatus = asText(listing.verificationStatus)
   const quality = listing.qualityScore as Record<string, unknown> | undefined
   const qualityValue = parseNumeric(quality?.value)

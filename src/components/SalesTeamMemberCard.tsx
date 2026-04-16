@@ -35,7 +35,14 @@ export function SalesTeamMemberCard({ person, profileHref }: Props) {
   const showContactRow = Boolean(email || telHref || waHref)
 
   return (
-    <article className="group flex flex-col overflow-hidden bg-cream">
+    <article className="group relative flex flex-col overflow-hidden bg-cream">
+      {profileHref ? (
+        <Link
+          to={profileHref}
+          className="absolute inset-0 z-10 rounded-[1.125rem] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta"
+          aria-label={`View ${person.name} profile`}
+        />
+      ) : null}
       <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[1.125rem]">
         <div className="absolute inset-0 transition duration-500 group-hover:scale-[1.02]">
           <img
@@ -49,7 +56,7 @@ export function SalesTeamMemberCard({ person, profileHref }: Props) {
           <ImagePrimaryOverlay />
         </div>
       </div>
-      <div className="flex flex-1 flex-col gap-1.5 px-1 pt-6 sm:pt-7">
+      <div className="relative z-20 flex flex-1 flex-col gap-1.5 px-1 pt-6 sm:pt-7">
         <p className="type-card-title font-compact font-normal uppercase tracking-[0.02em] text-ink">
           {person.name}
         </p>
@@ -92,16 +99,6 @@ export function SalesTeamMemberCard({ person, profileHref }: Props) {
                 ) : null}
               </div>
             </div>
-          </div>
-        ) : null}
-        {profileHref ? (
-          <div className="pt-4">
-            <Link
-              to={profileHref}
-              className="inline-flex items-center text-sm font-medium text-terracotta underline-offset-2 transition hover:underline"
-            >
-              View profile
-            </Link>
           </div>
         ) : null}
       </div>

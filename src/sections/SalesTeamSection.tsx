@@ -71,7 +71,10 @@ export function SalesTeamSection({
             <div className="flex touch-pan-y [-webkit-tap-highlight-color:transparent]">
               {people.map((person) => (
                 <div key={person.id} className={slideClass}>
-                  <SalesTeamMemberCard person={person} />
+                  <SalesTeamMemberCard
+                    person={person}
+                    profileHref={person.slug ? `/team/${person.slug}` : undefined}
+                  />
                 </div>
               ))}
             </div>

@@ -168,7 +168,11 @@ function exclusiveOk(p: Property, exclusive: string): boolean {
 }
 
 function normFilterArea(s: string | undefined): string {
-  return (s ?? '').trim().replace(/\s+/g, ' ').toLowerCase()
+  return (s ?? '')
+    .trim()
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .toLowerCase()
 }
 
 function neighbourhoodOk(p: Property, neighbourhood: string): boolean {

@@ -218,10 +218,7 @@ export function TerracottaDropdown({
         : document.body
       : null
 
-  const showList =
-    open &&
-    (!listPortal || menuBox != null) &&
-    listPortalTarget != null
+  const showList = open && (!listPortal || menuBox != null)
 
   return (
     <div ref={containerRef} className={`relative min-w-0 ${className}`.trim()}>
