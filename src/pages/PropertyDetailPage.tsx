@@ -19,17 +19,19 @@ export function PropertyDetailPage() {
   const { propertyId } = useParams<{ propertyId: string }>()
   const { property, salesperson } = usePropertyDetail(propertyId)
   const related = useRelatedProperties(property, 3)
-  const { areaUnit, intlLocale } = useLocalePreferences()
+  const { areaUnit, intlLocale, t } = useLocalePreferences()
   const listingMeta = property?.meta ?? ''
   usePageSeo({
     title: property
-      ? `${property.title} | Dubai Property Listing | Capital Dreams`
-      : 'Property Listing | Capital Dreams Dubai',
+      ? t('property.seo.listingTitle', { title: property.title })
+      : t('property.seo.fallbackTitle'),
     description: property
-      ? `${property.title} in ${property.location || 'Dubai, UAE'}. ${
-          listingMeta
-        }. Explore photos, details, and enquire with Capital Dreams.`
-      : 'Explore verified Dubai and UAE property listings with Capital Dreams.',
+      ? t('property.seo.descWith', {
+          title: property.title,
+          location: property.location || 'Dubai, UAE',
+          meta: listingMeta,
+        })
+      : t('property.seo.descFallback'),
   })
 
   if (!property) {
@@ -37,21 +39,21 @@ export function PropertyDetailPage() {
       <main
         id="page-property-missing"
         className="flex w-full flex-col gap-[0.625rem]"
-        aria-label="Property not found"
+        aria-label={t('property.notFound.aria')}
       >
         <SectionShell variant="cream">
           <h1 className="type-section-title font-display text-2xl font-semibold text-ink">
-            Property not found
+            {t('property.notFound.title')}
           </h1>
           <p className="mt-3 max-w-xl text-ink/70">
-            This listing may have been removed or the link is incorrect.
+            {t('property.notFound.body')}
           </p>
           <div className="mt-8">
             <Link
               to="/all-properties"
               className={buttonClassNames('inkSolid')}
             >
-              Back to all properties
+              {t('property.backToAll')}
             </Link>
           </div>
         </SectionShell>

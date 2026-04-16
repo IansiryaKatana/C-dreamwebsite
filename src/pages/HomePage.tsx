@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { FULL_BLEED_YOUTUBE_VIDEO_ID } from '../config/fullBleedYoutube'
 import { useCms } from '../contexts/CmsContext'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 import { usePageSeo } from '../hooks/usePageSeo'
 import { isForRentListing, isForSaleListing } from '../lib/propertyChannels'
 import { FoundersSection } from '../sections/FoundersSection'
@@ -14,10 +15,10 @@ import { LogoMarqueeSection } from '../sections/LogoMarqueeSection'
 
 export function HomePage() {
   const { catalogProperties, siteSettings } = useCms()
+  const { t } = useLocalePreferences()
   usePageSeo({
-    title: 'Capital Dreams Dubai Real Estate | Buy, Sell, Rent in UAE',
-    description:
-      'Capital Dreams is a Dubai real estate agency helping buyers, sellers, landlords, and investors across the UAE with curated homes and advisory services.',
+    title: t('seo.home.title'),
+    description: t('seo.home.description'),
   })
   const forSaleHomes = useMemo(
     () => catalogProperties.filter(isForSaleListing),
@@ -28,25 +29,30 @@ export function HomePage() {
     [catalogProperties],
   )
   return (
-    <main id="page-home" aria-label="Home" className="flex w-full flex-col gap-[0.625rem]">
+    <main
+      id="page-home"
+      aria-label={t('aria.home.main')}
+      className="flex w-full flex-col gap-[0.625rem]"
+    >
       <HeroSection heroImageUrl={siteSettings.heroBannerUrl} />
       <IntroStatementSection
         id="about"
-        aria-label="Home — brokerage introduction"
+        aria-label={t('aria.home.intro')}
       />
       <PropertyGridSection
         id="homes"
-        sectionAriaLabel="Home — for sale"
-        carouselLabel="Home — for sale carousel"
-        eyebrow="For sale"
+        sectionAriaLabel={t('aria.home.forSale')}
+        carouselLabel={t('aria.home.forSaleCarousel')}
+        eyebrow={t('home.eyebrow.sale')}
+        eyebrowTo="/for-sale"
         eyebrowLeft
         featuredLayout
         properties={forSaleHomes}
       />
-      <QuoteSection id="home-quote" aria-label="Home — client quote" />
+      <QuoteSection id="home-quote" aria-label={t('aria.home.quote')} />
       <ServicesGridSection
         id="services"
-        aria-label="Home — private client services"
+        aria-label={t('aria.home.services')}
       />
       <FullBleedYouTube
         videoId={
@@ -56,25 +62,26 @@ export function HomePage() {
         }
         embedInstanceId="home-fullbleed-youtube"
         sectionId="home-video-band"
-        aria-label="Home — cinematic property video"
+        aria-label={t('aria.home.video')}
         compactMobilePad
       />
       <FoundersSection
         id="founders"
-        aria-label="Home — founders story"
+        aria-label={t('aria.home.founders')}
       />
       <PropertyGridSection
         id="home-more-homes"
-        sectionAriaLabel="Home — for rent"
-        carouselLabel="Home — for rent carousel"
-        eyebrow="For rent"
+        sectionAriaLabel={t('aria.home.forRent')}
+        carouselLabel={t('aria.home.forRentCarousel')}
+        eyebrow={t('home.eyebrow.rent')}
+        eyebrowTo="/for-rent"
         eyebrowLeft
         featuredLayout
         properties={forRentHomes}
       />
       <LogoMarqueeSection
         id="home-partner-marquee"
-        aria-label="Home — partner developers"
+        aria-label={t('aria.home.partners')}
       />
     </main>
   )

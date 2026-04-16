@@ -17,7 +17,9 @@ import type { AppLanguage } from '../locale/messages'
 import { translate } from '../locale/messages'
 
 function intlLocale(lang: AppLanguage): string {
-  return lang === 'ar' ? 'ar-AE' : 'en-AE'
+  if (lang === 'ar') return 'ar-AE'
+  if (lang === 'fr') return 'fr-FR'
+  return 'en-AE'
 }
 
 export function buildPriceFilterOptions(

@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Link } from 'react-router-dom'
 import { buttonClassNames } from '../components/Button'
 import { SectionShell } from '../components/SectionShell'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 
 type QuoteProps = {
   id?: string
@@ -12,11 +13,12 @@ type QuoteProps = {
 
 export function QuoteSection({
   id = 'quote',
-  'aria-label': ariaLabel = 'Client quote',
+  'aria-label': ariaLabel,
 }: QuoteProps = {}) {
-  const quoteText =
-    'Markets move; principles should not. Our mandate is to translate noise into decisions — with documentation you can share with family offices, counsel, and boards without embarrassment.'
-  const quoteWords = useMemo(() => quoteText.split(' '), [quoteText])
+  const { t, language } = useLocalePreferences()
+  const resolvedAria = ariaLabel ?? t('quote.aria')
+  const quoteText = t('quote.text')
+  const quoteWords = useMemo(() => quoteText.split(' '), [quoteText, language])
   const quoteWordRefs = useRef<Array<HTMLSpanElement | null>>([])
 
   useEffect(() => {
@@ -51,10 +53,10 @@ export function QuoteSection({
       tween.scrollTrigger?.kill()
       tween.kill()
     }
-  }, [])
+  }, [quoteText])
 
   return (
-    <SectionShell variant="terracotta" id={id} aria-label={ariaLabel}>
+    <SectionShell variant="terracotta" id={id} aria-label={resolvedAria}>
       <div className="mx-auto max-w-[min(100%,1440px)] py-4 sm:py-10">
         <blockquote className="mx-auto max-w-4xl text-center">
           <p className="type-quote font-display font-normal">
@@ -76,14 +78,14 @@ export function QuoteSection({
             </span>
           </p>
           <footer className="mt-8 font-display text-cream/88">
-            — Mr.Irfan&hellip;
+            {t('quote.attribution')}
           </footer>
           <div className="mt-10 flex justify-center sm:mt-12">
             <Link
               to="/team"
               className={buttonClassNames('creamOnTerracotta')}
             >
-              Learn more
+              {t('quote.cta')}
             </Link>
           </div>
         </blockquote>

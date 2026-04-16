@@ -1,4 +1,5 @@
 import { useCms } from '../contexts/CmsContext'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 import { usePageSeo } from '../hooks/usePageSeo'
 import { AboutFaqTopicsSection } from '../sections/AboutFaqTopicsSection'
 import { MissionSection } from '../sections/MissionSection'
@@ -8,38 +9,42 @@ import { LogoMarqueeSection } from '../sections/LogoMarqueeSection'
 
 export function AboutPage() {
   const { salespeopleList, loading } = useCms()
+  const { t } = useLocalePreferences()
   usePageSeo({
-    title: 'About Capital Dreams | Dubai Real Estate Experts',
-    description:
-      'Learn about Capital Dreams, a Dubai real estate brokerage serving clients across the UAE with tailored advisory, acquisitions, and leasing support.',
+    title: t('seo.about.title'),
+    description: t('seo.about.description'),
   })
 
   return (
-    <main id="page-about" aria-label="About us" className="flex w-full flex-col gap-[0.625rem]">
+    <main
+      id="page-about"
+      aria-label={t('nav.about')}
+      className="flex w-full flex-col gap-[0.625rem]"
+    >
       <TallLifestyleSection
         id="about-lifestyle"
-        aria-label="About us — lifestyle imagery"
+        aria-label={t('aria.about.lifestyle')}
         showServicesOverlay
       />
       <MissionSection
         id="about-mission"
-        aria-label="About us — mission and principles"
+        aria-label={t('aria.about.mission')}
       />
       <AboutFaqTopicsSection
         id="about-video-band"
-        aria-label="About us — featured FAQ topics"
+        aria-label={t('aria.about.faq')}
       />
       <SalesTeamSection
         id="about-team"
-        sectionAriaLabel="About us — our team"
-        carouselLabel="About us — our team carousel"
-        eyebrow="Our team"
+        sectionAriaLabel={t('aria.about.team')}
+        carouselLabel={t('aria.about.teamCarousel')}
+        eyebrow={t('about.eyebrow.team')}
         people={salespeopleList}
         loading={loading}
       />
       <LogoMarqueeSection
         id="about-partner-marquee"
-        aria-label="About us — partner developers"
+        aria-label={t('aria.about.partners')}
       />
     </main>
   )

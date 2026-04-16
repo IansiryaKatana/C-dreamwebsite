@@ -8,9 +8,9 @@ import type { AreaDisplayMode } from '../lib/formatArea'
 import type { AppLanguage } from '../locale/messages'
 import { FilterTerracottaDropdown } from './FilterTerracottaDropdown'
 
-type Props = { className?: string }
+type Props = { className?: string; surface?: 'hero' | 'paper' }
 
-export function NavbarLocaleControls({ className }: Props) {
+export function NavbarLocaleControls({ className, surface = 'hero' }: Props) {
   const {
     language,
     setLanguage,
@@ -26,6 +26,7 @@ export function NavbarLocaleControls({ className }: Props) {
   const languageOptions = useMemo(
     () => [
       { value: 'en', label: t('locale.lang.en') },
+      { value: 'fr', label: t('locale.lang.fr') },
       { value: 'ar', label: t('locale.lang.ar') },
     ],
     [t],
@@ -150,7 +151,10 @@ export function NavbarLocaleControls({ className }: Props) {
       <button
         type="button"
         className={clsx(
-          'inline-flex size-10 items-center justify-center rounded-full border border-white/35 bg-white/10 text-cream transition hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:size-11',
+          'inline-flex size-10 items-center justify-center rounded-full transition sm:size-11',
+          surface === 'paper'
+            ? 'border border-ink/15 bg-ink/[0.06] text-ink hover:bg-ink/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta'
+            : 'border border-white/35 bg-white/10 text-cream hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white',
           className,
         )}
         aria-expanded={open}

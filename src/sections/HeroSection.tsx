@@ -1,6 +1,7 @@
 import { Button } from '../components/Button'
 import { HeroNeighbourhoodCards } from '../components/HeroNeighbourhoodCards'
 import { ImagePrimaryOverlay } from '../components/ImagePrimaryOverlay'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 import { usePropertyFilterDock } from '../contexts/PropertyFilterDockContext'
 
 const HERO_VIDEO_PLACEHOLDER =
@@ -14,11 +15,12 @@ type HeroProps = {
 
 export function HeroSection({ heroImageUrl }: HeroProps) {
   const { openDock } = usePropertyFilterDock()
+  const { t } = useLocalePreferences()
   const bannerSrc = heroImageUrl?.trim() ? heroImageUrl : HERO_VIDEO_PLACEHOLDER
   return (
     <section
       className="relative min-h-[95vh] min-h-[95dvh] w-full overflow-hidden rounded-[1.5rem]"
-      aria-label="Hero"
+      aria-label={t('hero.aria')}
     >
       <img
         src={HERO_MOBILE_IMAGE}
@@ -50,18 +52,18 @@ export function HeroSection({ heroImageUrl }: HeroProps) {
         <div className="flex min-h-0 w-full flex-1 flex-col justify-end md:w-[60%] md:flex-none md:shrink-0">
           <div className="w-full min-w-0 max-w-full">
             <h1 className="type-hero font-hero text-cream [text-shadow:0_2px_24px_rgba(28,20,18,0.55)]">
-              Don&apos;t Play
+              {t('hero.line1')}
               <br />
-              Real Estate
+              {t('hero.line2')}
               <br />
-              Roulette.
+              {t('hero.line3')}
             </h1>
             <p className="mt-7 max-w-full font-light leading-relaxed text-cream/90 [text-shadow:0_1px_12px_rgba(28,20,18,0.45)]">
-              We pair private clients with vetted homes
+              {t('hero.sub1')}
               <br />
-              editorial presentation, disciplined process,
+              {t('hero.sub2')}
               <br />
-              and zero theatre from first conversation to closing.
+              {t('hero.sub3')}
             </p>
             <div className="mt-10">
               <Button
@@ -69,7 +71,7 @@ export function HeroSection({ heroImageUrl }: HeroProps) {
                 variant="whiteSolid"
                 onClick={() => openDock()}
               >
-                Search properties
+                {t('hero.ctaSearch')}
               </Button>
             </div>
           </div>

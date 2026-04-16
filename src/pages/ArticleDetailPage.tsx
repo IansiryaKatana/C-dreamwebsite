@@ -1,6 +1,7 @@
 import { ChevronDown } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { useCms } from '../contexts/CmsContext'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 import { usePageSeo } from '../hooks/usePageSeo'
 import type { ArticleTocEntry } from '../data/articleDetails'
 import { resolveArticleDetail } from '../lib/cms/resolveArticleDetail'
@@ -10,13 +11,14 @@ const panelInk = '#6B3B34'
 const rule = 'rgba(107, 59, 52, 0.18)'
 
 function TocBlock({ toc }: { toc: ArticleTocEntry[] }) {
+  const { t } = useLocalePreferences()
   return (
-    <nav aria-label="Topic overview">
+    <nav aria-label={t('article.toc.navAria')}>
       <p
         className="font-compact text-[0.6875rem] font-semibold uppercase tracking-[0.22em]"
         style={{ color: panelInk, opacity: 0.75 }}
       >
-        Topic overview
+        {t('article.toc.heading')}
       </p>
       <ul className="mt-4 space-y-0">
         {toc.map((entry) => (
@@ -62,14 +64,15 @@ function TocBlock({ toc }: { toc: ArticleTocEntry[] }) {
 export function ArticleDetailPage() {
   const { slug } = useParams<{ slug: string }>()
   const { mode, articleDetailsBySlug } = useCms()
+  const { t } = useLocalePreferences()
   const article = resolveArticleDetail(slug, mode, articleDetailsBySlug)
   usePageSeo({
     title: article
-      ? `${article.title} | Capital Dreams UAE`
-      : 'Dubai Real Estate Article | Capital Dreams UAE',
+      ? `${article.title}${t('article.titleSuffix')}`
+      : t('seo.articleMissing.title'),
     description: article
       ? article.excerpt
-      : 'Read practical Dubai and UAE property insights from Capital Dreams real estate experts.',
+      : t('seo.articleMissing.description'),
   })
 
   if (!article) {
@@ -77,17 +80,17 @@ export function ArticleDetailPage() {
       <main
         className="w-full min-w-0 rounded-2xl px-4 py-10 sm:px-8 sm:py-12"
         style={{ backgroundColor: panelBg, color: panelInk }}
-        aria-label="Article not found"
+        aria-label={t('article.notFound.aria')}
       >
         <div className="flex w-full min-w-0 flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <h1 className="type-heading-founders font-display font-medium leading-tight tracking-[0.02em]">
-            Article not found
+            {t('article.notFound.title')}
           </h1>
           <Link
             to="/articles"
             className="type-button font-display ml-auto shrink-0 rounded-xl border border-[#6B3B34]/35 px-5 py-2.5 font-medium text-[#6B3B34] transition hover:bg-[#6B3B34]/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6B3B34]/40"
           >
-            Back to articles
+            {t('article.back')}
           </Link>
         </div>
       </main>
@@ -107,7 +110,7 @@ export function ArticleDetailPage() {
             to="/articles"
             className="type-button font-display rounded-xl border border-[#6B3B34]/35 px-5 py-2.5 font-medium text-[#6B3B34] transition hover:bg-[#6B3B34]/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6B3B34]/40"
           >
-            Back to articles
+            {t('article.back')}
           </Link>
         </div>
 
@@ -173,8 +176,12 @@ export function ArticleDetailPage() {
         <aside className="order-3 space-y-10 border-t border-[#6B3B34]/15 pt-8 lg:order-none lg:col-start-1 lg:row-start-2 lg:border-t-0 lg:pt-0 lg:sticky lg:top-24 lg:self-start">
           <div className="space-y-3 font-sans text-[0.875rem] font-normal leading-relaxed text-[#6B3B34]/88">
             <p>{article.dateLong}</p>
-            <p className="font-medium text-[#6B3B34]">By: {article.author}</p>
-            <p className="text-[#6B3B34]/70">Last updated {article.lastUpdated}</p>
+            <p className="font-medium text-[#6B3B34]">
+              {t('articles.byAuthor', { author: article.author })}
+            </p>
+            <p className="text-[#6B3B34]/70">
+              {t('article.lastUpdatedPrefix')} {article.lastUpdated}
+            </p>
           </div>
           <TocBlock toc={article.toc} />
         </aside>

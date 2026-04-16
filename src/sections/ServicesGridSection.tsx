@@ -1,22 +1,11 @@
 import { SectionShell } from '../components/SectionShell'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 
-const seoPoints = [
-  {
-    title: 'Dubai real estate broker expertise',
-    body: 'Capital Dream advises buyers and sellers across prime Dubai communities with verified comparables, due diligence checklists, and execution timelines.',
-  },
-  {
-    title: 'Luxury property advisory in the UAE',
-    body: 'From waterfront apartments to branded residences, we align each property recommendation with your risk profile, cash flow goals, and holding horizon.',
-  },
-  {
-    title: 'Investment-led property sourcing',
-    body: 'We evaluate yield, service charges, resale depth, and micro-location demand before we present options, so decisions remain data-backed.',
-  },
-  {
-    title: 'Off-market and private listings',
-    body: 'Our brokerage network unlocks discreet inventory and qualified introductions for clients who value confidentiality over portal volume.',
-  },
+const POINT_KEYS = [
+  { titleKey: 'services.p1.title', bodyKey: 'services.p1.body' },
+  { titleKey: 'services.p2.title', bodyKey: 'services.p2.body' },
+  { titleKey: 'services.p3.title', bodyKey: 'services.p3.body' },
+  { titleKey: 'services.p4.title', bodyKey: 'services.p4.body' },
 ] as const
 
 type ServicesProps = {
@@ -28,6 +17,7 @@ export function ServicesGridSection({
   id = 'services',
   'aria-label': ariaLabel,
 }: ServicesProps = {}) {
+  const { t } = useLocalePreferences()
   return (
     <SectionShell
       variant="terracotta"
@@ -48,25 +38,23 @@ export function ServicesGridSection({
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-4">
             <h3 className="type-heading-mission font-statement max-w-3xl font-semibold leading-tight text-cream">
-              We protect attention as carefully as capital.
+              {t('services.heading')}
             </h3>
             <p className="mt-5 font-light leading-[1.75] text-cream/92">
-              When you work with Capital Dream, you work with people who will
-              decline a listing if it is not sound — and who will fight for the
-              right one when it is. That is the only sustainable luxury.
+              {t('services.lead')}
             </p>
           </div>
           <div className="grid overflow-hidden rounded-xl border border-white/20 sm:grid-cols-2 lg:col-span-8">
-            {seoPoints.map((point) => (
+            {POINT_KEYS.map((point) => (
               <article
-                key={point.title}
+                key={point.titleKey}
                 className="border border-white/20 p-5 text-cream"
               >
                 <h3 className="font-display text-[1.05rem] font-semibold leading-snug">
-                  {point.title}
+                  {t(point.titleKey)}
                 </h3>
                 <p className="mt-3 font-light leading-relaxed text-cream/88">
-                  {point.body}
+                  {t(point.bodyKey)}
                 </p>
               </article>
             ))}

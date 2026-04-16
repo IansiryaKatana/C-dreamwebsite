@@ -1,6 +1,8 @@
-import { Button } from '../components/Button'
+import { buttonClassNames } from '../components/Button'
 import { ImagePrimaryOverlay } from '../components/ImagePrimaryOverlay'
 import { SectionShell } from '../components/SectionShell'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
+import { Link } from 'react-router-dom'
 
 const lifestyle =
   'https://images.pexels.com/photos/8319486/pexels-photo-8319486.jpeg'
@@ -14,11 +16,12 @@ export function IntroStatementSection({
   id = 'intro-statement',
   'aria-label': ariaLabel,
 }: IntroProps = {}) {
+  const { t } = useLocalePreferences()
   return (
     <SectionShell variant="terracotta" id={id} aria-label={ariaLabel}>
       <div className="mx-auto max-w-[min(100%,1440px)] py-4 sm:py-8">
         <h2 className="type-heading-statement font-statement text-left font-semibold leading-tight">
-          A quieter way to move into the UAE Real Estate Market
+          {t('intro.heading')}
         </h2>
 
         <div className="mt-12 flex flex-col gap-10 md:mt-14 md:flex-row md:items-start md:gap-12 lg:gap-16">
@@ -26,7 +29,7 @@ export function IntroStatementSection({
             <div className="relative w-full overflow-hidden rounded-[0.75rem] [aspect-ratio:2/3]">
               <img
                 src={lifestyle}
-                alt="Friends at a table"
+                alt={t('intro.imgAlt')}
                 className="absolute inset-0 z-0 h-full w-full object-cover object-center"
                 width={640}
                 height={960}
@@ -37,20 +40,18 @@ export function IntroStatementSection({
           </div>
           <div className="flex-1 text-center md:text-left">
             <p className="font-light leading-[1.75] text-cream/93 lg:max-w-3xl">
-              Capital Dream is a private brokerage for people who treat property as
-              capital, not content. We underwrite every introduction —
-              documentation, comparables, and coastal nuance — before we ever
-              suggest a walk-through.
+              {t('intro.p1')}
             </p>
             <p className="mt-6 font-light leading-[1.75] text-cream/93 lg:max-w-3xl">
-              No roulette. No inflated listings for optics. If it is not the
-              right fit, we say so early — and stay beside you until the right
-              door opens.
+              {t('intro.p2')}
             </p>
             <div className="mt-10 flex justify-center md:justify-start">
-              <Button type="button" variant="creamOnTerracotta">
-                About
-              </Button>
+              <Link
+                to="/about"
+                className={buttonClassNames('creamOnTerracotta')}
+              >
+                {t('intro.ctaAbout')}
+              </Link>
             </div>
           </div>
         </div>

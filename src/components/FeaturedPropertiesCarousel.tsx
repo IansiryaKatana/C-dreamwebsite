@@ -1,5 +1,6 @@
 import useEmblaCarousel from 'embla-carousel-react'
 import clsx from 'clsx'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 import { CarouselNav } from './CarouselNav'
 import { PropertyListingCard } from './PropertyListingCard'
 import type { Property } from './PropertyCard'
@@ -12,9 +13,11 @@ type Props = {
 
 export function FeaturedPropertiesCarousel({
   properties,
-  eyebrow = 'Featured',
+  eyebrow,
   className = '',
 }: Props) {
+  const { t } = useLocalePreferences()
+  const resolvedEyebrow = eyebrow ?? t('listing.featuredShort')
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       align: 'start',
@@ -32,7 +35,7 @@ export function FeaturedPropertiesCarousel({
     <div className={clsx('w-full', className)}>
       <div className="mb-8 flex flex-row items-center justify-between gap-3 sm:mb-10">
         <p className="type-card-title min-w-0 flex-1 truncate font-compact font-normal uppercase tracking-[0.02em] text-ink">
-          {eyebrow}
+          {resolvedEyebrow}
         </p>
         <CarouselNav emblaApi={emblaApi} />
       </div>
@@ -41,7 +44,7 @@ export function FeaturedPropertiesCarousel({
         ref={emblaRef}
         role="region"
         aria-roledescription="carousel"
-        aria-label={eyebrow}
+        aria-label={resolvedEyebrow}
       >
         <div className="flex touch-pan-y [-webkit-tap-highlight-color:transparent]">
           {properties.map((p) => (

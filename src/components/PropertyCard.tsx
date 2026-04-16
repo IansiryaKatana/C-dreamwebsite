@@ -1,4 +1,5 @@
 import { ImagePrimaryOverlay } from './ImagePrimaryOverlay'
+import { Link } from 'react-router-dom'
 
 /** Gallery item for property detail hero (images and optional video URLs from admin uploads). */
 export type PropertyGalleryItem = {
@@ -52,34 +53,39 @@ type Props = {
 
 export function PropertyCard({ property }: Props) {
   return (
-    <article className="group flex flex-col overflow-hidden bg-cream">
-      <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[1.125rem]">
-        <div className="absolute inset-0 transition duration-500 group-hover:scale-[1.02]">
-          <img
-            src={property.image}
-            alt={property.alt}
-            className="absolute inset-0 z-0 h-full w-full object-cover object-center"
-            loading="lazy"
-          />
-          <ImagePrimaryOverlay />
+    <Link
+      to={`/properties/${property.id}`}
+      className="group block rounded-[1.125rem] outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-cream"
+    >
+      <article className="flex flex-col overflow-hidden bg-cream">
+        <div className="relative aspect-[3/2] w-full overflow-hidden rounded-[1.125rem]">
+          <div className="absolute inset-0 transition duration-500 group-hover:scale-[1.02]">
+            <img
+              src={property.image}
+              alt={property.alt}
+              className="absolute inset-0 z-0 h-full w-full object-cover object-center"
+              loading="lazy"
+            />
+            <ImagePrimaryOverlay />
+          </div>
+          <span className="type-badge absolute right-3 top-3 z-[2] rounded-md bg-badge-blue px-2.5 py-1 font-semibold uppercase tracking-widest text-white">
+            {property.tag}
+          </span>
         </div>
-        <span className="type-badge absolute right-3 top-3 z-[2] rounded-md bg-badge-blue px-2.5 py-1 font-semibold uppercase tracking-widest text-white">
-          {property.tag}
-        </span>
-      </div>
-      <div className="flex flex-1 flex-col gap-1.5 px-1 pt-6 sm:pt-7">
-        <p className="type-card-title font-compact font-normal uppercase tracking-[0.02em] text-ink">
-          {property.title}
-        </p>
-        <p className="font-normal leading-snug text-ink/72">
-          {property.meta}
-        </p>
-        {property.detail ? (
-          <p className="type-card-detail font-compact font-medium uppercase tracking-[0.14em] text-ink/45">
-            {property.detail}
+        <div className="flex flex-1 flex-col gap-1.5 px-1 pt-6 sm:pt-7">
+          <p className="type-card-title font-compact font-normal uppercase tracking-[0.02em] text-ink">
+            {property.title}
           </p>
-        ) : null}
-      </div>
-    </article>
+          <p className="font-normal leading-snug text-ink/72">
+            {property.meta}
+          </p>
+          {property.detail ? (
+            <p className="type-card-detail font-compact font-medium uppercase tracking-[0.14em] text-ink/45">
+              {property.detail}
+            </p>
+          ) : null}
+        </div>
+      </article>
+    </Link>
   )
 }

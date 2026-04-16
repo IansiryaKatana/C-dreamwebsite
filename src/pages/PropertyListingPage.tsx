@@ -10,6 +10,7 @@ import { PropertyFiltersBar } from '../components/PropertyFiltersBar'
 import { PropertyListingCard } from '../components/PropertyListingCard'
 import { SectionShell } from '../components/SectionShell'
 import { useCms } from '../contexts/CmsContext'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 import { usePropertyFilterDock } from '../contexts/PropertyFilterDockContext'
 import { usePageSeo } from '../hooks/usePageSeo'
 import { useMediaQuery } from '../hooks/useMediaQuery'
@@ -47,6 +48,7 @@ export type PropertyListingPageProps = AllVariant | ChannelVariant
  * Matches `/all-properties`; channel variants narrow the catalog first, then apply URL filters.
  */
 export function PropertyListingPage(props: PropertyListingPageProps) {
+  const { t } = useLocalePreferences()
   const isMobile = useMediaQuery('(max-width: 639px)')
   const { openDock } = usePropertyFilterDock()
   const {
@@ -171,7 +173,7 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
                 className="w-full shrink-0 sm:mt-1 sm:w-auto sm:self-start"
                 onClick={clearFilters}
               >
-                Clear filters
+                {t('listing.clearFilters')}
               </Button>
             ) : null}
           </div>
@@ -185,7 +187,7 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
                   onClick={openDock}
                 >
                   <span className="flex w-full items-center justify-between">
-                    <span>Filters</span>
+                    <span>{t('listing.filters')}</span>
                     <SlidersHorizontal className="size-4 shrink-0" strokeWidth={1.5} aria-hidden />
                   </span>
                 </Button>
@@ -224,11 +226,11 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
           )}
           {loading ? (
             <p className="rounded-2xl border border-ink/10 bg-cream px-6 py-12 text-center text-ink/60">
-              Loading properties...
+              {t('listing.loading')}
             </p>
           ) : cmsEmpty ? (
             <p className="rounded-2xl border border-ink/10 bg-cream px-6 py-12 text-center text-ink/60">
-              Properties are temporarily unavailable. Please refresh in a moment.
+              {t('listing.cmsEmpty')}
             </p>
           ) : channelEmpty ? (
             <p className="rounded-2xl border border-ink/10 bg-cream px-6 py-12 text-center text-ink/60">
@@ -240,7 +242,7 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
             </p>
           ) : allMatchesShownInCarousel ? (
             <p className="rounded-2xl border border-ink/10 bg-cream px-6 py-12 text-center text-ink/60">
-              Every listing that matches your filters is shown in the featured carousel above.
+              {t('listing.allInCarousel')}
             </p>
           ) : isMobile ? (
             <div className="w-full">
@@ -249,7 +251,7 @@ export function PropertyListingPage(props: PropertyListingPageProps) {
                 ref={gridEmblaRef}
                 role="region"
                 aria-roledescription="carousel"
-                aria-label={`${gridTitle} listings`}
+                aria-label={t('listing.gridAria', { title: gridTitle })}
               >
                 <div className="flex touch-pan-y [-webkit-tap-highlight-color:transparent]">
                   {gridList.map((p) => (

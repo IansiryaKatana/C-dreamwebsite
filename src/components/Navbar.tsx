@@ -45,6 +45,7 @@ export function Navbar() {
   const heroOverlayLayout = pathname === '/'
   const [solidBar, setSolidBar] = useState(false)
   const [open, setOpen] = useState(false)
+  const innerScrolled = !heroOverlayLayout && solidBar && !open
   const centerSlotRef = useRef<HTMLDivElement>(null)
   const measureUlRef = useRef<HTMLUListElement>(null)
   const [desktopOverflow, setDesktopOverflow] = useState(false)
@@ -52,8 +53,7 @@ export function Navbar() {
   useEffect(() => {
     const update = () => {
       const y = window.scrollY
-      const vh = window.innerHeight
-      const pastHero = heroOverlayLayout ? y > vh * 0.95 - 56 : y > 12
+      const pastHero = heroOverlayLayout ? y > 0 : y > 12
       setSolidBar(pastHero)
     }
     update()
@@ -101,11 +101,24 @@ export function Navbar() {
 
   const headerBar =
     solidBar && !open
-      ? 'border-b border-white/15 bg-terracotta/35 shadow-sm backdrop-blur-xl backdrop-saturate-150'
+      ? heroOverlayLayout
+        ? 'border-b border-white/15 bg-terracotta/35 shadow-sm backdrop-blur-xl backdrop-saturate-150'
+        : 'border-b border-black/10 bg-white shadow-sm'
       : 'border-b border-transparent bg-transparent'
 
-  const linkClass =
-    'type-nav-link font-display font-medium uppercase tracking-[0.16em] text-cream/95 sm:tracking-[0.2em] lg:tracking-[0.14em] xl:tracking-[0.18em]'
+  const linkStructure =
+    'type-nav-link font-display font-medium uppercase tracking-[0.16em] sm:tracking-[0.2em] lg:tracking-[0.14em] xl:tracking-[0.18em]'
+
+  const linkClass = clsx(
+    linkStructure,
+    innerScrolled ? 'text-ink/90' : 'text-cream/95',
+  )
+
+  /** Cream-on-terracotta flyout (parent link may be ink on white bar). */
+  const linkClassFlyout = clsx(linkStructure, 'text-cream/95')
+
+  const linkActive = innerScrolled ? 'bg-black/10 text-ink' : 'bg-white/20 text-white'
+  const linkHover = innerScrolled ? 'hover:text-ink' : 'hover:text-white'
 
   const showInlineDesktop = isXl && !desktopOverflow
   const showMenuControl = !isXl || desktopOverflow
@@ -126,8 +139,13 @@ export function Navbar() {
       )}
     >
       <nav
-        className="flex w-full min-w-0 items-center justify-between gap-2 px-6 py-5 text-cream [text-shadow:0_1px_2px_rgba(28,20,18,0.45)] sm:gap-3 sm:px-6 sm:py-4 xl:gap-4 xl:px-6 2xl:px-10"
-        aria-label="Main"
+        className={clsx(
+          'flex w-full min-w-0 items-center justify-between gap-2 px-6 py-5 sm:gap-3 sm:px-6 sm:py-4 xl:gap-4 xl:px-6 2xl:px-10',
+          innerScrolled
+            ? 'text-ink'
+            : 'text-cream [text-shadow:0_1px_2px_rgba(28,20,18,0.45)]',
+        )}
+        aria-label={t('aria.nav.main')}
       >
         <Link
           to="/"
@@ -136,8 +154,11 @@ export function Navbar() {
         >
           <img
             src="/LOGO%20NO%20ICON.png"
-            alt="Capital Dream"
-            className="h-4 w-auto object-contain sm:h-5"
+            alt={t('aria.logo')}
+            className={clsx(
+              'h-8 w-auto object-contain sm:h-5 xl:h-8',
+              innerScrolled && 'brightness-0',
+            )}
             loading="eager"
             decoding="async"
           />
@@ -181,8 +202,8 @@ export function Navbar() {
                         clsx(
                           linkClass,
                           'inline-block whitespace-nowrap rounded-md px-3 py-2 transition-colors sm:px-3.5 sm:py-2',
-                          isActive && 'bg-white/20 text-white',
-                          !isActive && 'hover:text-white',
+                          isActive && linkActive,
+                          !isActive && linkHover,
                         )
                       }
                     >
@@ -199,8 +220,8 @@ export function Navbar() {
                         return clsx(
                           linkClass,
                           'inline-flex items-center gap-1 whitespace-nowrap rounded-md px-3 py-2 transition-colors sm:px-3.5 sm:py-2',
-                          (isActive || teamOn) && 'bg-white/20 text-white',
-                          !isActive && !teamOn && 'hover:text-white',
+                          (isActive || teamOn) && linkActive,
+                          !isActive && !teamOn && linkHover,
                         )
                       }}
                     >
@@ -212,7 +233,7 @@ export function Navbar() {
                         to={item.teamTo}
                         className={({ isActive }) =>
                           clsx(
-                            linkClass,
+                            linkClassFlyout,
                             'block whitespace-nowrap px-4 py-2.5 text-[0.7rem] transition-colors sm:text-[0.72rem]',
                             isActive && 'bg-white/15 text-white',
                             !isActive && 'hover:bg-white/10 hover:text-white',
@@ -231,15 +252,19 @@ export function Navbar() {
 
         <div className="z-10 flex shrink-0 items-center gap-2">
           <NavbarLocaleControls
+            surface={innerScrolled ? 'paper' : 'hero'}
             className={clsx(!showInlineDesktop && isXl ? 'inline-flex' : 'hidden xl:inline-flex')}
           />
           {showMenuControl ? (
             <button
               type="button"
-              className="rounded-full p-2 text-cream xl:p-2.5"
+              className={clsx(
+                'rounded-full p-2 xl:p-2.5',
+                innerScrolled ? 'text-ink' : 'text-cream',
+              )}
               aria-expanded={open}
               aria-controls="site-nav-sheet"
-              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-label={open ? t('aria.nav.closeMenu') : t('aria.nav.openMenu')}
               onClick={() => setOpen((v) => !v)}
             >
               {open ? (
@@ -271,7 +296,7 @@ export function Navbar() {
             'absolute inset-0 bg-black/55 backdrop-blur-[2px] transition-opacity duration-300',
             mobileOverlay ? 'opacity-100' : 'opacity-0',
           )}
-          aria-label="Close menu"
+          aria-label={t('aria.nav.closeMenu')}
           onClick={() => setOpen(false)}
         />
         <div
@@ -281,7 +306,7 @@ export function Navbar() {
           )}
           role="dialog"
           aria-modal="true"
-          aria-label="Site menu"
+          aria-label={t('aria.nav.siteMenu')}
         >
           <div className="flex items-center justify-between gap-3 border-b border-dashed border-white/25 px-4 py-3 sm:px-5">
             <NavbarLocaleControls />
@@ -289,7 +314,7 @@ export function Navbar() {
               type="button"
               className="rounded-xl border border-white/20 bg-terracotta/20 p-3 text-cream transition-colors hover:bg-terracotta/35"
               onClick={() => setOpen(false)}
-              aria-label="Close menu"
+              aria-label={t('aria.nav.closeMenu')}
             >
               <X className="h-6 w-6" />
             </button>
@@ -303,8 +328,8 @@ export function Navbar() {
                   end={Boolean(item.end)}
                   className={({ isActive }) =>
                     clsx(
-                      linkClass,
-                      'flex origin-left transform-gpu items-center justify-between border-b border-dashed border-white/25 py-5 text-left text-cream/95 transition-[transform,color,font-weight] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform',
+                      linkClassFlyout,
+                      'flex origin-left transform-gpu items-center justify-between border-b border-dashed border-white/25 py-5 text-left transition-[transform,color,font-weight] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform',
                       isActive && 'scale-[1.4] text-white font-semibold',
                       !isActive && 'hover:scale-[1.4] hover:text-white hover:font-semibold',
                     )
@@ -321,8 +346,8 @@ export function Navbar() {
                     end
                     className={({ isActive }) =>
                       clsx(
-                        linkClass,
-                        'flex origin-left transform-gpu items-center justify-between border-b border-dashed border-white/25 py-5 text-left text-cream/95 transition-[transform,color,font-weight] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform',
+                        linkClassFlyout,
+                        'flex origin-left transform-gpu items-center justify-between border-b border-dashed border-white/25 py-5 text-left transition-[transform,color,font-weight] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform',
                         isActive && 'scale-[1.4] text-white font-semibold',
                         !isActive && 'hover:scale-[1.4] hover:text-white hover:font-semibold',
                       )
@@ -336,8 +361,8 @@ export function Navbar() {
                     to={item.teamTo}
                     className={({ isActive }) =>
                       clsx(
-                        linkClass,
-                        'flex origin-left transform-gpu items-center justify-between border-b border-dashed border-white/25 py-5 text-left text-cream/95 transition-[transform,color,font-weight] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform',
+                        linkClassFlyout,
+                        'flex origin-left transform-gpu items-center justify-between border-b border-dashed border-white/25 py-5 text-left transition-[transform,color,font-weight] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform',
                         isActive && 'scale-[1.4] text-white font-semibold',
                         !isActive && 'hover:scale-[1.4] hover:text-white hover:font-semibold',
                       )
@@ -360,24 +385,24 @@ export function Navbar() {
           <button
             type="button"
             className="fixed inset-0 z-[199] bg-ink/40 backdrop-blur-[2px]"
-            aria-label="Close menu"
+            aria-label={t('aria.nav.closeMenu')}
             onClick={() => setOpen(false)}
           />
           <div
             className="fixed inset-y-0 right-0 z-[200] flex w-[min(100vw-1rem,22rem)] flex-col border-l border-white/15 bg-terracotta/98 py-4 text-cream shadow-2xl backdrop-blur-xl motion-safe:animate-[navSheetIn_0.28s_ease-out]"
             role="dialog"
             aria-modal="true"
-            aria-label="Site menu"
+            aria-label={t('aria.nav.siteMenu')}
           >
             <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 pb-3">
               <p className="type-nav-link font-display text-xs font-semibold uppercase tracking-[0.2em] text-cream/90">
-                Menu
+                {t('aria.nav.menuTitle')}
               </p>
               <button
                 type="button"
                 className="rounded-full p-2 text-cream"
                 onClick={() => setOpen(false)}
-                aria-label="Close menu"
+                aria-label={t('aria.nav.closeMenu')}
               >
                 <X className="h-6 w-6" />
               </button>
@@ -391,7 +416,7 @@ export function Navbar() {
                     end={Boolean(item.end)}
                     className={({ isActive }) =>
                       clsx(
-                        linkClass,
+                        linkClassFlyout,
                         'rounded-xl px-3 py-3.5 transition-colors',
                         isActive && 'bg-white/20 text-white',
                         !isActive && 'hover:bg-white/10',
@@ -408,7 +433,7 @@ export function Navbar() {
                       end
                       className={({ isActive }) =>
                         clsx(
-                          linkClass,
+                          linkClassFlyout,
                           'rounded-xl px-3 py-3.5 transition-colors',
                           isActive && 'bg-white/20 text-white',
                           !isActive && 'hover:bg-white/10',
@@ -422,7 +447,7 @@ export function Navbar() {
                       to={item.teamTo}
                       className={({ isActive }) =>
                         clsx(
-                          linkClass,
+                          linkClassFlyout,
                           '-mt-0.5 ml-2 rounded-xl border-l border-white/20 py-2.5 pl-4 pr-3 transition-colors',
                           isActive && 'bg-white/20 text-white',
                           !isActive && 'hover:bg-white/10',

@@ -1,15 +1,17 @@
 import { ArrowUpRight } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 
 export function HeroNeighbourhoodCards() {
+  const { t } = useLocalePreferences()
   const cards = useMemo(
     () => [
-      { id: 'hero-rent', label: 'Are you looking to rent?', to: '/for-rent' },
-      { id: 'hero-buy', label: 'Do you want to buy property?', to: '/for-sale' },
-      { id: 'hero-catalog', label: 'Browse our catalog', to: '/all-properties' },
+      { id: 'hero-rent', label: t('heroCards.rent'), to: '/for-rent' },
+      { id: 'hero-buy', label: t('heroCards.buy'), to: '/for-sale' },
+      { id: 'hero-catalog', label: t('heroCards.catalog'), to: '/all-properties' },
     ],
-    [],
+    [t],
   )
   const [revealedCount, setRevealedCount] = useState(0)
   const revealedCountRef = useRef(0)
@@ -93,7 +95,7 @@ export function HeroNeighbourhoodCards() {
   return (
     <nav
       className="flex w-full max-w-xl flex-col gap-3 md:max-w-none"
-      aria-label="Browse property options"
+      aria-label={t('heroCards.navAria')}
     >
       {cards.map((item, index) => (
         <Link

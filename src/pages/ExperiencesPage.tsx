@@ -12,9 +12,8 @@ export function ExperiencesPage() {
   const { t } = useLocalePreferences()
   const { mode, loading, experiences } = useCms()
   usePageSeo({
-    title: 'Dubai Real Estate Concierge Services | Capital Dreams UAE',
-    description:
-      'Explore Capital Dreams concierge and relocation services in Dubai and the UAE, designed for buyers, investors, and high-net-worth clients.',
+    title: t('seo.experiences.title'),
+    description: t('seo.experiences.description'),
   })
 
   const list: ConciergeService[] | null =
@@ -54,17 +53,17 @@ export function ExperiencesPage() {
 
           {list === null ? (
             <p className="text-[length:var(--brand-font-body-lg)] text-terracotta/70">
-              Loading…
+              {t('experiences.loading')}
             </p>
           ) : list.length === 0 ? (
             <p className="max-w-xl text-[length:var(--brand-font-body-lg)] leading-relaxed text-terracotta/85">
-              Concierge experiences will appear here once they are published in the CMS.
+              {t('experiences.cmsEmpty')}
             </p>
           ) : (
             <>
               <div
                 className="grid w-full min-w-0 grid-cols-1 gap-6 md:grid-cols-2 md:gap-7"
-                aria-label="Featured concierge services"
+                aria-label={t('experiences.aria.featured')}
               >
                 {featured.map((item) => (
                   <ServiceCard key={item.id} service={item} />
@@ -72,7 +71,7 @@ export function ExperiencesPage() {
               </div>
               <div
                 className="grid w-full min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-7 lg:grid-cols-3"
-                aria-label="More concierge services"
+                aria-label={t('experiences.aria.more')}
               >
                 {standard.map((item) => (
                   <ServiceCard key={item.id} service={item} />
@@ -87,8 +86,12 @@ export function ExperiencesPage() {
 }
 
 function ServiceCard({ service }: { service: ConciergeService }) {
-  const { t } = useLocalePreferences()
+  const { t, tWithFallback } = useLocalePreferences()
   const isVideo = service.mediaType === 'video'
+  const phase = tWithFallback(`concierge.${service.id}.phase`, service.phase)
+  const title = tWithFallback(`concierge.${service.id}.title`, service.title)
+  const excerpt = tWithFallback(`concierge.${service.id}.excerpt`, service.excerpt)
+  const alt = tWithFallback(`concierge.${service.id}.alt`, service.alt)
 
   return (
     <article className="min-w-0">
@@ -103,12 +106,12 @@ function ServiceCard({ service }: { service: ConciergeService }) {
                 controls
                 playsInline
                 preload="metadata"
-                aria-label={service.alt || service.title}
+                aria-label={alt || title}
               />
             ) : (
               <img
                 src={service.mediaUrl}
-                alt={service.alt}
+                alt={alt}
                 className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                 loading="lazy"
                 decoding="async"
@@ -117,17 +120,17 @@ function ServiceCard({ service }: { service: ConciergeService }) {
           </div>
         </div>
         <p className="mt-3 font-compact text-[0.6875rem] font-medium uppercase tracking-[0.2em] text-terracotta/85 sm:text-[0.75rem]">
-          {service.phase}
+          {phase}
           <span className="mx-2 opacity-50" aria-hidden>
             ·
           </span>
           <span>{t('experiences.buyerConcierge')}</span>
         </p>
         <h2 className="type-card-title font-compact mt-2 font-medium leading-snug text-terracotta transition-opacity group-hover:opacity-90">
-          {service.title}
+          {title}
         </h2>
         <p className="mt-2 max-w-prose text-[0.9375rem] leading-relaxed text-terracotta/80">
-          {service.excerpt}
+          {excerpt}
         </p>
       </div>
     </article>

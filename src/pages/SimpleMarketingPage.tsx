@@ -1,4 +1,5 @@
 import { useCms } from '../contexts/CmsContext'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 import { usePageSeo } from '../hooks/usePageSeo'
 
 type Props = {
@@ -9,14 +10,14 @@ type Props = {
 
 export function SimpleMarketingPage({ title, slug = 'experiences' }: Props) {
   const { marketingBySlug, mode } = useCms()
+  const { t } = useLocalePreferences()
   const page = marketingBySlug[slug]
   const displayTitle = page?.title?.trim() ? page.title : title
   const bodyHtml = page?.body_html?.trim()
   const heroUrl = page?.hero_image_url?.trim()
   usePageSeo({
-    title: `${displayTitle} | Capital Dreams Dubai`,
-    description:
-      'Explore Capital Dreams services, UAE real estate insights, and curated Dubai property guidance for buyers, tenants, and investors.',
+    title: `${displayTitle} | ${t('seo.brandSuffix')}`,
+    description: t('seo.simpleMarketing.description'),
   })
 
   return (
@@ -40,10 +41,7 @@ export function SimpleMarketingPage({ title, slug = 'experiences' }: Props) {
           dangerouslySetInnerHTML={{ __html: bodyHtml }}
         />
       ) : (
-        <p className="max-w-xl text-cream/85">
-          Explore Capital Dreams UAE services, featured Dubai listings, and advisory
-          support for buying, renting, and investing across the Emirates.
-        </p>
+        <p className="max-w-xl text-cream/85">{t('simple.fallback')}</p>
       )}
     </main>
   )

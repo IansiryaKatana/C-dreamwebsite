@@ -2,6 +2,7 @@ import { Pause, Play, Volume2, VolumeX } from 'lucide-react'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { ImagePrimaryOverlay } from '@/components/ImagePrimaryOverlay'
 import { SectionShell } from '../components/SectionShell'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 
 function ytCommand(iframe: HTMLIFrameElement, func: string) {
   const win = iframe.contentWindow
@@ -54,6 +55,7 @@ export function FullBleedYouTube({
   'aria-label': ariaLabel,
   compactMobilePad,
 }: Props) {
+  const { t } = useLocalePreferences()
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const [iframeLoaded, setIframeLoaded] = useState(false)
   const [playing, setPlaying] = useState(true)
@@ -102,14 +104,14 @@ export function FullBleedYouTube({
     >
       <figure
         className="relative w-full overflow-hidden rounded-[1.125rem] bg-ink/10"
-        aria-label={ariaLabel ?? 'Cinematic property video'}
+        aria-label={ariaLabel ?? t('youtube.defaultAria')}
       >
         <div className="relative aspect-video w-full overflow-hidden">
           <iframe
             ref={iframeRef}
             id={embedInstanceId}
             key={`${embedInstanceId}-${videoId}`}
-            title="Background video"
+            title={t('youtube.bgTitle')}
             className="pointer-events-none absolute left-0 top-0 z-0 h-full w-full border-0"
             src={src}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -123,7 +125,7 @@ export function FullBleedYouTube({
             <button
               type="button"
               className={ctrlClass}
-              aria-label={playing ? 'Pause video' : 'Play video'}
+              aria-label={playing ? t('youtube.pause') : t('youtube.play')}
               disabled={!iframeLoaded}
               onClick={togglePlay}
             >
@@ -136,7 +138,7 @@ export function FullBleedYouTube({
             <button
               type="button"
               className={ctrlClass}
-              aria-label={muted ? 'Unmute video' : 'Mute video'}
+              aria-label={muted ? t('youtube.unmute') : t('youtube.mute')}
               disabled={!iframeLoaded}
               onClick={toggleMute}
             >

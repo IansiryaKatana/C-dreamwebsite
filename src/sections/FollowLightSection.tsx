@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Button } from '../components/Button'
 import { SectionShell } from '../components/SectionShell'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
@@ -18,6 +19,7 @@ export function FollowLightSection({
   'aria-label': ariaLabel,
   emailFieldId = 'subscribe-email',
 }: FollowProps = {}) {
+  const { t } = useLocalePreferences()
   const [email, setEmail] = useState('')
   const [attempted, setAttempted] = useState(false)
 
@@ -33,10 +35,8 @@ export function FollowLightSection({
     setAttempted(true)
     if (!trimmed || !isValidEmail(trimmed)) return
 
-    const subj = encodeURIComponent('Subscribe — Capital Dream')
-    const body = encodeURIComponent(
-      `Please add this email to private notes and listings updates:\n\n${trimmed}`,
-    )
+    const subj = encodeURIComponent(t('follow.mailSubject'))
+    const body = encodeURIComponent(t('follow.mailBody', { email: trimmed }))
     window.location.href = `mailto:Hello@apitaldreamdubai.com?subject=${subj}&body=${body}`
   }
 
@@ -45,11 +45,10 @@ export function FollowLightSection({
       <div className="flex w-full flex-col items-stretch gap-8 py-4 sm:gap-10 sm:py-8 md:flex-row md:items-center md:justify-between md:gap-10">
         <div className="flex-1 min-w-0 text-left">
           <h2 className="type-heading-display type-heading-display--follow font-display font-semibold leading-tight text-ink">
-            Follow the light.
+            {t('follow.heading')}
           </h2>
           <p className="mt-3 max-w-xl font-light text-ink/70">
-            Tell us what you are looking for — we reply within one business day
-            with a clear next step.
+            {t('follow.subtitle')}
           </p>
         </div>
         <form
@@ -59,7 +58,7 @@ export function FollowLightSection({
         >
           <div className="flex min-w-0 w-full flex-col gap-1.5">
             <label htmlFor={emailFieldId} className="sr-only">
-              Email address
+              {t('follow.emailLabel')}
             </label>
             <input
               id={emailFieldId}
@@ -67,7 +66,7 @@ export function FollowLightSection({
               type="email"
               autoComplete="email"
               inputMode="email"
-              placeholder="Email address"
+              placeholder={t('follow.emailPlaceholder')}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               aria-invalid={showError || undefined}
@@ -86,9 +85,7 @@ export function FollowLightSection({
                 className="px-2 text-sm text-terracotta"
                 role="alert"
               >
-                {emptyError
-                  ? 'Enter your email address.'
-                  : 'Enter a valid email address.'}
+                {emptyError ? t('follow.errorEmpty') : t('follow.errorFormat')}
               </p>
             ) : null}
           </div>
@@ -97,7 +94,7 @@ export function FollowLightSection({
             variant="primary"
             className="h-auto min-h-14 w-full whitespace-normal border border-ink px-5 py-3.5 text-center text-base font-medium normal-case leading-snug tracking-normal !bg-ink !text-cream shadow-sm hover:!border-ink hover:!bg-ink/88 hover:!text-cream focus-visible:!outline-cream/40"
           >
-            Subscribe to newsletter
+            {t('follow.ctaSubscribe')}
           </Button>
         </form>
       </div>

@@ -3,6 +3,7 @@ import { CarouselNav } from '../components/CarouselNav'
 import { SalesTeamMemberCard } from '../components/SalesTeamMemberCard'
 import { SectionShell } from '../components/SectionShell'
 import type { PublicSalesperson } from '@/lib/cms/loadCmsSnapshot'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 
 type Props = {
   id?: string
@@ -17,10 +18,12 @@ export function SalesTeamSection({
   id,
   sectionAriaLabel,
   carouselLabel,
-  eyebrow = 'Our team',
+  eyebrow,
   people,
   loading,
 }: Props) {
+  const { t } = useLocalePreferences()
+  const resolvedEyebrow = eyebrow ?? t('team.eyebrow')
   const showCarousel = !loading && people.length > 0
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -43,7 +46,7 @@ export function SalesTeamSection({
         <div className="mb-10 flex flex-row items-center justify-between gap-3 sm:mb-12">
           <div className="min-w-0 flex-1 pr-1">
             <p className="type-card-title font-compact truncate font-normal uppercase tracking-[0.02em] text-ink">
-              {eyebrow}
+              {resolvedEyebrow}
             </p>
           </div>
           {showCarousel ? <CarouselNav emblaApi={emblaApi} /> : null}
@@ -51,11 +54,11 @@ export function SalesTeamSection({
 
         {loading ? (
           <p className="text-[length:var(--brand-font-body-lg)] text-ink/70">
-            Loading…
+            {t('team.loading')}
           </p>
         ) : people.length === 0 ? (
           <p className="max-w-xl text-[length:var(--brand-font-body-lg)] leading-relaxed text-ink/75">
-            Team profiles will appear here once they are published in the CMS.
+            {t('team.cmsEmpty')}
           </p>
         ) : (
           <div
@@ -63,7 +66,7 @@ export function SalesTeamSection({
             ref={emblaRef}
             role="region"
             aria-roledescription="carousel"
-            aria-label={carouselLabel ?? eyebrow}
+            aria-label={carouselLabel ?? resolvedEyebrow}
           >
             <div className="flex touch-pan-y [-webkit-tap-highlight-color:transparent]">
               {people.map((person) => (

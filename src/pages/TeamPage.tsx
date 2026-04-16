@@ -5,16 +5,17 @@ import { CarouselNav } from '@/components/CarouselNav'
 import { SalesTeamMemberCard } from '@/components/SalesTeamMemberCard'
 import { SectionShell } from '@/components/SectionShell'
 import { useCms } from '@/contexts/CmsContext'
+import { useLocalePreferences } from '@/contexts/LocalePreferencesContext'
 import { usePageSeo } from '@/hooks/usePageSeo'
 
 const PAGE_SIZE = 8
 
 export function TeamPage() {
   const { salespeopleList, loading } = useCms()
+  const { t } = useLocalePreferences()
   usePageSeo({
-    title: 'Our Real Estate Team in Dubai | Capital Dreams',
-    description:
-      'Meet Capital Dreams real estate specialists in Dubai and the UAE, focused on luxury homes, investments, rentals, and client advisory.',
+    title: t('seo.team.title'),
+    description: t('seo.team.description'),
   })
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const visiblePeople = useMemo(
@@ -34,16 +35,20 @@ export function TeamPage() {
   )
 
   return (
-    <main id="page-team" aria-label="Our team" className="flex w-full flex-col gap-[0.625rem]">
-      <SectionShell variant="cream" id="team-grid" aria-label="Team members">
+    <main
+      id="page-team"
+      aria-label={t('team.aria.main')}
+      className="flex w-full flex-col gap-[0.625rem]"
+    >
+      <SectionShell variant="cream" id="team-grid" aria-label={t('team.aria.grid')}>
         <div className="w-full">
           <div className="mb-8 flex items-center justify-between gap-3 sm:mb-10">
             <div>
               <p className="type-card-title font-compact uppercase tracking-[0.02em] text-ink">
-                Our team
+                {t('team.eyebrow')}
               </p>
               <h1 className="mt-2 hidden text-balance font-display text-3xl font-semibold leading-tight text-ink sm:block sm:text-4xl">
-                Meet Capital Dream specialists
+                {t('team.h1')}
               </h1>
             </div>
             {!loading && visiblePeople.length > 0 ? (
@@ -54,10 +59,12 @@ export function TeamPage() {
           </div>
 
           {loading ? (
-            <p className="text-[length:var(--brand-font-body-lg)] text-ink/70">Loading team…</p>
+            <p className="text-[length:var(--brand-font-body-lg)] text-ink/70">
+              {t('team.loading')}
+            </p>
           ) : visiblePeople.length === 0 ? (
             <p className="max-w-xl text-[length:var(--brand-font-body-lg)] leading-relaxed text-ink/75">
-              Team profiles will appear here once they are published in the CMS.
+              {t('team.cmsEmpty')}
             </p>
           ) : (
             <>
@@ -76,7 +83,7 @@ export function TeamPage() {
                 ref={emblaRef}
                 role="region"
                 aria-roledescription="carousel"
-                aria-label="Team members carousel"
+                aria-label={t('team.carouselAria')}
               >
                 <div className="flex touch-pan-y [-webkit-tap-highlight-color:transparent]">
                   {visiblePeople.map((person) => (
@@ -103,14 +110,17 @@ export function TeamPage() {
                   )
                 }
               >
-                Show more
+                {t('team.showMore')}
               </button>
             </div>
           ) : null}
 
           {!loading && salespeopleList.length > PAGE_SIZE ? (
             <p className="mt-4 hidden text-center text-sm text-ink/55 sm:block">
-              Showing {Math.min(visibleCount, salespeopleList.length)} of {salespeopleList.length}
+              {t('team.showing', {
+                current: String(Math.min(visibleCount, salespeopleList.length)),
+                total: String(salespeopleList.length),
+              })}
             </p>
           ) : null}
         </div>

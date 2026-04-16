@@ -2,6 +2,7 @@ import type { EmblaCarouselType } from 'embla-carousel'
 import clsx from 'clsx'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
+import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 
 export function CarouselNav({
   emblaApi,
@@ -10,6 +11,7 @@ export function CarouselNav({
   emblaApi: EmblaCarouselType | undefined
   className?: string
 }) {
+  const { t } = useLocalePreferences()
   const [prevDisabled, setPrevDisabled] = useState(true)
   const [nextDisabled, setNextDisabled] = useState(true)
 
@@ -40,7 +42,7 @@ export function CarouselNav({
     <div
       className={clsx('flex shrink-0 items-center gap-2', className)}
       role="group"
-      aria-label="Carousel navigation"
+      aria-label={t('carousel.navAria')}
     >
       <button
         type="button"
@@ -50,7 +52,7 @@ export function CarouselNav({
             ? 'border-ink/15 bg-cream text-ink/30 opacity-60 focus-visible:outline-ink/20'
             : 'border-transparent bg-ink text-cream hover:bg-ink/88 focus-visible:outline-cream/40',
         )}
-        aria-label="Previous"
+        aria-label={t('carousel.prev')}
         onClick={scrollPrev}
         disabled={prevDisabled}
       >
@@ -64,7 +66,7 @@ export function CarouselNav({
             ? 'border-ink/15 bg-cream text-ink/30 opacity-60 focus-visible:outline-ink/20'
             : 'border-transparent bg-ink text-cream hover:bg-ink/88 focus-visible:outline-cream/40',
         )}
-        aria-label="Next"
+        aria-label={t('carousel.next')}
         onClick={scrollNext}
         disabled={nextDisabled}
       >

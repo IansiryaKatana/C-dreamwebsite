@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { PhoneInputField } from '@/components/PhoneInputField'
+import { useLocalePreferences } from '@/contexts/LocalePreferencesContext'
 import { getSupabase } from '@/integrations/supabase/client'
 import type { PublicSalesperson } from '@/lib/cms/loadCmsSnapshot'
 import { agentWhatsappUrl } from '@/lib/whatsapp'
@@ -21,6 +22,7 @@ export function PropertyLeadForm({
   propertyTitle,
   salesperson,
 }: Props) {
+  const { t } = useLocalePreferences()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -32,8 +34,8 @@ export function PropertyLeadForm({
 
   const wa = agentWhatsappUrl(salesperson)
   const headline = salesperson
-    ? `Speak with ${salesperson.name} about this property`
-    : 'Capital Dream about this property'
+    ? t('lead.headlineWithAgent', { name: salesperson.name })
+    : t('lead.headlineGeneric')
 
   const thumb =
     salesperson?.profile_image_url?.trim() ||
@@ -52,7 +54,7 @@ export function PropertyLeadForm({
 
     const sb = getSupabase()
     if (!sb) {
-      setErr('Unable to send — site is not connected.')
+      setErr(t('lead.errorNotConnected'))
       return
     }
     setBusy(true)
@@ -110,7 +112,7 @@ export function PropertyLeadForm({
                 rel="noopener noreferrer"
                 className="text-terracotta underline-offset-2 hover:underline"
               >
-                Contact on WhatsApp
+                {t('lead.whatsapp')}
               </a>
             ) : null}
             {salesperson ? (
@@ -118,14 +120,14 @@ export function PropertyLeadForm({
                 to="/about"
                 className="text-terracotta underline-offset-2 hover:underline"
               >
-                Agent details
+                {t('lead.agentDetails')}
               </Link>
             ) : (
               <Link
                 to="/about"
                 className="text-terracotta underline-offset-2 hover:underline"
               >
-                About Capital Dream
+                {t('lead.aboutBroker')}
               </Link>
             )}
           </div>
@@ -133,48 +135,45 @@ export function PropertyLeadForm({
       </div>
 
       {done ? (
-        <p className="mt-6 text-sm leading-relaxed text-ink/75">
-          Thank you — your enquiry was sent. A member of our team will be in touch
-          shortly.
-        </p>
+        <p className="mt-6 text-sm leading-relaxed text-ink/75">{t('lead.thankYou')}</p>
       ) : (
         <form className="mt-5 flex flex-col gap-4" onSubmit={onSubmit} noValidate>
           <div>
             <label className="text-[0.6875rem] font-semibold uppercase tracking-widest text-ink/55">
-              Name
+              {t('lead.name')}
             </label>
             <input
               className={field}
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Name"
+              placeholder={t('lead.namePh')}
               autoComplete="name"
               aria-invalid={attempted && !name.trim()}
             />
             {attempted && !name.trim() ? (
-              <p className="mt-1 text-xs text-red-600">Name is required.</p>
+              <p className="mt-1 text-xs text-red-600">{t('lead.nameRequired')}</p>
             ) : null}
           </div>
           <div>
             <label className="text-[0.6875rem] font-semibold uppercase tracking-widest text-ink/55">
-              Email address
+              {t('lead.email')}
             </label>
             <input
               type="email"
               className={field}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email address"
+              placeholder={t('lead.emailPh')}
               autoComplete="email"
               aria-invalid={
                 attempted && (!email.trim() || !isValidEmail(email.trim()))
               }
             />
             {attempted && !email.trim() ? (
-              <p className="mt-1 text-xs text-red-600">Email is required.</p>
+              <p className="mt-1 text-xs text-red-600">{t('lead.emailRequired')}</p>
             ) : null}
             {attempted && email.trim() && !isValidEmail(email.trim()) ? (
-              <p className="mt-1 text-xs text-red-600">Enter a valid email.</p>
+              <p className="mt-1 text-xs text-red-600">{t('lead.emailInvalid')}</p>
             ) : null}
           </div>
           <div>
@@ -182,7 +181,7 @@ export function PropertyLeadForm({
               htmlFor="property-lead-phone"
               className="text-[0.6875rem] font-semibold uppercase tracking-widest text-ink/55"
             >
-              Phone number
+              {t('lead.phone')}
             </label>
             <PhoneInputField
               id="property-lead-phone"
@@ -190,18 +189,18 @@ export function PropertyLeadForm({
               onChange={(v) => setPhone(v ?? '')}
               variant="public"
               defaultCountry="AE"
-              placeholder="Phone number"
+              placeholder={t('lead.phonePh')}
             />
           </div>
           <div>
             <label className="text-[0.6875rem] font-semibold uppercase tracking-widest text-ink/55">
-              Message
+              {t('lead.message')}
             </label>
             <textarea
               className={clsx(field, 'min-h-[120px] resize-y')}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="Message"
+              placeholder={t('lead.messagePh')}
               rows={4}
             />
           </div>
@@ -211,7 +210,7 @@ export function PropertyLeadForm({
             disabled={busy}
             className="type-button font-display w-full rounded-xl bg-terracotta px-5 py-3 text-sm font-semibold uppercase tracking-[0.14em] text-cream transition hover:bg-terracotta/90 disabled:opacity-60"
           >
-            {busy ? 'Sending…' : 'Send an enquiry'}
+            {busy ? t('lead.sending') : t('lead.send')}
           </button>
         </form>
       )}

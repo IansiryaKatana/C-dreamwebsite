@@ -15,14 +15,19 @@ import {
 import type { DisplayCurrency } from '../lib/formatCurrency'
 import type { AreaDisplayMode } from '../lib/formatArea'
 import type { AppLanguage } from '../locale/messages'
-import { translate } from '../locale/messages'
+import { translate, translateWithFallback } from '../locale/messages'
 
 const STORAGE_KEY = 'capital-dream-locale-v1'
 
 type Stored = {
-  language?: AppLanguage
+  language?: string
   currency?: DisplayCurrency
   area?: AreaDisplayMode
+}
+
+function normalizeLanguage(raw: unknown): AppLanguage {
+  if (raw === 'ar' || raw === 'fr' || raw === 'en') return raw
+  return 'en'
 }
 
 function readStored(): Stored {
@@ -54,15 +59,19 @@ type Ctx = {
   ratesStatus: 'idle' | 'loading' | 'ok' | 'error'
   intlLocale: string
   t: (key: string, vars?: Record<string, string>) => string
+  tWithFallback: (
+    key: string,
+    fallback: string,
+    vars?: Record<string, string>,
+  ) => string
 }
 
 const LocalePreferencesContext = createContext<Ctx | null>(null)
 
 export function LocalePreferencesProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<AppLanguage>(() => {
-    const s = readStored()
-    return s.language === 'ar' ? 'ar' : 'en'
-  })
+  const [language, setLanguageState] = useState<AppLanguage>(() =>
+    normalizeLanguage(readStored().language),
+  )
   const [currency, setCurrencyState] = useState<DisplayCurrency>(() => {
     const s = readStored()
     const c = s.currency
@@ -117,15 +126,23 @@ export function LocalePreferencesProvider({ children }: { children: ReactNode })
   }, [])
 
   useEffect(() => {
-    document.documentElement.lang = language === 'ar' ? 'ar' : 'en'
+    document.documentElement.lang =
+      language === 'ar' ? 'ar' : language === 'fr' ? 'fr' : 'en'
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr'
   }, [language])
 
-  const intlLocale = language === 'ar' ? 'ar-AE' : 'en-AE'
+  const intlLocale =
+    language === 'ar' ? 'ar-AE' : language === 'fr' ? 'fr-FR' : 'en-AE'
 
   const t = useCallback(
     (key: string, vars?: Record<string, string>) =>
       translate(language, key, vars),
+    [language],
+  )
+
+  const tWithFallback = useCallback(
+    (key: string, fallback: string, vars?: Record<string, string>) =>
+      translateWithFallback(language, key, fallback, vars),
     [language],
   )
 
@@ -141,6 +158,7 @@ export function LocalePreferencesProvider({ children }: { children: ReactNode })
       ratesStatus,
       intlLocale,
       t,
+      tWithFallback,
     }),
     [
       language,
@@ -153,6 +171,7 @@ export function LocalePreferencesProvider({ children }: { children: ReactNode })
       ratesStatus,
       intlLocale,
       t,
+      tWithFallback,
     ],
   )
 
