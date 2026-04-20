@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { LegalH2, LegalP, LegalUl } from '@/components/LegalPageShell'
 
-const CONTACT_EMAIL = 'Hello@apitaldreamdubai.com'
+const CONTACT_EMAIL = 'Info@capitaldreamdubai.com'
 
 /** سياسة الخصوصية (العربية) — متماثلة مع النسخة الإنجليزية من حيث الموضوعات. */
 export function PrivacyPolicyBodyAr() {

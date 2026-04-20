@@ -37,7 +37,7 @@ export function FollowLightSection({
 
     const subj = encodeURIComponent(t('follow.mailSubject'))
     const body = encodeURIComponent(t('follow.mailBody', { email: trimmed }))
-    window.location.href = `mailto:Hello@apitaldreamdubai.com?subject=${subj}&body=${body}`
+    window.location.href = `mailto:Info@capitaldreamdubai.com?subject=${subj}&body=${body}`
   }
 
   return (

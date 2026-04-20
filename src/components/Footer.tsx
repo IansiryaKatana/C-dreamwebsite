@@ -1,6 +1,7 @@
 import { useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
+import { cn } from '../lib/utils'
 import { Button } from './Button'
 
 function isValidEmail(value: string) {
@@ -10,12 +11,14 @@ function isValidEmail(value: string) {
 function Col({
   title,
   children,
+  className = '',
 }: {
   title: string
   children: ReactNode
+  className?: string
 }) {
   return (
-    <div>
+    <div className={cn('min-w-0', className)}>
       <p className="text-xs font-sans font-semibold uppercase tracking-wide text-white sm:text-sm">
         {title}
       </p>
@@ -69,8 +72,8 @@ export function Footer() {
       [
         { label: t('footer.instagram'), href: 'https://instagram.com' },
         {
-          label: 'Hello@apitaldreamdubai.com',
-          href: 'mailto:Hello@apitaldreamdubai.com',
+          label: 'Info@capitaldreamdubai.com',
+          href: 'mailto:Info@capitaldreamdubai.com',
         },
         { label: '+971 50 108 3541', href: 'tel:+971501083541' },
         {
@@ -89,14 +92,14 @@ export function Footer() {
 
     const subj = encodeURIComponent(t('follow.mailSubject'))
     const body = encodeURIComponent(t('follow.mailBody', { email: trimmed }))
-    window.location.href = `mailto:Hello@apitaldreamdubai.com?subject=${subj}&body=${body}`
+    window.location.href = `mailto:Info@capitaldreamdubai.com?subject=${subj}&body=${body}`
   }
 
   return (
     <footer id="contact" className="mt-[0.625rem] w-full text-cream">
       <div className="w-full px-4 py-14 sm:px-6 sm:py-16 lg:px-10 lg:py-20">
-        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-7 lg:gap-x-4 xl:gap-x-6 2xl:gap-x-8">
-          <div className="min-w-0 sm:col-span-2 lg:col-span-1">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-6 lg:gap-y-12 xl:grid-cols-7 xl:gap-x-4 2xl:gap-x-8">
+          <div className="min-w-0 sm:col-span-2 lg:col-span-1 xl:col-span-1">
             <img
               src="/LOGO%20VERTICAL.png"
               alt={t('aria.logo')}
@@ -150,19 +153,22 @@ export function Footer() {
               </li>
             ))}
           </Col>
-          <Col title={t('footer.col.connect')}>
+          <Col
+            title={t('footer.col.connect')}
+            className="lg:col-span-2 xl:col-span-1"
+          >
             {connectLinks.map((l) => (
-              <li key={l.label}>
+              <li key={l.label} className="min-w-0">
                 <a
                   href={l.href}
-                  className="text-cream/90 leading-relaxed transition hover:text-white"
+                  className="break-words text-cream/90 leading-relaxed transition hover:text-white"
                 >
                   {l.label}
                 </a>
               </li>
             ))}
           </Col>
-          <div className="min-w-0 lg:col-span-2">
+          <div className="min-w-0 lg:col-span-2 xl:col-span-2">
             <p className="text-xs font-sans font-semibold uppercase tracking-wide text-white sm:text-sm">
               {t('footer.newsletter')}
             </p>

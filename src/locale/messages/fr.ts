@@ -224,7 +224,7 @@ export const fr: Record<string, string> = {
   'quote.aria': 'Citation client',
   'quote.text':
     'Les marchés bougent ; les principes non. Notre mandat est de transformer le bruit en décisions — avec une documentation que vous pouvez partager avec family offices, conseils et administrateurs sans honte.',
-  'quote.attribution': '— M. Irfan…',
+  'quote.attribution': '— Capital Dream Real Estate…',
   'quote.cta': 'En savoir plus',
 
   'youtube.defaultAria': 'Vidéo immobilière cinématique',

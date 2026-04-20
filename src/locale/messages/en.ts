@@ -223,7 +223,7 @@ export const en: Record<string, string> = {
   'quote.aria': 'Client quote',
   'quote.text':
     'Markets move; principles should not. Our mandate is to translate noise into decisions — with documentation you can share with family offices, counsel, and boards without embarrassment.',
-  'quote.attribution': '— Mr.Irfan…',
+  'quote.attribution': '— Capital Dream Real Estate…',
   'quote.cta': 'Learn more',
 
   'youtube.defaultAria': 'Cinematic property video',
