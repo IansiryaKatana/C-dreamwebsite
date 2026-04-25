@@ -11,6 +11,7 @@ export function isNewDevelopmentListing(p: Property): boolean {
     tag === 'new' ||
     tag === 'new development' ||
     tag === 'new developments' ||
+    tag === 'offplan' ||
     tag === 'off-plan' ||
     tag === 'off plan'
   )

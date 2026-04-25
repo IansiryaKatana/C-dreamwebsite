@@ -5,7 +5,7 @@
  *
  * Requires the service role key (bypasses RLS). Never expose this key in Vite.
  *
- * Usage (from vistamare/):
+ * Usage (from project root):
  *   npm run seed
  */
 import { config } from 'dotenv'

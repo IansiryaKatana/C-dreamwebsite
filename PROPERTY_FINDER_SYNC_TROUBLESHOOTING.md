@@ -53,7 +53,7 @@ Notes:
 ## Deployment Step Required After Changes
 
 ```bash
-cd "c:\Users\User\Videos\CD\vistamare"
+cd "c:\Users\User\Videos\CD"
 supabase functions deploy sync-property-finder
 ```
 

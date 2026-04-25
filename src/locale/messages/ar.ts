@@ -2,7 +2,7 @@
 export const ar: Record<string, string> = {
   'nav.home': 'الرئيسية',
   'nav.allProperties': 'جميع العقارات',
-  'nav.newDevelopments': 'جديد',
+  'nav.newDevelopments': 'Offplan',
   'nav.forRent': 'للإيجار',
   'nav.forSale': 'للبيع',
   'nav.about': 'من نحن',

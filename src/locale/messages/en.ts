@@ -2,7 +2,7 @@
 export const en: Record<string, string> = {
   'nav.home': 'Home',
   'nav.allProperties': 'All Properties',
-  'nav.newDevelopments': 'New',
+  'nav.newDevelopments': 'Offplan',
   'nav.forRent': 'For rent',
   'nav.forSale': 'For sale',
   'nav.about': 'About us',

@@ -90,8 +90,8 @@ export function AdminShell({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const fn = () => void loadBrand()
-    window.addEventListener('vistamare-admin-brand-updated', fn)
-    return () => window.removeEventListener('vistamare-admin-brand-updated', fn)
+    window.addEventListener('capitaldream-admin-brand-updated', fn)
+    return () => window.removeEventListener('capitaldream-admin-brand-updated', fn)
   }, [loadBrand])
 
   const updateMainScrollProgress = useCallback(() => {
@@ -148,7 +148,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
               to="/admin"
               className="font-display text-lg font-semibold tracking-tight text-[var(--admin-primary)]"
             >
-              Vista Mare CMS
+              Capital Dream CMS
             </Link>
             <button
               type="button"

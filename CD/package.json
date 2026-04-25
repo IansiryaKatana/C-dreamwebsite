@@ -2,10 +2,10 @@
   "name": "cd",
   "private": true,
   "scripts": {
-    "dev": "npm --prefix vistamare run dev",
-    "build": "npm --prefix vistamare run build",
-    "preview": "npm --prefix vistamare run preview",
-    "lint": "npm --prefix vistamare run lint",
-    "install:app": "npm install --prefix vistamare"
+    "dev": "npm --prefix .. run dev",
+    "build": "npm --prefix .. run build",
+    "preview": "npm --prefix .. run preview",
+    "lint": "npm --prefix .. run lint",
+    "install:app": "npm install --prefix .."
   }
 }

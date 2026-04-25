@@ -2,7 +2,7 @@
 export const fr: Record<string, string> = {
   'nav.home': 'Accueil',
   'nav.allProperties': 'Tous les biens',
-  'nav.newDevelopments': 'Neuf',
+  'nav.newDevelopments': 'Offplan',
   'nav.forRent': 'À louer',
   'nav.forSale': 'À vendre',
   'nav.about': 'À propos',

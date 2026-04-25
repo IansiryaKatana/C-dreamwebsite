@@ -1,4 +1,4 @@
--- Vista Mare CMS: public content + authenticated admin writes
+-- Capital Dream CMS: public content + authenticated admin writes
 -- Run in Supabase SQL Editor or via `supabase db push` after linking the project.
 
 -- ─── Tables ───────────────────────────────────────────────────────────────

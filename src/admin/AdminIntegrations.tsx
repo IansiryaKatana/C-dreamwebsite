@@ -91,7 +91,7 @@ export function AdminIntegrations() {
     }
     setMsg('Saved. Reload the admin shell or navigate away and back to apply brand variables.')
     await refetch()
-    window.dispatchEvent(new Event('vistamare-admin-brand-updated'))
+    window.dispatchEvent(new Event('capitaldream-admin-brand-updated'))
   }
 
   async function runPropertyFinderSync() {
@@ -205,7 +205,7 @@ export function AdminIntegrations() {
             <span className="w-6 shrink-0 pt-0.5 text-right font-medium tabular-nums text-ink/45">3.</span>
             <div className="min-w-0 flex-1">
               CLI: <code className="rounded bg-ink/5 px-1">supabase functions deploy sync-property-finder</code>{' '}
-              from the <code className="rounded bg-ink/5 px-1">vistamare</code> folder.
+              from the project root folder.
             </div>
           </div>
         </div>

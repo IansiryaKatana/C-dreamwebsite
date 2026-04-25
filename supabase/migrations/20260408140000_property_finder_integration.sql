@@ -18,7 +18,7 @@ alter table public.properties
   add column if not exists pf_payload jsonb;
 
 comment on column public.properties.listing_source is
-  'cms = created in Vista Mare admin; property_finder = synced from PF Expert Enterprise API';
+  'cms = created in Capital Dream admin; property_finder = synced from PF Expert Enterprise API';
 
 comment on column public.properties.pf_listing_id is
   'Property Finder listing id (string) when listing_source = property_finder';
