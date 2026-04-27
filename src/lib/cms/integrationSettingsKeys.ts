@@ -10,6 +10,8 @@ export const INTEGRATION_KEYS = {
   pfLastSyncAt: 'pf_last_sync_at',
   /** JSON summary string from last PF sync */
   pfLastSyncSummary: 'pf_last_sync_summary',
+  /** JSON array for floating social bubble icons */
+  floatingSocialLinks: 'floating_social_links',
 } as const
 
 export const DEFAULT_BRAND_PRIMARY = '#a67d32'

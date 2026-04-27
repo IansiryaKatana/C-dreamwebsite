@@ -4,6 +4,12 @@ import { CAPITAL_DREAM_SALESPEOPLE } from '@/data/capitalDreamSalespeople'
 import type { ConciergeService } from '@/data/conciergeServices'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@/integrations/supabase/database.types'
+import { INTEGRATION_KEYS } from '@/lib/cms/integrationSettingsKeys'
+import {
+  DEFAULT_FLOATING_SOCIAL_LINKS,
+  normalizeFloatingSocialLinks,
+  type FloatingSocialLink,
+} from '@/lib/socialFloatingLinks'
 import { mapArticleDetailRow, mapArticleListRow } from './mapArticle'
 import { buildFaqSections, type FaqSection } from './mapFaq'
 import { mapExperienceRow } from './mapExperience'
@@ -21,6 +27,7 @@ export type MarketingPage = {
 export type SiteSettings = {
   heroBannerUrl: string | null
   fullBleedYoutubeId: string | null
+  floatingSocialLinks: FloatingSocialLink[]
 }
 
 /** Published agent row exposed to the public site (property detail, forms). */
@@ -72,9 +79,21 @@ async function loadSettings(
 ): Promise<SiteSettings> {
   const { data } = await supabase.from('site_settings').select('key, value')
   const map = new Map((data ?? []).map((r) => [r.key, r.value]))
+  const socialRaw = map.get(INTEGRATION_KEYS.floatingSocialLinks) ?? ''
+  let floatingSocialLinks = DEFAULT_FLOATING_SOCIAL_LINKS
+  if (socialRaw.trim()) {
+    try {
+      const parsed = JSON.parse(socialRaw) as unknown
+      const normalized = normalizeFloatingSocialLinks(parsed)
+      floatingSocialLinks = normalized.length > 0 ? normalized : DEFAULT_FLOATING_SOCIAL_LINKS
+    } catch {
+      floatingSocialLinks = DEFAULT_FLOATING_SOCIAL_LINKS
+    }
+  }
   return {
     heroBannerUrl: map.get('hero_banner_url') ?? null,
     fullBleedYoutubeId: map.get('full_bleed_youtube_id') ?? null,
+    floatingSocialLinks,
   }
 }
 

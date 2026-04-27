@@ -51,7 +51,7 @@ export function Footer() {
     () => [
       { label: t('footer.link.practice'), href: '/about#about-intro' },
       { label: t('footer.link.team'), href: '/team' },
-      { label: t('footer.link.experiences'), href: '/about#about-mission' },
+      { label: t('footer.link.contact'), href: '/contact-us', useRouter: true },
       { label: t('footer.link.faq'), href: '/faq', useRouter: true },
     ],
     [t],

@@ -8,6 +8,7 @@ export const ar: Record<string, string> = {
   'nav.about': 'من نحن',
   'nav.team': 'فريقنا',
   'nav.experiences': 'تجارب',
+  'nav.contact': 'تواصل معنا',
   'experiences.intro':
     'خدمات كونسيرج للمشترين نقدمها أثناء شراء عقارك — من أول موجز حتى التسليم والاستقرار.',
   'experiences.ctaServices': 'نظرة على الخدمات',
@@ -98,6 +99,9 @@ export const ar: Record<string, string> = {
   'seo.experiences.title': 'خدمات كونسيرج عقاري في دبي | كابيتال دريمز',
   'seo.experiences.description':
     'استكشف خدمات الكونسيرج والانتقال من كابيتال دريمز في دبي والإمارات للمشترين والمستثمرين وذوي الثروات العالية.',
+  'seo.contact.title': 'تواصل مع كابيتال دريمز دبي | استفسارات عقارية',
+  'seo.contact.description':
+    'تواصل مع كابيتال دريمز دبي للاستفسارات العقارية والدعم الاستشاري والإرشاد الخاص في أنحاء الإمارات.',
   'seo.privacy.title': 'سياسة الخصوصية | كابيتال دريمز دبي',
   'seo.privacy.description':
     'سياسة خصوصية كابيتال دريمز: معالجة البيانات الشخصية وملفات تعريف الارتباط والأساس القانوني وحقوقك بموجب قوانين الإمارات.',
@@ -242,6 +246,7 @@ export const ar: Record<string, string> = {
   'footer.link.practice': 'الممارسة',
   'footer.link.team': 'الفريق',
   'footer.link.experiences': 'تجارب',
+  'footer.link.contact': 'تواصل معنا',
   'footer.link.faq': 'الأسئلة الشائعة',
   'footer.link.buy': 'شراء',
   'footer.link.sell': 'بيع',
@@ -335,6 +340,26 @@ export const ar: Record<string, string> = {
   'faq.schema.name': 'الأسئلة الشائعة للعقار في الإمارات — كابيتال دريم',
   'faq.schema.description':
     'إجابات منظمة عن العقار في دبي والإمارات والإقامة والتمويل والعمل مع كابيتال دريم.',
+
+  'contact.aria.main': 'تواصل معنا',
+  'contact.eyebrow': 'تواصل',
+  'contact.h1': 'تواصل مع كابيتال دريم',
+  'contact.intro':
+    'أخبرنا بأهدافك والجدول الزمني والموقع المفضل. سيرد فريقنا بخطوة تالية واضحة ومع المختص المناسب.',
+  'contact.formAria': 'نموذج التواصل',
+  'contact.name': 'الاسم الكامل',
+  'contact.email': 'البريد الإلكتروني',
+  'contact.phone': 'رقم الهاتف',
+  'contact.message': 'كيف يمكننا مساعدتك؟',
+  'contact.submit': 'إرسال الرسالة',
+  'contact.errorName': 'يرجى إدخال الاسم.',
+  'contact.errorEmailRequired': 'يرجى إدخال البريد الإلكتروني.',
+  'contact.errorEmailFormat': 'يرجى إدخال بريد إلكتروني صالح.',
+  'contact.errorMessage': 'يرجى توضيح كيف يمكننا مساعدتك.',
+  'contact.office': 'روزباي ليفينج، مكتب رقم R02، ميدان، دبي، الإمارات',
+  'contact.mailSubject': 'طلب تواصل — كابيتال دريم',
+  'contact.mailBody':
+    'الاسم: {name}\nالبريد الإلكتروني: {email}\nالهاتف: {phone}\n\nالرسالة:\n{message}',
 
   'team.aria.main': 'فريقنا',
   'team.aria.grid': 'أعضاء الفريق',

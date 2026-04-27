@@ -69,6 +69,7 @@ export function HeroSection({ heroImageUrl }: HeroProps) {
               <Button
                 type="button"
                 variant="whiteSolid"
+                className="btn-cool-cta"
                 onClick={() => openDock()}
               >
                 {t('hero.ctaSearch')}

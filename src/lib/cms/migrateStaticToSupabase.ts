@@ -12,6 +12,7 @@ import {
   DEFAULT_CARD_RADIUS,
   INTEGRATION_KEYS,
 } from '@/lib/cms/integrationSettingsKeys'
+import { DEFAULT_FLOATING_SOCIAL_LINKS } from '@/lib/socialFloatingLinks'
 import { articleDetailToUpsert, mapArticleDetailRow } from './mapArticle'
 import { experienceToUpsert } from './mapExperience'
 import {
@@ -84,6 +85,10 @@ export async function migrateStaticToSupabase(
     { key: INTEGRATION_KEYS.brandSurfaceHex, value: DEFAULT_BRAND_SURFACE },
     { key: INTEGRATION_KEYS.brandCardRadiusPx, value: DEFAULT_CARD_RADIUS },
     { key: INTEGRATION_KEYS.adminGlassPanels, value: '0' },
+    {
+      key: INTEGRATION_KEYS.floatingSocialLinks,
+      value: JSON.stringify(DEFAULT_FLOATING_SOCIAL_LINKS),
+    },
   ]
   const { error: se } = await supabase
     .from('site_settings')

@@ -8,6 +8,7 @@ export const en: Record<string, string> = {
   'nav.about': 'About us',
   'nav.team': 'Our team',
   'nav.experiences': 'Experiences',
+  'nav.contact': 'Contact us',
   'experiences.intro':
     'Buyer concierge services we provide while you purchase a property — from first brief through completion and settling in.',
   'experiences.ctaServices': 'Services overview',
@@ -98,6 +99,9 @@ export const en: Record<string, string> = {
   'seo.experiences.title': 'Dubai Real Estate Concierge Services | Capital Dreams UAE',
   'seo.experiences.description':
     'Explore Capital Dreams concierge and relocation services in Dubai and the UAE, designed for buyers, investors, and high-net-worth clients.',
+  'seo.contact.title': 'Contact Capital Dreams Dubai | Real Estate Enquiries',
+  'seo.contact.description':
+    'Contact Capital Dreams Dubai for property enquiries, advisory support, and private real estate guidance across the UAE.',
   'seo.privacy.title': 'Privacy Policy | Capital Dreams Dubai Real Estate',
   'seo.privacy.description':
     'Read the Capital Dreams Privacy Policy covering personal data handling, cookies, legal basis, and your rights under UAE data protection laws.',
@@ -243,6 +247,7 @@ export const en: Record<string, string> = {
   'footer.link.practice': 'Practice',
   'footer.link.team': 'Team',
   'footer.link.experiences': 'Experiences',
+  'footer.link.contact': 'Contact us',
   'footer.link.faq': 'FAQ',
   'footer.link.buy': 'Buy',
   'footer.link.sell': 'Sell',
@@ -333,6 +338,26 @@ export const en: Record<string, string> = {
   'faq.schema.name': 'UAE property FAQ — Capital Dream',
   'faq.schema.description':
     'Structured answers on Dubai and UAE real estate, residency, finance, and working with Capital Dream.',
+
+  'contact.aria.main': 'Contact us',
+  'contact.eyebrow': 'Contact',
+  'contact.h1': 'Contact Capital Dream',
+  'contact.intro':
+    'Tell us your goals, timeline, and preferred location. Our team replies with a clear next step and the right specialist.',
+  'contact.formAria': 'Contact form',
+  'contact.name': 'Full name',
+  'contact.email': 'Email address',
+  'contact.phone': 'Phone number',
+  'contact.message': 'How can we help?',
+  'contact.submit': 'Send message',
+  'contact.errorName': 'Please enter your name.',
+  'contact.errorEmailRequired': 'Please enter your email address.',
+  'contact.errorEmailFormat': 'Please enter a valid email address.',
+  'contact.errorMessage': 'Please tell us how we can help.',
+  'contact.office': 'Rosebay Living, Office No R02, Meydan, Dubai, UAE',
+  'contact.mailSubject': 'Contact request — Capital Dream',
+  'contact.mailBody':
+    'Name: {name}\nEmail: {email}\nPhone: {phone}\n\nMessage:\n{message}',
 
   'team.aria.main': 'Our team',
   'team.aria.grid': 'Team members',

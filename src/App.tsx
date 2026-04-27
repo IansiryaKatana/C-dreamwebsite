@@ -27,6 +27,7 @@ import { ForSalePage } from './pages/ForSalePage'
 import { ArticleDetailPage } from './pages/ArticleDetailPage'
 import { ArticlesPage } from './pages/ArticlesPage'
 import { ExperiencesPage } from './pages/ExperiencesPage'
+import { ContactUsPage } from './pages/ContactUsPage'
 import { PropertyDetailPage } from './pages/PropertyDetailPage'
 import { TeamMemberDetailPage } from './pages/TeamMemberDetailPage'
 import { TeamPage } from './pages/TeamPage'
@@ -75,6 +76,7 @@ function App() {
         <Route path="team" element={<TeamPage />} />
         <Route path="team/:slug" element={<TeamMemberDetailPage />} />
         <Route path="experiences" element={<ExperiencesPage />} />
+        <Route path="contact-us" element={<ContactUsPage />} />
         <Route path="articles" element={<ArticlesPage />} />
         <Route path="articles/:slug" element={<ArticleDetailPage />} />
         <Route path="faq" element={<FaqPage />} />

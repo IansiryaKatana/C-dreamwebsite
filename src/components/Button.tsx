@@ -51,10 +51,16 @@ export function Button({
   type = 'button',
   ...rest
 }: Props) {
+  const isCoolCta = className.split(' ').includes('btn-cool-cta')
+  const coolCtaVariantClass = isCoolCta ? `btn-cool-cta--${variant}` : ''
+
   return (
     <button
       type={type}
-      className={buttonClassNames(variant, className)}
+      className={buttonClassNames(
+        variant,
+        [className, coolCtaVariantClass].filter(Boolean).join(' '),
+      )}
       {...rest}
     >
       {children}

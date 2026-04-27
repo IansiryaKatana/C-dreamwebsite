@@ -33,6 +33,7 @@ import {
   type PublicSalesperson,
   type SiteSettings,
 } from '@/lib/cms/loadCmsSnapshot'
+import { DEFAULT_FLOATING_SOCIAL_LINKS } from '@/lib/socialFloatingLinks'
 
 type CmsMode = 'static' | 'live'
 
@@ -118,6 +119,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
   const [siteSettings, setSiteSettings] = useState<SiteSettings>({
     heroBannerUrl: isSupabaseConfigured ? null : bannerVillaDusk,
     fullBleedYoutubeId: FULL_BLEED_YOUTUBE_VIDEO_ID,
+    floatingSocialLinks: DEFAULT_FLOATING_SOCIAL_LINKS,
   })
 
   const fetchLive = useCallback(async () => {
@@ -149,6 +151,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
         setSiteSettings({
           heroBannerUrl: null,
           fullBleedYoutubeId: FULL_BLEED_YOUTUBE_VIDEO_ID,
+          floatingSocialLinks: DEFAULT_FLOATING_SOCIAL_LINKS,
         })
       } else {
         setMode('static')
@@ -170,6 +173,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
         setSiteSettings({
           heroBannerUrl: bannerVillaDusk,
           fullBleedYoutubeId: FULL_BLEED_YOUTUBE_VIDEO_ID,
+          floatingSocialLinks: DEFAULT_FLOATING_SOCIAL_LINKS,
         })
       }
     } else {
@@ -192,6 +196,10 @@ export function CmsProvider({ children }: { children: ReactNode }) {
           snap.siteSettings.heroBannerUrl ?? bannerVillaDusk,
         fullBleedYoutubeId:
           snap.siteSettings.fullBleedYoutubeId ?? FULL_BLEED_YOUTUBE_VIDEO_ID,
+          floatingSocialLinks:
+            snap.siteSettings.floatingSocialLinks.length > 0
+              ? snap.siteSettings.floatingSocialLinks
+              : DEFAULT_FLOATING_SOCIAL_LINKS,
       })
     }
     setLoading(false)

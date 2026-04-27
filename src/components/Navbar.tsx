@@ -27,7 +27,7 @@ const navStructure: NavItem[] = [
     aboutTo: '/about',
     subItems: [
       { key: 'nav.team', to: '/team' },
-      { key: 'nav.experiences', to: '/experiences' },
+      { key: 'nav.contact', to: '/contact-us' },
       { key: 'nav.articles', to: '/articles' },
     ],
   },
