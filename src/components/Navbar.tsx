@@ -28,6 +28,7 @@ const navStructure: NavItem[] = [
     subItems: [
       { key: 'nav.team', to: '/team' },
       { key: 'nav.contact', to: '/contact-us' },
+      { key: 'nav.testimonials', to: '/testimonials' },
       { key: 'nav.articles', to: '/articles' },
     ],
   },

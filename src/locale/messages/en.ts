@@ -9,6 +9,7 @@ export const en: Record<string, string> = {
   'nav.team': 'Our team',
   'nav.experiences': 'Experiences',
   'nav.contact': 'Contact us',
+  'nav.testimonials': 'Testimonials',
   'experiences.intro':
     'Buyer concierge services we provide while you purchase a property — from first brief through completion and settling in.',
   'experiences.ctaServices': 'Services overview',
@@ -102,6 +103,9 @@ export const en: Record<string, string> = {
   'seo.contact.title': 'Contact Capital Dreams Dubai | Real Estate Enquiries',
   'seo.contact.description':
     'Contact Capital Dreams Dubai for property enquiries, advisory support, and private real estate guidance across the UAE.',
+  'seo.testimonials.title': 'Client Testimonials | Capital Dreams Dubai',
+  'seo.testimonials.description':
+    'Read verified client testimonials and share your experience with Capital Dreams real estate advisory in Dubai and across the UAE.',
   'seo.privacy.title': 'Privacy Policy | Capital Dreams Dubai Real Estate',
   'seo.privacy.description':
     'Read the Capital Dreams Privacy Policy covering personal data handling, cookies, legal basis, and your rights under UAE data protection laws.',
@@ -358,6 +362,31 @@ export const en: Record<string, string> = {
   'contact.mailSubject': 'Contact request — Capital Dream',
   'contact.mailBody':
     'Name: {name}\nEmail: {email}\nPhone: {phone}\n\nMessage:\n{message}',
+
+  'testimonials.aria.main': 'Testimonials',
+  'testimonials.eyebrow': 'Testimonials',
+  'testimonials.h1': 'What clients say about Capital Dream',
+  'testimonials.intro':
+    'Real feedback from investors and homeowners we have supported across Dubai and the UAE.',
+  'testimonials.listAria': 'Approved testimonials',
+  'testimonials.empty': 'Testimonials will appear here once they are approved by our team.',
+  'testimonials.formAria': 'Submit testimonial form',
+  'testimonials.formTitle': 'Leave a review',
+  'testimonials.formIntro':
+    'Your testimonial is reviewed by our team before it is published on the website.',
+  'testimonials.quote': 'Your review',
+  'testimonials.name': 'Your name',
+  'testimonials.role': 'Role (optional)',
+  'testimonials.location': 'City and country (optional)',
+  'testimonials.rating': 'Rating',
+  'testimonials.errorQuote': 'Please enter your review.',
+  'testimonials.errorName': 'Please enter your name.',
+  'testimonials.submit': 'Submit review',
+  'testimonials.submitting': 'Submitting…',
+  'testimonials.submitSuccess':
+    'Thank you. Your review was submitted and is pending staff approval.',
+  'testimonials.submitError':
+    'Unable to submit your review right now. Please try again in a moment.',
 
   'team.aria.main': 'Our team',
   'team.aria.grid': 'Team members',

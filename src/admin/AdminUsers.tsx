@@ -44,6 +44,8 @@ export function AdminUsers() {
   const [modalOpen, setModalOpen] = useState(false)
   const [draft, setDraft] = useState<Row | null>(null)
   const [saveErr, setSaveErr] = useState<string | null>(null)
+  const [passwordDraft, setPasswordDraft] = useState('')
+  const [passwordBusy, setPasswordBusy] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set())
   const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false)
@@ -129,12 +131,14 @@ export function AdminUsers() {
 
   function openCreate() {
     setDraft(emptyRow())
+    setPasswordDraft('')
     setSaveErr(null)
     setModalOpen(true)
   }
 
   function openEdit(r: Row) {
     setDraft({ ...r })
+    setPasswordDraft('')
     setSaveErr(null)
     setModalOpen(true)
   }
@@ -142,19 +146,102 @@ export function AdminUsers() {
   function closeModal() {
     setModalOpen(false)
     setDraft(null)
+    setPasswordDraft('')
+    setPasswordBusy(false)
+  }
+
+  async function invokeAdminUserAuth(
+    body:
+      | { action: 'create_user'; email: string; password: string; fullName?: string }
+      | { action: 'set_password'; userId: string; password: string },
+  ): Promise<{ ok: boolean; user?: { id: string | null; email: string | null }; error?: string }> {
+    if (!sb) return { ok: false, error: 'Supabase is not configured.' }
+    const { data: refreshed, error: refreshError } = await sb.auth.refreshSession()
+    const session = refreshed.session
+    if (refreshError || !session) {
+      return { ok: false, error: 'Admin session expired. Please sign in again.' }
+    }
+
+    const baseUrl = (import.meta.env.VITE_SUPABASE_URL as string | undefined)?.trim() ?? ''
+    const anonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined)?.trim() ?? ''
+    if (!baseUrl || !anonKey) {
+      return {
+        ok: false,
+        error: 'Supabase env missing. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.',
+      }
+    }
+
+    const res = await fetch(`${baseUrl}/functions/v1/admin-user-auth`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${session.access_token}`,
+        apikey: anonKey,
+      },
+      body: JSON.stringify(body),
+    })
+
+    const json = (await res.json().catch(() => null)) as
+      | { ok?: boolean; user?: { id: string | null; email: string | null }; error?: string }
+      | null
+    if (!res.ok || !json?.ok) {
+      return { ok: false, error: json?.error ?? `Request failed (${res.status}).` }
+    }
+    return { ok: true, user: json.user }
   }
 
   async function save() {
     if (!sb || !draft) return
     setSaveErr(null)
+    setPasswordBusy(false)
     const email = draft.email.trim().toLowerCase()
     if (!email) {
       setSaveErr('Email is required.')
       return
     }
+    const isEdit = rows.some((r) => r.id === draft.id)
+    const password = passwordDraft.trim()
+    if (!isEdit && password.length < 8) {
+      setSaveErr('Password is required and must be at least 8 characters for new users.')
+      return
+    }
+
+    let authUserId = draft.auth_user_id?.trim() || null
+    if (!isEdit && !authUserId) {
+      setPasswordBusy(true)
+      const createRes = await invokeAdminUserAuth({
+        action: 'create_user',
+        email,
+        password,
+        fullName: draft.full_name.trim(),
+      })
+      setPasswordBusy(false)
+      if (!createRes.ok) {
+        setSaveErr(createRes.error ?? 'Failed creating auth user.')
+        return
+      }
+      authUserId = createRes.user?.id ?? null
+    } else if (isEdit && password.length > 0) {
+      if (!authUserId) {
+        setSaveErr('Cannot set password: this user has no linked Auth user ID.')
+        return
+      }
+      setPasswordBusy(true)
+      const passRes = await invokeAdminUserAuth({
+        action: 'set_password',
+        userId: authUserId,
+        password,
+      })
+      setPasswordBusy(false)
+      if (!passRes.ok) {
+        setSaveErr(passRes.error ?? 'Failed setting password.')
+        return
+      }
+    }
+
     const payload: Database['public']['Tables']['admin_users']['Insert'] = {
       id: draft.id,
-      auth_user_id: draft.auth_user_id?.trim() || null,
+      auth_user_id: authUserId,
       email,
       full_name: draft.full_name.trim(),
       role: draft.role,
@@ -256,7 +343,8 @@ export function AdminUsers() {
         <AdminPageHeading title="User management" helpAriaLabel="About user management">
           <p>
             Manage CMS user records, roles, and activity status. This module stores metadata in{' '}
-            <code className="rounded bg-ink/5 px-1">admin_users</code>.
+            <code className="rounded bg-ink/5 px-1">admin_users</code> and can create/update login passwords in
+            Supabase Auth.
           </p>
         </AdminPageHeading>
         <button
@@ -440,8 +528,13 @@ export function AdminUsers() {
             >
               Cancel
             </button>
-            <button type="button" onClick={() => void save()} className={`w-full md:w-auto ${adminBtnPrimary}`}>
-              Save
+            <button
+              type="button"
+              disabled={passwordBusy}
+              onClick={() => void save()}
+              className={`w-full md:w-auto ${adminBtnPrimary} disabled:opacity-60`}
+            >
+              {passwordBusy ? 'Saving auth…' : 'Save'}
             </button>
           </>
         }
@@ -464,6 +557,24 @@ export function AdminUsers() {
                 value={draft.email}
                 onChange={(e) => upd('email', e.target.value)}
                 className={fieldClass()}
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label className="text-xs font-medium text-ink/70">
+                {rows.some((r) => r.id === draft.id)
+                  ? 'Set new password (optional, min 8 chars)'
+                  : 'Password (required, min 8 chars)'}
+              </label>
+              <input
+                type="password"
+                value={passwordDraft}
+                onChange={(e) => setPasswordDraft(e.target.value)}
+                className={fieldClass()}
+                placeholder={
+                  rows.some((r) => r.id === draft.id)
+                    ? 'Leave blank to keep current password'
+                    : 'Enter password'
+                }
               />
             </div>
             <div>

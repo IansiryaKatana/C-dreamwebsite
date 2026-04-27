@@ -30,6 +30,15 @@ export type SiteSettings = {
   floatingSocialLinks: FloatingSocialLink[]
 }
 
+export type PublicTestimonial = {
+  id: string
+  quote: string
+  authorName: string
+  authorRole: string | null
+  authorLocation: string | null
+  rating: number
+}
+
 /** Published agent row exposed to the public site (property detail, forms). */
 export type PublicSalesperson = {
   id: string
@@ -72,6 +81,7 @@ export type CmsSnapshot = {
   salespeopleList: PublicSalesperson[]
   experiences: ConciergeService[]
   faqSections: FaqSection[]
+  testimonials: PublicTestimonial[]
 }
 
 async function loadSettings(
@@ -134,7 +144,7 @@ export function staticSalespeopleListForSite(): PublicSalesperson[] {
 export async function loadCmsSnapshot(
   supabase: SupabaseClient<Database>,
 ): Promise<CmsSnapshot | null> {
-  const [propRes, artRes, heroRes, emiratesRes, mktRes, spRes, expRes, faqTopRes, faqEntRes] =
+  const [propRes, artRes, heroRes, emiratesRes, mktRes, spRes, expRes, faqTopRes, faqEntRes, testimonialRes] =
     await Promise.all([
     supabase
       .from('properties')
@@ -166,6 +176,12 @@ export async function loadCmsSnapshot(
       .eq('published', true)
       .order('topic_id', { ascending: true })
       .order('sort_order', { ascending: true }),
+    supabase
+      .from('testimonials')
+      .select('*')
+      .eq('status', 'approved')
+      .order('sort_order', { ascending: true })
+      .order('created_at', { ascending: false }),
   ])
 
   if (propRes.error) {
@@ -195,6 +211,9 @@ export async function loadCmsSnapshot(
   }
   if (faqEntRes.error) {
     console.error(faqEntRes.error)
+  }
+  if (testimonialRes.error) {
+    console.error(testimonialRes.error)
   }
 
   const propRows = propRes.data ?? []
@@ -257,6 +276,15 @@ export async function loadCmsSnapshot(
   const faqTopicRows = faqTopRes.error ? [] : (faqTopRes.data ?? [])
   const faqEntryRows = faqEntRes.error ? [] : (faqEntRes.data ?? [])
   const faqSections = buildFaqSections(faqTopicRows, faqEntryRows)
+  const testimonialRows = testimonialRes.error ? [] : (testimonialRes.data ?? [])
+  const testimonials: PublicTestimonial[] = testimonialRows.map((row) => ({
+    id: row.id,
+    quote: row.quote,
+    authorName: row.author_name,
+    authorRole: row.author_role,
+    authorLocation: row.author_location,
+    rating: row.rating,
+  }))
 
   return {
     catalogProperties,
@@ -272,5 +300,6 @@ export async function loadCmsSnapshot(
     salespeopleList,
     experiences,
     faqSections,
+    testimonials,
   }
 }

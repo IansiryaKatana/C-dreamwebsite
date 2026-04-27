@@ -450,6 +450,34 @@ export type Database = {
         Update: Partial<Database['public']['Tables']['faq_entries']['Insert']>
         Relationships: []
       }
+      testimonials: {
+        Row: {
+          id: string
+          quote: string
+          author_name: string
+          author_role: string | null
+          author_location: string | null
+          rating: number
+          status: 'pending' | 'approved' | 'declined'
+          sort_order: number
+          created_at: string
+          updated_at: string
+          reviewed_at: string | null
+        }
+        Insert: {
+          id?: string
+          quote: string
+          author_name: string
+          author_role?: string | null
+          author_location?: string | null
+          rating?: number
+          status?: 'pending' | 'approved' | 'declined'
+          sort_order?: number
+          reviewed_at?: string | null
+        }
+        Update: Partial<Database['public']['Tables']['testimonials']['Insert']>
+        Relationships: []
+      }
     }
     Views: Record<string, never>
     Functions: Record<string, never>

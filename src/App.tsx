@@ -17,6 +17,7 @@ import { AdminExperiences } from './admin/AdminExperiences'
 import { AdminFormSubmissions } from './admin/AdminFormSubmissions'
 import { AdminFaqs } from './admin/AdminFaqs'
 import { AdminMedia } from './admin/AdminMedia'
+import { AdminTestimonials } from './admin/AdminTestimonials'
 import { SiteLayout } from './layouts/SiteLayout'
 import { AboutPage } from './pages/AboutPage'
 import { AllPropertiesPage } from './pages/AllPropertiesPage'
@@ -35,6 +36,7 @@ import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage'
 import { TermsOfServicePage } from './pages/TermsOfServicePage'
 import { CookiesPolicyPage } from './pages/CookiesPolicyPage'
 import { FaqPage } from './pages/FaqPage'
+import { TestimonialsPage } from './pages/TestimonialsPage'
 
 function App() {
   return (
@@ -52,6 +54,7 @@ function App() {
         </Route>
         <Route path="articles" element={<AdminArticles />} />
         <Route path="faqs" element={<AdminFaqs />} />
+        <Route path="testimonials" element={<AdminTestimonials />} />
         <Route path="experiences" element={<AdminExperiences />} />
         <Route path="submissions" element={<AdminFormSubmissions />} />
         <Route path="salespeople" element={<AdminSalespeople />} />
@@ -77,6 +80,7 @@ function App() {
         <Route path="team/:slug" element={<TeamMemberDetailPage />} />
         <Route path="experiences" element={<ExperiencesPage />} />
         <Route path="contact-us" element={<ContactUsPage />} />
+        <Route path="testimonials" element={<TestimonialsPage />} />
         <Route path="articles" element={<ArticlesPage />} />
         <Route path="articles/:slug" element={<ArticleDetailPage />} />
         <Route path="faq" element={<FaqPage />} />

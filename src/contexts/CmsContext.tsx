@@ -31,6 +31,7 @@ import {
   type HeroNeighbourhoodItem,
   type MarketingPage,
   type PublicSalesperson,
+  type PublicTestimonial,
   type SiteSettings,
 } from '@/lib/cms/loadCmsSnapshot'
 import { DEFAULT_FLOATING_SOCIAL_LINKS } from '@/lib/socialFloatingLinks'
@@ -56,6 +57,7 @@ type CmsContextValue = {
   salespeopleList: PublicSalesperson[]
   experiences: ConciergeService[]
   faqSections: FaqSection[]
+  testimonials: PublicTestimonial[]
   refetch: () => Promise<void>
 }
 
@@ -116,6 +118,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
     isSupabaseConfigured ? [] : staticConcierge,
   )
   const [faqSections, setFaqSections] = useState<FaqSection[]>([])
+  const [testimonials, setTestimonials] = useState<PublicTestimonial[]>([])
   const [siteSettings, setSiteSettings] = useState<SiteSettings>({
     heroBannerUrl: isSupabaseConfigured ? null : bannerVillaDusk,
     fullBleedYoutubeId: FULL_BLEED_YOUTUBE_VIDEO_ID,
@@ -148,6 +151,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
         setSalespeopleList([])
         setExperiences([])
         setFaqSections([])
+        setTestimonials([])
         setSiteSettings({
           heroBannerUrl: null,
           fullBleedYoutubeId: FULL_BLEED_YOUTUBE_VIDEO_ID,
@@ -170,6 +174,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
         setSalespeopleList(staticSalespeopleListForSite())
         setExperiences(staticConcierge)
         setFaqSections([])
+        setTestimonials([])
         setSiteSettings({
           heroBannerUrl: bannerVillaDusk,
           fullBleedYoutubeId: FULL_BLEED_YOUTUBE_VIDEO_ID,
@@ -191,6 +196,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
       setSalespeopleList(snap.salespeopleList)
       setExperiences(snap.experiences)
       setFaqSections(snap.faqSections)
+      setTestimonials(snap.testimonials)
       setSiteSettings({
         heroBannerUrl:
           snap.siteSettings.heroBannerUrl ?? bannerVillaDusk,
@@ -237,6 +243,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
       salespeopleList,
       experiences,
       faqSections,
+      testimonials,
       refetch: fetchLive,
     }),
     [
@@ -257,6 +264,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
       salespeopleList,
       experiences,
       faqSections,
+      testimonials,
       fetchLive,
     ],
   )

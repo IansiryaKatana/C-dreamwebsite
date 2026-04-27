@@ -9,6 +9,7 @@ export const ar: Record<string, string> = {
   'nav.team': 'فريقنا',
   'nav.experiences': 'تجارب',
   'nav.contact': 'تواصل معنا',
+  'nav.testimonials': 'آراء العملاء',
   'experiences.intro':
     'خدمات كونسيرج للمشترين نقدمها أثناء شراء عقارك — من أول موجز حتى التسليم والاستقرار.',
   'experiences.ctaServices': 'نظرة على الخدمات',
@@ -102,6 +103,9 @@ export const ar: Record<string, string> = {
   'seo.contact.title': 'تواصل مع كابيتال دريمز دبي | استفسارات عقارية',
   'seo.contact.description':
     'تواصل مع كابيتال دريمز دبي للاستفسارات العقارية والدعم الاستشاري والإرشاد الخاص في أنحاء الإمارات.',
+  'seo.testimonials.title': 'آراء العملاء | كابيتال دريمز دبي',
+  'seo.testimonials.description':
+    'اطّلع على آراء العملاء المعتمدة وشارك تجربتك مع خدمات كابيتال دريم العقارية في دبي والإمارات.',
   'seo.privacy.title': 'سياسة الخصوصية | كابيتال دريمز دبي',
   'seo.privacy.description':
     'سياسة خصوصية كابيتال دريمز: معالجة البيانات الشخصية وملفات تعريف الارتباط والأساس القانوني وحقوقك بموجب قوانين الإمارات.',
@@ -360,6 +364,31 @@ export const ar: Record<string, string> = {
   'contact.mailSubject': 'طلب تواصل — كابيتال دريم',
   'contact.mailBody':
     'الاسم: {name}\nالبريد الإلكتروني: {email}\nالهاتف: {phone}\n\nالرسالة:\n{message}',
+
+  'testimonials.aria.main': 'آراء العملاء',
+  'testimonials.eyebrow': 'آراء العملاء',
+  'testimonials.h1': 'ماذا يقول عملاء كابيتال دريم',
+  'testimonials.intro':
+    'تجارب حقيقية من مستثمرين ومالكي عقارات قمنا بدعمهم في دبي والإمارات.',
+  'testimonials.listAria': 'آراء العملاء المعتمدة',
+  'testimonials.empty': 'ستظهر آراء العملاء هنا بعد اعتمادها من فريقنا.',
+  'testimonials.formAria': 'نموذج إرسال رأي',
+  'testimonials.formTitle': 'اترك تقييمك',
+  'testimonials.formIntro':
+    'تتم مراجعة رأيك من فريقنا قبل نشره على الموقع.',
+  'testimonials.quote': 'رأيك',
+  'testimonials.name': 'الاسم',
+  'testimonials.role': 'الصفة (اختياري)',
+  'testimonials.location': 'المدينة والدولة (اختياري)',
+  'testimonials.rating': 'التقييم',
+  'testimonials.errorQuote': 'يرجى كتابة رأيك.',
+  'testimonials.errorName': 'يرجى إدخال الاسم.',
+  'testimonials.submit': 'إرسال التقييم',
+  'testimonials.submitting': 'جاري الإرسال…',
+  'testimonials.submitSuccess':
+    'شكرًا لك. تم إرسال تقييمك وهو بانتظار اعتماد الفريق.',
+  'testimonials.submitError':
+    'تعذر إرسال التقييم الآن. يرجى المحاولة مرة أخرى بعد قليل.',
 
   'team.aria.main': 'فريقنا',
   'team.aria.grid': 'أعضاء الفريق',

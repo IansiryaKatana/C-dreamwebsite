@@ -9,6 +9,7 @@ export const fr: Record<string, string> = {
   'nav.team': 'Notre équipe',
   'nav.experiences': 'Expériences',
   'nav.contact': 'Contactez-nous',
+  'nav.testimonials': 'Témoignages',
   'experiences.intro':
     'Services de conciergerie acheteur que nous assurons tout au long de votre acquisition — du premier cahier des charges jusqu’à la livraison et à l’installation.',
   'experiences.ctaServices': 'Vue d’ensemble des services',
@@ -103,6 +104,9 @@ export const fr: Record<string, string> = {
   'seo.contact.title': 'Contacter Capital Dreams Dubaï | Demandes immobilières',
   'seo.contact.description':
     'Contactez Capital Dreams Dubaï pour vos demandes immobilières, un accompagnement conseil et un service privé aux Émirats.',
+  'seo.testimonials.title': 'Témoignages clients | Capital Dreams Dubaï',
+  'seo.testimonials.description':
+    'Consultez les témoignages clients validés et partagez votre expérience avec Capital Dreams à Dubaï et aux Émirats.',
   'seo.privacy.title': 'Politique de confidentialité | Capital Dreams Dubaï',
   'seo.privacy.description':
     'Politique de confidentialité Capital Dreams : traitement des données personnelles, cookies, bases légales et vos droits selon la réglementation des Émirats.',
@@ -363,6 +367,32 @@ export const fr: Record<string, string> = {
   'contact.mailSubject': 'Demande de contact — Capital Dream',
   'contact.mailBody':
     'Nom: {name}\nE-mail: {email}\nTéléphone: {phone}\n\nMessage:\n{message}',
+
+  'testimonials.aria.main': 'Témoignages',
+  'testimonials.eyebrow': 'Témoignages',
+  'testimonials.h1': 'Ce que disent les clients de Capital Dream',
+  'testimonials.intro':
+    'Des retours réels d’investisseurs et de propriétaires accompagnés à Dubaï et aux Émirats.',
+  'testimonials.listAria': 'Témoignages approuvés',
+  'testimonials.empty':
+    'Les témoignages apparaîtront ici après validation par notre équipe.',
+  'testimonials.formAria': 'Formulaire de témoignage',
+  'testimonials.formTitle': 'Laisser un avis',
+  'testimonials.formIntro':
+    'Votre témoignage est relu par notre équipe avant publication sur le site.',
+  'testimonials.quote': 'Votre avis',
+  'testimonials.name': 'Votre nom',
+  'testimonials.role': 'Fonction (optionnel)',
+  'testimonials.location': 'Ville et pays (optionnel)',
+  'testimonials.rating': 'Note',
+  'testimonials.errorQuote': 'Veuillez saisir votre avis.',
+  'testimonials.errorName': 'Veuillez saisir votre nom.',
+  'testimonials.submit': 'Envoyer l’avis',
+  'testimonials.submitting': 'Envoi…',
+  'testimonials.submitSuccess':
+    'Merci. Votre avis a été envoyé et attend la validation de l’équipe.',
+  'testimonials.submitError':
+    'Impossible d’envoyer votre avis pour le moment. Veuillez réessayer.',
 
   'team.aria.main': 'Notre équipe',
   'team.aria.grid': 'Membres de l’équipe',

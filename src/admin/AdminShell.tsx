@@ -10,9 +10,10 @@ import {
   Shield,
   Sparkles,
   Users,
+  MessageSquare,
   X,
 } from 'lucide-react'
-import { useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { NavLink, Link, useLocation } from 'react-router-dom'
 import { useAdminAuth } from '@/contexts/AdminAuthContext'
 import { getSupabase } from '@/integrations/supabase/client'
@@ -32,12 +33,14 @@ type NavItem = {
   end?: boolean
   icon: LucideIcon
 }
+type AdminRole = 'owner' | 'admin' | 'editor' | 'viewer'
 
 const nav: NavItem[] = [
   { to: '/admin', label: 'Dashboard', end: true, icon: LayoutGrid },
   { to: '/admin/properties', label: 'Properties', icon: LayoutGrid },
   { to: '/admin/articles', label: 'Articles', icon: Newspaper },
   { to: '/admin/faqs', label: 'FAQs', icon: HelpCircle },
+  { to: '/admin/testimonials', label: 'Testimonials', icon: MessageSquare },
   { to: '/admin/experiences', label: 'Experiences', icon: Sparkles },
   { to: '/admin/media', label: 'Media library', icon: Image },
   { to: '/admin/submissions', label: 'Form submissions', icon: Inbox },
@@ -64,6 +67,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
       }) as CSSProperties,
   )
   const [glassPanels, setGlassPanels] = useState(false)
+  const [currentRole, setCurrentRole] = useState<AdminRole | null>(null)
 
   const loadBrand = useCallback(async () => {
     const sb = getSupabase()
@@ -82,7 +86,21 @@ export function AdminShell({ children }: { children: ReactNode }) {
       '--admin-radius-lg': `${radius}px`,
     } as CSSProperties)
     setGlassPanels((m.get(INTEGRATION_KEYS.adminGlassPanels) ?? '0') === '1')
+
+    const email = (session.user.email ?? '').trim().toLowerCase()
+    const { data: roleRow } = await sb
+      .from('admin_users')
+      .select('role')
+      .or(`auth_user_id.eq.${session.user.id},email.eq.${email}`)
+      .limit(1)
+      .maybeSingle()
+    setCurrentRole((roleRow?.role as AdminRole | undefined) ?? null)
   }, [session])
+
+  const visibleNav = useMemo(() => {
+    if (currentRole !== 'editor') return nav
+    return nav.filter((item) => item.to !== '/admin/users' && item.to !== '/admin/integrations')
+  }, [currentRole])
 
   useEffect(() => {
     void loadBrand()
@@ -160,7 +178,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             </button>
           </div>
           <nav className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto">
-            {nav.map(({ to, label, end, icon: Icon }) => (
+            {visibleNav.map(({ to, label, end, icon: Icon }) => (
               <NavLink
                 key={to}
                 to={to}
