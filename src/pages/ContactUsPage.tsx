@@ -1,4 +1,5 @@
 import { useMemo, useState, type FormEvent } from 'react'
+import { PhoneInputField } from '@/components/PhoneInputField'
 import { useLocalePreferences } from '../contexts/LocalePreferencesContext'
 import { usePageSeo } from '../hooks/usePageSeo'
 
@@ -132,13 +133,19 @@ export function ContactUsPage() {
               />
             </div>
 
-            <Field
-              id="contact-phone"
-              label={t('contact.phone')}
-              type="tel"
-              value={values.phone}
-              onChange={(value) => updateField('phone', value)}
-            />
+            <div className="space-y-1.5">
+              <label htmlFor="contact-phone" className="font-sans text-sm font-medium text-terracotta/90">
+                {t('contact.phone')}
+              </label>
+              <PhoneInputField
+                id="contact-phone"
+                value={values.phone}
+                onChange={(value) => updateField('phone', value ?? '')}
+                variant="public"
+                defaultCountry="AE"
+                placeholder={t('contact.phone')}
+              />
+            </div>
 
             <div className="space-y-1.5">
               <label
@@ -189,7 +196,7 @@ function Field({
   value: string
   onChange: (value: string) => void
   error?: string | null
-  type?: 'text' | 'email' | 'tel'
+  type?: 'text' | 'email'
 }) {
   return (
     <div className="space-y-1.5">
