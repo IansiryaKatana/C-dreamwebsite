@@ -38,21 +38,21 @@ export const FILTER_PRICE_OPTIONS: FilterDropdownOption[] = [
 export const FILTER_BED_OPTIONS: FilterDropdownOption[] = [
   { value: 'any', label: 'Any beds' },
   { value: 'studio', label: 'Studio' },
-  { value: '1', label: '1+ beds' },
-  { value: '2', label: '2+ beds' },
-  { value: '3', label: '3+ beds' },
-  { value: '4', label: '4+ beds' },
-  { value: '5', label: '5+ beds' },
-  { value: '6', label: '6+ beds' },
+  { value: '1', label: '1 bed' },
+  { value: '2', label: '2 beds' },
+  { value: '3', label: '3 beds' },
+  { value: '4', label: '4 beds' },
+  { value: '5', label: '5 beds' },
+  { value: '6', label: '6 beds' },
 ]
 
 export const FILTER_BATH_OPTIONS: FilterDropdownOption[] = [
   { value: 'any', label: 'Any baths' },
-  { value: '1', label: '1+ baths' },
-  { value: '2', label: '2+ baths' },
-  { value: '3', label: '3+ baths' },
-  { value: '4', label: '4+ baths' },
-  { value: '5', label: '5+ baths' },
+  { value: '1', label: '1 bath' },
+  { value: '2', label: '2 baths' },
+  { value: '3', label: '3 baths' },
+  { value: '4', label: '4 baths' },
+  { value: '5', label: '5 baths' },
 ]
 
 export const FILTER_EXCLUSIVE_OPTIONS: FilterDropdownOption[] = [
